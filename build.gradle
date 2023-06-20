@@ -1,7 +1,14 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.10'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id "io.sentry.jvm.gradle" version "3.11.0"
 }
 
 group = 'com.universe'
@@ -27,12 +34,16 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // sentry dependency
+    implementation 'io.sentry:sentry-spring-boot-starter:6.23.0'
+    implementation 'io.sentry:sentry-logback:6.23.0'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    //runtimeOnly 'com.mysql:mysql-connector-j'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
