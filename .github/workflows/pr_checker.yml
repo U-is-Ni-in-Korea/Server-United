@@ -33,7 +33,6 @@ jobs:
 
       - name: Create application.properties
         run: |
-          mkdir ./src/main/resources
           cd ./src/main/resources
           touch ./application.yml
           echo "${{ secrets.TRAVALUE_APPLICATION }}" >> ./application.yml
