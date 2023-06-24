@@ -1,0 +1,21 @@
+
+
+#   feat - A new feature
+#   fix - A bug fix
+#   docs - Documentation only changes
+#   style - Changes that do not affect the meaning of the code(white-space, formatting, missing semi-colons, etc)
+#   refactor - A code change that neither fixes a bug nor adds a feature
+#   perf - A code change that improves performance
+#   test - Adding missing tests or correcting existing tests
+#   build - Changes that affect the build system or external dependencies
+#   ci - Change to our CI configuration files and scripts(ex: Travis, Circle, Github Action, etc)
+#   chore - Other changes that don't modify src or test files
+
+
+#   커밋타입: 설명
+
+
+# Commit Example!!
+# feat: 뫄뫄구현
+#
+# 설명을 덧붙이고 싶다면 이 예시처럼 위에 commit 메세지와 한 칸 띄고 작성하면 돼용  <바디에 들어감>
