@@ -9,6 +9,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.10'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "io.sentry.jvm.gradle" version "3.11.0"
+    id 'checkstyle'
 }
 
 group = 'com.universe'
@@ -27,6 +28,21 @@ configurations {
 repositories {
     mavenCentral()
 }
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = true
+    }
+}
+
+checkstyle {
+    configFile = file("checkstyle/naver-checkstyle-rules.xml")
+    configProperties = ["suppressionFile": "checkstyle/naver-checkstyle-suppressions.xml"]
+}
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
