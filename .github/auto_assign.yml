@@ -1,0 +1,3 @@
+# Set to true to add reviewers to pull requests
+addReviewers: false
+addAssignees: author
