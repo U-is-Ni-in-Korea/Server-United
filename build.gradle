@@ -78,3 +78,14 @@ tasks.register("copyConfig", Copy) {
         println "> copy file: ${file.sourcePath}"
     }
 }
+
+def sentryProperties = new Properties()
+file("src/main/resources/sentry.yml").withInputStream { sentryProperties.load(it) }
+
+sentry {
+    includeSourceContext = true
+
+    org = "uni-universe"
+    projectName = "java-spring-boot"
+    authToken = sentryProperties.getProperty("sentry-auth-token")
+}
