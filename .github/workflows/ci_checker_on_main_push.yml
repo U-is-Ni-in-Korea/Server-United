@@ -1,0 +1,58 @@
+name: Uni PR Builder
+
+on:
+  push:
+    branches: [ "develop", "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secret.CI_TOKEN }}
+          submodules: true
+
+      - name: Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: load github submodule
+        run: ./gradlew copyConfig
+
+      - name: Checkstyle Check
+        run: ./gradlew checkstyleMain checkstyleTest
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: On Failed, Notify in Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#ff0000'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: 'Uni/Server Debug build Fail❌'
+          MSG_MINIMAL: true
+          SLACK_USERNAME: Uni-server
+          SLACK_MESSAGE: '${{ github.ref_name }} 에서 에러를 확인해주세요'
