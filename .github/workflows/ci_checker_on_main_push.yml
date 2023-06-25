@@ -53,6 +53,7 @@ jobs:
           SLACK_COLOR: '#ff0000'
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_TITLE: 'Uni/Server Debug build Fail❌ 에러를 확인해주세요'
+          SLACK_ICON: $${{ github.event.org.avatar_url }}
           MSG_MINIMAL: event,actions url, commit
           SLACK_USERNAME: Uni-server
           SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/tree/${{ github.ref_name }}'
