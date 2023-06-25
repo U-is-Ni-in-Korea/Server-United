@@ -13,6 +13,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secret.CI_TOKEN }}
+          submodules: true
 
       - name: Gradle cache
         uses: actions/cache@v2
@@ -31,16 +34,11 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Create application.properties
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.TRAVALUE_APPLICATION }}" >> ./application.yml
-          cat ./application.yml
-        shell: bash
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: load github submodule
+        run: ./gradlew copyConfig
 
       - name: Checkstyle Check
         run: ./gradlew checkstyleMain checkstyleTest
@@ -57,7 +55,7 @@ jobs:
           SLACK_TITLE: 'Uni/PR Check S.U.C.C.E.S.S 🎉🎉🎉'
           MSG_MINIMAL: true
           SLACK_USERNAME: Uni-server
-          SLACK_MESSAGE: 'PR이 완료되었습니다!!! 🎉🎉🎉'
+          SLACK_MESSAGE: 'PR이 완료되었습니다!!! 🎉🎉🎉 \n ${{ steps.pr-url.outputs.url }}'
 
       - name: On Failed, Notify in Slack
         if: ${{ failure() }}
@@ -68,4 +66,4 @@ jobs:
           SLACK_TITLE: 'Uni/Server Debug build Fail❌'
           MSG_MINIMAL: true
           SLACK_USERNAME: Uni-server
-          SLACK_MESSAGE: '에러를 확인해주세요'
+          SLACK_MESSAGE: '에러를 확인해주세요\n ${{ steps.pr-url.outputs.url }}'
