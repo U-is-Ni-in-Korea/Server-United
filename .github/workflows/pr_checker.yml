@@ -58,7 +58,7 @@ jobs:
           SLACK_TITLE: 'Uni/PR Check S.U.C.C.E.S.S 🎉🎉🎉'
           MSG_MINIMAL: event,actions url, commit
           SLACK_USERNAME: Uni-server
-          SLACK_MESSAGE: 'PR이 완료되었습니다!!! 🎉🎉🎉 > ${{ github.server_url }}/${{ github.event.repository.name }}/pull/${{ github.event.number}}'
+          SLACK_MESSAGE: 'PR이 완료되었습니다!!! 🎉🎉🎉 > ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
 
       - name: On Failed, Notify in Slack
         if: ${{ failure() }}
@@ -69,4 +69,4 @@ jobs:
           SLACK_TITLE: 'Uni/Server Debug build Fail❌'
           MSG_MINIMAL: event,actions url, commit
           SLACK_USERNAME: Uni-server
-          SLACK_MESSAGE: '에러를 확인해주세요  > ${{ github.server_url }}/${{ github.event.repository.name }}/pull/${{ github.event.number}}'
+          SLACK_MESSAGE: '에러를 확인해주세요  > ${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
