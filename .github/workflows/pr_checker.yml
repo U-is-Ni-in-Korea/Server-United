@@ -2,7 +2,7 @@ name: Uni PR Builder
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: [ develop ]
 
 permissions:
   contents: read
