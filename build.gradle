@@ -69,3 +69,12 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.register("copyConfig", Copy) {
+    from('./uni-config')
+    include('src/**/*.yml')
+    into('.')
+    eachFile { file ->
+        println "> copy file: ${file.sourcePath}"
+    }
+}
