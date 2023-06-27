@@ -15,7 +15,16 @@
       "contributions": [
         "code"
       ]
-    }
+    },
+    {
+      "login": "2zerozu",
+      "name": "YeongJu Lee",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84129098?v=4",
+      "profile": "https://github.com/2zerozu",
+      "contributions": [
+        "code"
+      ]
+    },      
   ],
   "contributorsPerLine": 7,
   "skipCi": true,

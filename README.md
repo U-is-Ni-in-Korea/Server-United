@@ -11,6 +11,7 @@
 <table>
   <tbody>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/2zerozu"><img src="https://avatars.githubusercontent.com/u/84129098?v=4?s=100" width="100px;" alt="YeongJu Lee"/><br /><sub><b>YeongJu Lee</b></sub></a><br /><a href="https://github.com/U-is-Ni-in-Korea/Server-United/commits?author=2zerozu" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://antilog.tistory.com/"><img src="https://avatars.githubusercontent.com/u/45380072?v=4?s=100" width="100px;" alt="Jinsu Park"/><br /><sub><b>Jinsu Park</b></sub></a><br /><a href="https://github.com/U-is-Ni-in-Korea/Server-United/commits?author=jinsu4755" title="Code">💻</a></td>
     </tr>
   </tbody>
