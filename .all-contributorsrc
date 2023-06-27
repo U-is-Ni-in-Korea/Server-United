@@ -8,6 +8,15 @@
   "commitConvention": "angular",
   "contributors": [
     {
+      "login": "jiyeoon00",
+      "name": "Jiyeon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77728683?v=4",
+      "profile": "https://github.com/jiyeoon00",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
       "login": "jinsu4755",
       "name": "Jinsu Park",
       "avatar_url": "https://avatars.githubusercontent.com/u/45380072?v=4",
@@ -24,7 +33,7 @@
       "contributions": [
         "code"
       ]
-    },      
+    }
   ],
   "contributorsPerLine": 7,
   "skipCi": true,
