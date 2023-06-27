@@ -1,6 +1,17 @@
 # Server-United
 해당 프로젝트는 SOPT 32th APPJAM 프로젝트입니다.
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ### Build
 ```text
 $ ./gradlew clean build
