@@ -11,8 +11,8 @@ public enum ErrorType {
 	/**
 	 * 400 BAD REQUEST
 	 */
-	VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."), VALIDATION_REQUEST_MISSING_EXCEPTION(
-		HttpStatus.BAD_REQUEST, "요청값이 입력되지 않았습니다."),
+	VALIDATION_EXCEPTION(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+	VALIDATION_REQUEST_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "요청값이 입력되지 않았습니다."),
 
 	/**
 	 * 404 NOT FOUND
