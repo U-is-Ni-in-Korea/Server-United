@@ -1,9 +1,8 @@
 package com.universe.uni.config.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Header;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +12,10 @@ import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class JwtManager {
-    @Value("${jwt.secret}")
+    @Value(value = "${jwt.secret}")
     private String jwtSecret;
 
     @PostConstruct
@@ -44,5 +44,29 @@ public class JwtManager {
     private Key getSigningKey() {
         final byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public boolean verifyToken(String token) {
+        try {
+            final Claims claims = getBody(token);
+            return true;
+        } catch (MalformedJwtException e) {
+            log.error("INVALID_JWT_TOKEN");
+        } catch (ExpiredJwtException e) {
+            log.error("EXPIRED_JWT_TOKEN");
+        } catch (UnsupportedJwtException e) {
+            log.error("UNSUPPORTED_JWT_TOKEN");
+        } catch (JwtException e) {
+            log.error(e.getMessage());
+        }
+        return false;
+    }
+
+    private Claims getBody(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJwt(token)
+                .getBody();
     }
 }
