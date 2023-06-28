@@ -69,4 +69,9 @@ public class JwtManager {
                 .parseClaimsJwt(token)
                 .getBody();
     }
+
+    public Long getUserIdFromJwt(String token) {
+        Claims claims = getBody(token);
+        return claims.get("userId", Long.class);
+    }
 }
