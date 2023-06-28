@@ -1,0 +1,44 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "jiyeoon00",
+      "name": "Jiyeon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/77728683?v=4",
+      "profile": "https://github.com/jiyeoon00",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "jinsu4755",
+      "name": "Jinsu Park",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45380072?v=4",
+      "profile": "http://antilog.tistory.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "2zerozu",
+      "name": "YeongJu Lee",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84129098?v=4",
+      "profile": "https://github.com/2zerozu",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "Server-United",
+  "projectOwner": "U-is-Ni-in-Korea"
+}
