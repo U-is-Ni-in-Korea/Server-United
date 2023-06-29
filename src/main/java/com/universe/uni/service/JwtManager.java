@@ -1,4 +1,4 @@
-package com.universe.uni.config.jwt;
+package com.universe.uni.service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
