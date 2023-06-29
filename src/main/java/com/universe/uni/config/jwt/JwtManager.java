@@ -2,6 +2,8 @@ package com.universe.uni.config.jwt;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
 
@@ -27,6 +29,9 @@ public class JwtManager {
 	@Value(value = "${jwt.secret}")
 	private String jwtSecret;
 
+	@Value(value = "${jwt.expiryPeriod}")
+	private Long accessTokenExpiryPeriod;
+
 	@PostConstruct
 	protected void init() {
 		jwtSecret = Base64.getEncoder()
@@ -34,12 +39,14 @@ public class JwtManager {
 	}
 
 	public String createToken(String userId) {
-		final Date now = new Date();
+		ZoneId seoulZoneId = ZoneId.of("Asia/Seoul");
+		OffsetDateTime now = OffsetDateTime.now(seoulZoneId);
+		OffsetDateTime expiration = now.plusSeconds(accessTokenExpiryPeriod);
 
 		final Claims claims = Jwts.claims()
 			.setSubject("accessToken")
-			.setIssuedAt(now)
-			.setExpiration(new Date(now.getTime() + 120 * 60 * 1000L));
+			.setIssuedAt(toDate(now))
+			.setExpiration(toDate(expiration));
 
 		claims.put("userId", userId);
 
@@ -48,6 +55,10 @@ public class JwtManager {
 			.setClaims(claims)
 			.signWith(getSigningKey())
 			.compact();
+	}
+
+	private Date toDate(OffsetDateTime offsetDateTime) {
+		return Date.from(offsetDateTime.toInstant());
 	}
 
 	private Key getSigningKey() {
