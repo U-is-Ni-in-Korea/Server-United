@@ -14,8 +14,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.universe.uni.service.JwtManager;
 
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -48,6 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (header != null && header.startsWith(tokenType)) {
 			return header.substring(tokenType.length());
 		}
-		return null;
+		log.error("UNSUPPORTED_JWT_TOKEN_TYPE");
+		throw new JwtException("UNSUPPORTED_JWT_TOKEN_TYPE");
 	}
 }

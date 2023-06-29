@@ -20,6 +20,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -67,19 +68,17 @@ public class JwtManager {
 	}
 
 	public boolean verifyToken(String token) {
+
 		try {
-			final Claims claims = getBody(token);
+			getBody(token);
 			return true;
-		} catch (MalformedJwtException e) {
-			log.error("INVALID_JWT_TOKEN");
-		} catch (ExpiredJwtException e) {
+		} catch (ExpiredJwtException exception) {
 			log.error("EXPIRED_JWT_TOKEN");
-		} catch (UnsupportedJwtException e) {
+			throw new JwtException("EXPIRED_JWT_TOKEN");
+		} catch (MalformedJwtException | UnsupportedJwtException | SignatureException exception) {
 			log.error("UNSUPPORTED_JWT_TOKEN");
-		} catch (JwtException e) {
-			log.error(e.getMessage());
+			throw new JwtException("UNSUPPORTED_JWT_TOKEN");
 		}
-		return false;
 	}
 
 	private Claims getBody(String token) {

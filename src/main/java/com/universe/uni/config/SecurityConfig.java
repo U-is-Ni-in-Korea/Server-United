@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.universe.uni.config.jwt.JwtAuthenticationFilter;
+import com.universe.uni.config.jwt.JwtExceptionFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	private final JwtExceptionFilter jwtExceptionFilter;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,6 +32,7 @@ public class SecurityConfig {
 			.antMatchers("/").permitAll()
 			.anyRequest().authenticated()
 			.and()
+			.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
 			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
