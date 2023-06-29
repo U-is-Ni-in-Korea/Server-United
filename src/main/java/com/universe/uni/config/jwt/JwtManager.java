@@ -38,7 +38,7 @@ public class JwtManager {
 			.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
 	}
 
-	public String createToken(String userId) {
+	public String issueToken(String userId) {
 		ZoneId seoulZoneId = ZoneId.of("Asia/Seoul");
 		OffsetDateTime now = OffsetDateTime.now(seoulZoneId);
 		OffsetDateTime expiration = now.plusSeconds(accessTokenExpiryPeriod);
