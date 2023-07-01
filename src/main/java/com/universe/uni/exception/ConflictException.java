@@ -1,6 +1,6 @@
 package com.universe.uni.exception;
 
-import com.universe.uni.common.dto.ErrorType;
+import com.universe.uni.exception.dto.ErrorType;
 
 public class ConflictException extends ApiException {
 

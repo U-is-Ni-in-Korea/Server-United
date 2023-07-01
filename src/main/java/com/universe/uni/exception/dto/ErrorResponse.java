@@ -1,4 +1,4 @@
-package com.universe.uni.common.dto;
+package com.universe.uni.exception.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -11,14 +11,13 @@ import lombok.RequiredArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
-	private final int status;
 	private final String message;
 
 	public static ErrorResponse error(ErrorType error) {
-		return new ErrorResponse(error.getHttpStatusCode(), error.getMessage());
+		return new ErrorResponse(error.getMessage());
 	}
 
 	public static ErrorResponse error(ErrorType error, String message) {
-		return new ErrorResponse(error.getHttpStatusCode(), message);
+		return new ErrorResponse(message);
 	}
 }
