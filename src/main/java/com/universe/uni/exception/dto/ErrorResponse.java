@@ -11,13 +11,9 @@ import lombok.RequiredArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorResponse {
 
-	private final String message;
+	private final String uniErrorCode;
 
 	public static ErrorResponse error(ErrorType error) {
-		return new ErrorResponse(error.getMessage());
-	}
-
-	public static ErrorResponse error(ErrorType error, String message) {
-		return new ErrorResponse(message);
+		return new ErrorResponse(error.getUniErrorCode());
 	}
 }
