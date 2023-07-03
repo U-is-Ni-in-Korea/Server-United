@@ -28,7 +28,11 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
-		MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+		MethodArgumentNotValidException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
+	) {
 		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -36,22 +40,27 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(
 		MissingServletRequestParameterException exception,
-		HttpHeaders headers, HttpStatus status, WebRequest request) {
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
+	) {
 		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
-	protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException exception,
-		HttpHeaders headers,
-		HttpStatus status, WebRequest request) {
+	protected ResponseEntity<Object> handleMissingPathVariable(
+		MissingPathVariableException exception,
+		HttpHeaders headers, HttpStatus status, WebRequest request
+	) {
 		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
-		MissingRequestHeaderException exception) {
+		MissingRequestHeaderException exception
+	) {
 		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -61,7 +70,9 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
-	protected ErrorResponse handleException(final Exception exception) {
+	protected ErrorResponse handleException(
+		final Exception exception
+	) {
 		return ErrorResponse.error(ErrorType.INTERNAL_SERVER_ERROR);
 	}
 
@@ -69,8 +80,9 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 * Api custom error
 	 */
 	@ExceptionHandler(ApiException.class)
-	protected ResponseEntity handleCustomException(ApiException exception) {
-		return ResponseEntity.status(exception.getHttpStatus())
-			.body(ErrorResponse.error(exception.getError()));
+	protected ResponseEntity handleCustomException(
+		ApiException exception
+	) {
+		return ResponseEntity.status(exception.getHttpStatus()).body(ErrorResponse.error(exception.getError()));
 	}
 }
