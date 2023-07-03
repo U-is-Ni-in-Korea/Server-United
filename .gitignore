@@ -42,4 +42,5 @@ out/
 ### VS Code ###
 .vscode/
 /src/main/resources/**/*.yml
+/src/test/resources/**/*.yml
 /uni-config-local/
