@@ -51,7 +51,9 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMissingPathVariable(
 		MissingPathVariableException exception,
-		HttpHeaders headers, HttpStatus status, WebRequest request
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
 		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
