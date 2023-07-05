@@ -50,7 +50,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // sentry dependency
     implementation 'io.sentry:sentry-spring-boot-starter:6.23.0'
