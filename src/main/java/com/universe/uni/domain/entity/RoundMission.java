@@ -1,8 +1,10 @@
 package com.universe.uni.domain.entity;
 
+import com.universe.uni.domain.entity.convertor.MatchResultAttributeConverter;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -45,5 +47,6 @@ public class RoundMission {
 	private LocalDateTime updatedAt;
 
 	@Column(name = "result")
+	@Convert(converter = MatchResultAttributeConverter.class)
 	private MatchResult result;
 }

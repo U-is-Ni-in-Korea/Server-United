@@ -3,9 +3,11 @@ package com.universe.uni.domain.entity;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
+import com.universe.uni.domain.entity.convertor.MatchResultAttributeConverter;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -41,6 +43,7 @@ public class RoundHistory {
 	private Long userId;
 
 	@Column(name = "result")
+	@Convert(converter = MatchResultAttributeConverter.class)
 	private MatchResult result;
 
 	@OneToMany(mappedBy = "mission_content_id")

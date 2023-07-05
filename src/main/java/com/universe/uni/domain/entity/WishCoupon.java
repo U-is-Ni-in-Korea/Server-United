@@ -3,9 +3,11 @@ package com.universe.uni.domain.entity;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
+import com.universe.uni.domain.entity.convertor.MatchTypeAttributeConverter;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -49,5 +51,6 @@ public class WishCoupon {
 	private Long matchId;
 
 	@Column(name = "match_type", nullable = false)
+	@Convert(converter = MatchTypeAttributeConverter.class)
 	private MatchType matchType;
 }

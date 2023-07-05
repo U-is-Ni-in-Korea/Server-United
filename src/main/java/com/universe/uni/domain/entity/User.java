@@ -1,6 +1,7 @@
 package com.universe.uni.domain.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.universe.uni.domain.SnsType;
-
+import com.universe.uni.domain.entity.convertor.SnsTypeAttributeConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class User {
 	private String nickname;
 
 	@Column(name = "sns_type", nullable = false)
+	@Convert(converter = SnsTypeAttributeConverter.class)
 	private SnsType snsType;
 
 	@Column(name = "sns_auth", nullable = false)
