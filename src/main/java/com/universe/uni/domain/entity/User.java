@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.convertor.SnsTypeAttributeConverter;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class User {
 	@Column(name = "user_id", nullable = false)
 	private Long id;
 
-	@Column(name = "nickname")
+	@Column(name = "nickname", length = 10)
 	private String nickname;
 
 	@Column(name = "sns_type", nullable = false)
@@ -47,9 +48,24 @@ public class User {
 	@Column(name = "couple_id")
 	private Long coupleId;
 
-    @Builder
-    public User(SnsType snsType, String snsAuthCode) {
-        this.snsType = snsType;
-        this.snsAuthCode = snsAuthCode;
-    }
+	@Builder
+	public User(SnsType snsType, String snsAuthCode) {
+		this.snsType = snsType;
+		this.snsAuthCode = snsAuthCode;
+	}
+
+	public void updateNickname(String nickname) {
+		if (nickname.length() > 10) {
+			throw new IllegalArgumentException("nickname exceeds the maximum length of 10 characters");
+		}
+		this.nickname = nickname;
+	}
+
+	public void updateImage(String image) {
+		this.image = image;
+	}
+
+	public void connectCouple(Long coupleId) {
+		this.coupleId = coupleId;
+	}
 }
