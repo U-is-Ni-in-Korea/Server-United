@@ -1,26 +1,28 @@
 package com.universe.uni.domain.entity;
 
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
-import com.universe.uni.domain.entity.convertor.GameResultAttributeConverter;
-import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.universe.uni.domain.GameResult;
 import com.universe.uni.domain.GameType;
+import com.universe.uni.domain.entity.convertor.GameResultAttributeConverter;
+import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "user_match_history")
@@ -34,11 +36,13 @@ public class UserGameHistory {
 	@Column(name = "user_game_history_id")
 	private Long id;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-	@Column(name = "game_id", nullable = false)
-	private Long gameId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "game_id", nullable = false)
+	private Game game;
 
 	@Column(name = "result")
 	@Convert(converter = GameResultAttributeConverter.class)
@@ -50,5 +54,4 @@ public class UserGameHistory {
 	@Column(name = "game_type")
 	@Convert(converter = GameTypeAttributeConverter.class)
 	private GameType gameType;
-
 }

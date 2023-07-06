@@ -11,27 +11,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@Table(name = "round_match")
+@Table(name = "round_game")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class RoundMatch {
+public class RoundGame {
 
 	@Id
-	@Column(name = "round_match_id")
+	@Column(name = "round_game_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "game_id", nullable = false)
-	private Long gameId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "game_id", nullable = false)
+	private Game game;
 
-	@Column(name = "mission_category_id", nullable = false)
-	private Long missionCategoryId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "mission_category_id", nullable = false)
+	private MissionCategory missionCategory;
 
 	@Column(name = "enable", nullable = false)
 	private Boolean enable;

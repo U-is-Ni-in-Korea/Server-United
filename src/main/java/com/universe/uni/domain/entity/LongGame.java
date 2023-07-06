@@ -6,15 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorValue("LongMatch")
+@DiscriminatorValue("LongGame")
 @PrimaryKeyJoinColumn(name = "game_id")
 public class LongGame extends Game {
 

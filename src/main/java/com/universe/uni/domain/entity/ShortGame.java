@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@DiscriminatorValue("ShortMatch")
-@PrimaryKeyJoinColumn(name = "match_id")
+@DiscriminatorValue("ShortGame")
+@PrimaryKeyJoinColumn(name = "game_id")
 public class ShortGame extends Game {
 
 }

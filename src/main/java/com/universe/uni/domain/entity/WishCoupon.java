@@ -1,22 +1,24 @@
 package com.universe.uni.domain.entity;
 
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
-import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.universe.uni.domain.GameType;
+import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "wish_coupon")
@@ -32,7 +34,7 @@ public class WishCoupon {
 	@Column(name = "image")
 	private String image;
 
-	@Column(name = "content")
+	@Column(name = "content", length = 54)
 	private String content;
 
 	@Column(name = "is_visible", nullable = false)
@@ -44,11 +46,13 @@ public class WishCoupon {
 	@Column(name = "used_at")
 	private LocalDateTime usedAt;
 
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
 
-	@Column(name = "game_id", nullable = false)
-	private Long gameId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "game_id", nullable = false)
+	private Game game;
 
 	@Column(name = "game_type", nullable = false)
 	@Convert(converter = GameTypeAttributeConverter.class)
