@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("LongMatch")
-@PrimaryKeyJoinColumn(name = "match_id")
-public class LongMatch extends Match {
+@PrimaryKeyJoinColumn(name = "game_id")
+public class LongGame extends Game {
 
 	@Column(name = "duration", nullable = false)
 	private int duration;

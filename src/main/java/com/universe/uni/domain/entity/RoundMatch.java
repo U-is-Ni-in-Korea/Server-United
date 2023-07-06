@@ -27,12 +27,11 @@ public class RoundMatch {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "match_id", nullable = false)
-	private Long matchId;
+	@Column(name = "game_id", nullable = false)
+	private Long gameId;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "mission_category_id", nullable = false)
-	private MissionCategory missionCategory;
+	@Column(name = "mission_category_id", nullable = false)
+	private Long missionCategoryId;
 
 	@Column(name = "enable", nullable = false)
 	private Boolean enable;

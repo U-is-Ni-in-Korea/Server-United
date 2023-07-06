@@ -12,6 +12,7 @@ import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.convertor.SnsTypeAttributeConverter;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,4 +46,10 @@ public class User {
 
 	@Column(name = "couple_id")
 	private Long coupleId;
+
+    @Builder
+    public User(SnsType snsType, String snsAuthCode) {
+        this.snsType = snsType;
+        this.snsAuthCode = snsAuthCode;
+    }
 }

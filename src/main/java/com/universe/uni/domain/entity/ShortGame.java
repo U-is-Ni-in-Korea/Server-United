@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DiscriminatorValue("ShortMatch")
 @PrimaryKeyJoinColumn(name = "match_id")
-public class ShortMatch extends Match {
+public class ShortGame extends Game {
 
 }

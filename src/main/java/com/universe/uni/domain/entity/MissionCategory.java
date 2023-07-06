@@ -40,8 +40,4 @@ public class MissionCategory {
 
 	@Column(name = "lever", nullable = false)
 	private int level;
-
-	@OneToMany(mappedBy = "mission_category_id")
-	private List<MissionContent> missionContentList = new ArrayList<>();
-
 }

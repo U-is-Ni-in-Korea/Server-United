@@ -3,7 +3,7 @@ package com.universe.uni.domain.entity;
 import static javax.persistence.GenerationType.*;
 import static lombok.AccessLevel.*;
 
-import com.universe.uni.domain.entity.convertor.MatchTypeAttributeConverter;
+import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.universe.uni.domain.MatchType;
+import com.universe.uni.domain.GameType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,10 +47,10 @@ public class WishCoupon {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
-	@Column(name = "match_id", nullable = false)
-	private Long matchId;
+	@Column(name = "game_id", nullable = false)
+	private Long gameId;
 
-	@Column(name = "match_type", nullable = false)
-	@Convert(converter = MatchTypeAttributeConverter.class)
-	private MatchType matchType;
+	@Column(name = "game_type", nullable = false)
+	@Convert(converter = GameTypeAttributeConverter.class)
+	private GameType gameType;
 }

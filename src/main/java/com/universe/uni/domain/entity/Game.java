@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Table(name = "match")
+@Table(name = "game")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
-public class Match {
+public class Game {
 
 	@Id
-	@Column(name = "match_id")
+	@Column(name = "game_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 

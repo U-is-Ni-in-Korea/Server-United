@@ -1,6 +1,6 @@
 package com.universe.uni.domain.entity;
 
-import com.universe.uni.domain.entity.convertor.MatchResultAttributeConverter;
+import com.universe.uni.domain.entity.convertor.GameResultAttributeConverter;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.universe.uni.domain.MatchResult;
+import com.universe.uni.domain.GameResult;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,6 +47,6 @@ public class RoundMission {
 	private LocalDateTime updatedAt;
 
 	@Column(name = "result")
-	@Convert(converter = MatchResultAttributeConverter.class)
-	private MatchResult result;
+	@Convert(converter = GameResultAttributeConverter.class)
+	private GameResult result;
 }
