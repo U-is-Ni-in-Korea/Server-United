@@ -50,7 +50,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // sentry dependency
     implementation 'io.sentry:sentry-spring-boot-starter:6.23.0'
@@ -59,7 +59,13 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    //runtimeOnly 'com.mysql:mysql-connector-j'
+    def queryDslVersion = "5.0.0"
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
@@ -103,4 +109,9 @@ sentry {
     org = "uni-universe"
     projectName = "java-spring-boot"
     authToken = sentryProperties.getProperty("sentry-auth-token")
+}
+
+def querydslDir = "$buildDir/generated/sources/annotationProcessor"
+sourceSets {
+    main.java.srcDir querydslDir
 }
