@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew checkstyleMain checkstyleTest
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
 
       - name: pr link
         run: echo ${{ steps.pr-url.outputs.url }}
