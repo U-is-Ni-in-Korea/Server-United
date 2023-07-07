@@ -9,7 +9,6 @@ plugins {
     id 'org.springframework.boot' version '2.7.10'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "io.sentry.jvm.gradle" version "3.11.0"
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id 'checkstyle'
 }
 
@@ -60,8 +59,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    implementation "com.querydsl:querydsl-jpa:5.0.0"
-    implementation "com.querydsl:querydsl-apt:5.0.0"
+    def queryDslVersion = "5.0.0"
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
     runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -109,20 +111,7 @@ sentry {
     authToken = sentryProperties.getProperty("sentry-auth-token")
 }
 
-def querydslDir = "$buildDir/generated/querydsl"
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
+def querydslDir = "$buildDir/generated/sources/annotationProcessor"
 sourceSets {
     main.java.srcDir querydslDir
-}
-compileQuerydsl{
-    options.annotationProcessorPath = configurations.querydsl
-}
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    querydsl.extendsFrom compileClasspath
 }
