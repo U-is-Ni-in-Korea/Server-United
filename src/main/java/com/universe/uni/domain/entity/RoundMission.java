@@ -48,4 +48,8 @@ public class RoundMission {
 	@Column(name = "result")
 	@Convert(converter = GameResultAttributeConverter.class)
 	private GameResult result;
+
+	@Column(name = "final_result")
+	@Convert(converter = GameResultAttributeConverter.class)
+	private GameResult finalResult;
 }
