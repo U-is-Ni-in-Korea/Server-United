@@ -43,6 +43,11 @@ checkstyle {
     configProperties = ["suppressionFile": "checkstyle/naver-checkstyle-suppressions.xml"]
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.2"
+    }
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
