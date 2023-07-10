@@ -33,7 +33,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -44,7 +44,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -55,7 +55,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -63,7 +63,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
 		MissingRequestHeaderException exception
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
