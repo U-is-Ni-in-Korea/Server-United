@@ -1,0 +1,28 @@
+# appspec.yml
+
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/uni-sparkle-deploy/uni-sparkle
+    overwrite: yes
+
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  ApplicationStart:
+    - location: scripts/run_new.sh
+      timeout: 180
+      runas: ubuntu
+
+    - location: scripts/health_check.sh
+      timeout: 180
+      runas: ubuntu
+
+    - location: scripts/switch.sh
+      timeout: 180
+      runas: ubuntu

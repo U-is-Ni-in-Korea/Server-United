@@ -71,6 +71,8 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
     //JWT
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'

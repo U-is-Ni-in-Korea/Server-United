@@ -6,16 +6,16 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
-
 import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.universe.uni.exception.UnauthorizedException;
+import com.universe.uni.exception.dto.ErrorType;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -36,7 +36,7 @@ public class JwtManager {
 	@PostConstruct
 	protected void init() {
 		jwtSecret = Base64.getEncoder()
-			.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
+				.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
 	}
 
 	public String issueToken(String userId) {
@@ -45,17 +45,17 @@ public class JwtManager {
 		OffsetDateTime expiration = now.plusSeconds(accessTokenExpiryPeriod);
 
 		final Claims claims = Jwts.claims()
-			.setSubject("accessToken")
-			.setIssuedAt(toDate(now))
-			.setExpiration(toDate(expiration));
+				.setSubject("accessToken")
+				.setIssuedAt(toDate(now))
+				.setExpiration(toDate(expiration));
 
 		claims.put("userId", userId);
 
 		return Jwts.builder()
-			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-			.setClaims(claims)
-			.signWith(getSigningKey())
-			.compact();
+				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+				.setClaims(claims)
+				.signWith(getSigningKey())
+				.compact();
 	}
 
 	private Date toDate(OffsetDateTime offsetDateTime) {
@@ -67,26 +67,29 @@ public class JwtManager {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public boolean verifyToken(String token) {
-
+	public boolean isVerifiedToken(String token) {
 		try {
 			getBody(token);
 			return true;
-		} catch (ExpiredJwtException exception) {
-			log.error("EXPIRED_JWT_TOKEN");
-			throw new JwtException("EXPIRED_JWT_TOKEN");
-		} catch (MalformedJwtException | UnsupportedJwtException | SignatureException exception) {
-			log.error("UNSUPPORTED_JWT_TOKEN");
-			throw new JwtException("UNSUPPORTED_JWT_TOKEN");
+		} catch (UnauthorizedException exception) {
+			return false;
 		}
 	}
 
 	private Claims getBody(String token) {
-		return Jwts.parserBuilder()
-			.setSigningKey(getSigningKey())
-			.build()
-			.parseClaimsJwt(token)
-			.getBody();
+		try {
+			return Jwts.parserBuilder()
+					.setSigningKey(getSigningKey())
+					.build()
+					.parseClaimsJwt(token)
+					.getBody();
+		} catch (ExpiredJwtException exception) {
+			log.error("EXPIRED_JWT_TOKEN");
+			throw new UnauthorizedException(ErrorType.EXPIRED_TOKEN);
+		} catch (MalformedJwtException | UnsupportedJwtException | SignatureException exception) {
+			log.error("UNSUPPORTED_JWT_TOKEN");
+			throw new UnauthorizedException(ErrorType.UNSUPPORTED_TOKEN);
+		}
 	}
 
 	public Long getUserIdFromJwt(String token) {
