@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - cd
+      - feat/cd
 
 permissions:
   contents: read
