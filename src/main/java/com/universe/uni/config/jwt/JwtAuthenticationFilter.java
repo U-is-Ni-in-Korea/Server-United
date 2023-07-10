@@ -1,10 +1,12 @@
 package com.universe.uni.config.jwt;
 
 import java.io.IOException;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -26,16 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(
-			HttpServletRequest request,
-			HttpServletResponse response,
-			FilterChain filterChain
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
 	) throws ServletException, IOException {
 		val uri = request.getRequestURI();
 		if (isContainApiPath(uri)) {
 			String token = getJwtFromRequest(request);
 			Long userId = jwtManager.getUserIdFromJwt(token);
 			UsernamePasswordAuthenticationToken authentication =
-					new UsernamePasswordAuthenticationToken(userId, null, null);
+				new UsernamePasswordAuthenticationToken(userId, null, null);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
 

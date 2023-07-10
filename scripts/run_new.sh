@@ -1,5 +1,9 @@
 #!/bin/bash
 
+DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
+JAR_NAME=$(ls ${DEFAULT_PATH}/build/libs/ | grep '.jar' | tail -n 1)
+JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
+
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
@@ -21,6 +25,7 @@ if [ ! -z ${TARGET_PID} ]; then
     sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} /home/ubuntu/uni-sparkle-deploy/uni-sparkle/build/libs/uni-0.0.1-SNAPSHOT.jar >nohup.out 2>&1 </dev/null &
+echo "${JAR_PATH} 를 배포합니다"
+nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} ${JAR_PATH} >nohup.out 2>&1 </dev/null &
 echo "${TARGET_PORT} 로 새로운 서비스를 시작합니다"
 exit 0

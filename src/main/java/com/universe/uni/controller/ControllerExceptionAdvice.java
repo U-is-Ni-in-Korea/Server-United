@@ -1,6 +1,7 @@
 package com.universe.uni.controller;
 
 import java.util.Objects;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,10 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 */
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
-			MethodArgumentNotValidException exception,
-			HttpHeaders headers,
-			HttpStatus status,
-			WebRequest request
+		MethodArgumentNotValidException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -40,10 +41,10 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleMissingServletRequestParameter(
-			MissingServletRequestParameterException exception,
-			HttpHeaders headers,
-			HttpStatus status,
-			WebRequest request
+		MissingServletRequestParameterException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -51,10 +52,10 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleMissingPathVariable(
-			MissingPathVariableException exception,
-			HttpHeaders headers,
-			HttpStatus status,
-			WebRequest request
+		MissingPathVariableException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -62,7 +63,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
-			MissingRequestHeaderException exception
+		MissingRequestHeaderException exception
 	) {
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.VALIDATION_EXCEPTION);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
@@ -70,11 +71,11 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(
-			Exception ex,
-			Object body,
-			HttpHeaders headers,
-			HttpStatus status,
-			WebRequest request
+		Exception ex,
+		Object body,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
 		try {
 			final ErrorType errorType = ErrorType.findErrorTypeBy(status);
@@ -93,7 +94,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	protected ErrorResponse handleException(
-			final Exception exception
+		final Exception exception
 	) {
 		return ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR);
 	}
@@ -103,8 +104,9 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(ApiException.class)
 	protected ResponseEntity<ErrorResponse> handleCustomException(
-			ApiException exception
+		ApiException exception
 	) {
-		return ResponseEntity.status(exception.getHttpStatus()).body(ErrorResponse.businessErrorOf(exception.getError()));
+		return ResponseEntity.status(exception.getHttpStatus())
+			.body(ErrorResponse.businessErrorOf(exception.getError()));
 	}
 }

@@ -27,7 +27,7 @@ public class RoundGame {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "game_id", nullable = false)
-	private Game game; 
+	private Game game;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "mission_category_id", nullable = false)

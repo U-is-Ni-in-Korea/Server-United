@@ -1,6 +1,7 @@
 package com.universe.uni.exception.dto;
 
 import java.util.Arrays;
+
 import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
@@ -31,7 +32,6 @@ public enum ErrorType {
 	 * 406 Not Acceptable
 	 */
 	NOT_ACCEPTABLE(HttpStatus.NOT_ACCEPTABLE, "UE7001", "Accept 헤더에 유효하지 않거나 지원되지 않는 미디어 유형을 지정되었습니다."),
-
 
 	/**
 	 * 409 CONFLICT
@@ -75,7 +75,7 @@ public enum ErrorType {
 
 	public static ErrorType findErrorTypeBy(HttpStatus httpStatus) {
 		return Arrays.stream(values()).filter((errorType -> errorType.hasErrorType(httpStatus)))
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("UnSupported Business HttpStatus Code :" + httpStatus));
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("UnSupported Business HttpStatus Code :" + httpStatus));
 	}
 }

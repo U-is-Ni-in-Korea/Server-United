@@ -6,7 +6,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
 import java.util.Date;
+
 import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +38,7 @@ public class JwtManager {
 	@PostConstruct
 	protected void init() {
 		jwtSecret = Base64.getEncoder()
-				.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
+			.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
 	}
 
 	public String issueToken(String userId) {
@@ -45,17 +47,17 @@ public class JwtManager {
 		OffsetDateTime expiration = now.plusSeconds(accessTokenExpiryPeriod);
 
 		final Claims claims = Jwts.claims()
-				.setSubject("accessToken")
-				.setIssuedAt(toDate(now))
-				.setExpiration(toDate(expiration));
+			.setSubject("accessToken")
+			.setIssuedAt(toDate(now))
+			.setExpiration(toDate(expiration));
 
 		claims.put("userId", userId);
 
 		return Jwts.builder()
-				.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-				.setClaims(claims)
-				.signWith(getSigningKey())
-				.compact();
+			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+			.setClaims(claims)
+			.signWith(getSigningKey())
+			.compact();
 	}
 
 	private Date toDate(OffsetDateTime offsetDateTime) {
@@ -79,10 +81,10 @@ public class JwtManager {
 	private Claims getBody(String token) {
 		try {
 			return Jwts.parserBuilder()
-					.setSigningKey(getSigningKey())
-					.build()
-					.parseClaimsJwt(token)
-					.getBody();
+				.setSigningKey(getSigningKey())
+				.build()
+				.parseClaimsJwt(token)
+				.getBody();
 		} catch (ExpiredJwtException exception) {
 			log.error("EXPIRED_JWT_TOKEN");
 			throw new UnauthorizedException(ErrorType.EXPIRED_TOKEN);
