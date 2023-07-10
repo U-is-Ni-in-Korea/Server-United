@@ -2,15 +2,17 @@
 
 version: 0.0
 os: linux
+
 files:
   - source: /
     destination: /home/ubuntu/uni-sparkle-deploy/uni-sparkle
     overwrite: yes
 
 permissions:
-  - object: /
-    pattern: "./home/ubuntu/uni-sparkle-deploy/uni-sparkle/script/*.sh"
+  - object: /home/ubuntu/uni-sparkle-deploy/uni-sparkle
+    pattern: "*.sh"
     owner: ubuntu
+    mode: 755
     group: ubuntu
 
 hooks:
