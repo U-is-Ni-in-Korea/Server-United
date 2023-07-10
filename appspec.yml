@@ -16,7 +16,7 @@ permissions:
 hooks:
   ApplicationStart:
     - location: scripts/run_new.sh
-      timeout: 180
+      timeout: 300
       runas: ubuntu
 
     - location: scripts/health_check.sh

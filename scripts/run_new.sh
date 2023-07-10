@@ -20,6 +20,6 @@ if [ ! -z ${TARGET_PID} ]; then
     sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} /home/ubuntu/uni-sparkle-deploy/build/libs/*
+nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} /home/ubuntu/uni-sparkle-deploy/uni-sparkle/build/libs/*
 echo "${TARGET_PORT} 로 새로운 서비스를 시작합니다"
 exit 0

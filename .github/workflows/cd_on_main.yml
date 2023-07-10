@@ -43,6 +43,9 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Copy Config
+        run: ./gradlew copyConfig
+
       - name: Build jar
         run: ./gradlew bootjar
 
