@@ -4,7 +4,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/uni-sparkle-deploy/uni-sparkle
+    destination: /home/ubuntu/uni-sparkle-deploy/uni-sparkle
     overwrite: yes
 
 permissions:
