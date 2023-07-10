@@ -9,7 +9,7 @@ files:
 
 permissions:
   - object: /
-    pattern: "**"
+    pattern: "./home/ubuntu/uni-sparkle-deploy/uni-sparkle/script/*.sh"
     owner: ubuntu
     group: ubuntu
 
