@@ -11,15 +11,16 @@ elif [ ${CURRENT_PORT} -eq 8082 ]; then
   TARGET_PORT=8081
 else
   echo ">> Nginx 에 연결된 서비스가 없습니다"
+  TARGET_PORT=8081
 fi
 
-TARGET_PID-$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
+TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
 
 if [ ! -z ${TARGET_PID} ]; then
     echo ">> ${TARGET_PORT}에서 실행중인 서비스를 종료합니다"
     sudo kill ${TARGET_PID}
 fi
 
-nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} /home/ubuntu/uni-sparkle-deploy/uni-sparkle/build/libs/*
+nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} /home/ubuntu/uni-sparkle-deploy/uni-sparkle/build/libs/uni-0.0.1-SNAPSHOT.jar &
 echo "${TARGET_PORT} 로 새로운 서비스를 시작합니다"
 exit 0
