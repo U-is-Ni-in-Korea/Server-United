@@ -9,8 +9,8 @@ files:
     overwrite: yes
 
 permissions:
-  - object: /home/ubuntu/uni-sparkle-deploy/uni-sparkle
-    pattern: "*.sh"
+  - object: /home/ubuntu/uni-sparkle-deploy/uni-sparkle/script
+    pattern: "**"
     owner: ubuntu
     mode: 755
     group: ubuntu
