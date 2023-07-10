@@ -11,7 +11,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import io.jsonwebtoken.JwtException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.universe.uni.exception.ApiException;
+import com.universe.uni.exception.dto.ErrorResponse;
+
+import lombok.val;
 
 @Component
 public class JwtExceptionFilter extends OncePerRequestFilter {
@@ -24,19 +28,20 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
 	) throws ServletException, IOException {
 		try {
 			filterChain.doFilter(request, response);
-		} catch (JwtException exception) {
+		} catch (ApiException exception) {
 			setResponse(response, exception);
 		}
 	}
 
 	private void setResponse(
 		HttpServletResponse response,
-		Throwable exception
+		ApiException exception
 	) throws IOException {
+		val objectMapper = new ObjectMapper();
+		val errorResponse = ErrorResponse.businessErrorOf(exception.getError());
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		//추후에 정의한 에러 응답형식으로 수정 예정
-		response.getWriter().println(exception.getMessage());
+		response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 	}
 }

@@ -1,5 +1,6 @@
 package com.universe.uni.exception.dto;
 
+import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
@@ -62,7 +63,7 @@ public enum ErrorType {
 		"서버가 작동중이지 않거나 과부하 상태입니다.");
 
 	private final HttpStatus httpStatus;
-	private String uniErrorCode;
+	private final String uniErrorCode;
 	private final String message;
 
 	public int getHttpStatusCode() {
@@ -75,5 +76,15 @@ public enum ErrorType {
 
 	public String getMessage() {
 		return message;
+	}
+
+	private boolean hasErrorType(HttpStatus httpStatus) {
+		return this.httpStatus.value() == httpStatus.value();
+	}
+
+	public static ErrorType findErrorTypeBy(HttpStatus httpStatus) {
+		return Arrays.stream(values()).filter((errorType -> errorType.hasErrorType(httpStatus)))
+				.findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("UnSupported Business HttpStatus Code :" + httpStatus));
 	}
 }

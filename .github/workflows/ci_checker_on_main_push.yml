@@ -44,7 +44,7 @@ jobs:
         run: ./gradlew checkstyleMain checkstyleTest
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew clean build
 
       - name: On Failed, Notify in Slack
         if: ${{ failure() }}
