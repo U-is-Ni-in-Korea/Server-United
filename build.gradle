@@ -45,7 +45,7 @@ checkstyle {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.2"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.8"
     }
 }
 
@@ -74,7 +74,7 @@ dependencies {
 
     runtimeOnly 'com.mysql:mysql-connector-j'
 
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    //implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
