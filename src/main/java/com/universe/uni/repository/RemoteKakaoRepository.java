@@ -3,9 +3,11 @@ package com.universe.uni.repository;
 import org.springframework.stereotype.Repository;
 
 import com.universe.uni.config.AuthConfig;
+import com.universe.uni.external.KakaoApiClient;
 import com.universe.uni.external.KakaoAuthClient;
 import com.universe.uni.external.request.KakaoAuthRequest;
 import com.universe.uni.external.response.KakaoAuthResponse;
+import com.universe.uni.external.response.KakaoUserResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class RemoteKakaoRepository implements KakaoRepository {
 	private final AuthConfig authConfig;
 	private final KakaoAuthClient kakaoAuthClient;
+	private final KakaoApiClient kakaoApiClient;
 
 	@Override
 	public KakaoAuthResponse fetchTokenBy(String code) {
@@ -25,5 +28,11 @@ public class RemoteKakaoRepository implements KakaoRepository {
 			.redirectUri(authConfig.getKakaoRedirectAuth())
 			.build();
 		return kakaoAuthClient.requestAuthToken(request);
+	}
+
+	@Override
+	public KakaoUserResponse getUser(String accessToken) {
+		final String token = "Bearer " + accessToken;
+		return kakaoApiClient.getUser(token);
 	}
 }
