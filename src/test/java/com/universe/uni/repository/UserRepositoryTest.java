@@ -31,22 +31,22 @@ public class UserRepositoryTest {
 		// given
 		String expectedSnsAuthToken = "test token";
 		User expectedUser = User.builder()
-				.snsType(expectedSnsType)
-				.snsAuthCode(expectedSnsAuthToken)
-				.build();
+			.snsType(expectedSnsType)
+			.snsAuthCode(expectedSnsAuthToken)
+			.build();
 		// when
 		User actualUser = userRepository.save(expectedUser);
 		// then
 		Assertions.assertAll(
-				() -> {
-					assertThat(actualUser.getId()).isNotNull();
-				},
-				() -> {
-					assertThat(actualUser.getSnsType()).isEqualTo(expectedSnsType);
-				},
-				() -> {
-					assertThat(actualUser.getSnsAuthCode()).isEqualTo(expectedSnsAuthToken);
-				}
+			() -> {
+				assertThat(actualUser.getId()).isNotNull();
+			},
+			() -> {
+				assertThat(actualUser.getSnsType()).isEqualTo(expectedSnsType);
+			},
+			() -> {
+				assertThat(actualUser.getSnsAuthCode()).isEqualTo(expectedSnsAuthToken);
+			}
 		);
 	}
 
@@ -56,9 +56,9 @@ public class UserRepositoryTest {
 		// given
 		String expectedNickname = "test";
 		User expectedUser = User.builder()
-				.snsType(SnsType.GOOGLE)
-				.snsAuthCode("test")
-				.build();
+			.snsType(SnsType.GOOGLE)
+			.snsAuthCode("test")
+			.build();
 		User actualUser = userRepository.save(expectedUser);
 		// when
 		actualUser.updateNickname(expectedNickname);
@@ -72,14 +72,14 @@ public class UserRepositoryTest {
 		// given
 		String expectedNickname = "12345678901";
 		User expectedUser = User.builder()
-				.snsType(SnsType.GOOGLE)
-				.snsAuthCode("test")
-				.build();
+			.snsType(SnsType.GOOGLE)
+			.snsAuthCode("test")
+			.build();
 		User actualUser = userRepository.save(expectedUser);
 		// when
 		// then
 		assertThatThrownBy(() -> actualUser.updateNickname(expectedNickname))
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessage("nickname exceeds the maximum length of 10 characters");
+			.isInstanceOf(IllegalArgumentException.class)
+			.hasMessage("nickname exceeds the maximum length of 10 characters");
 	}
 }
