@@ -1,7 +1,9 @@
 package com.universe.uni.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
 import com.universe.uni.dto.response.UpdateWishCouponResponseDto;
+import com.universe.uni.dto.response.WishCouponResponseDto;
 import com.universe.uni.service.WishCouponService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +25,13 @@ public class WishCouponController {
 
 	@PatchMapping
 	@ResponseStatus(HttpStatus.OK)
-	public UpdateWishCouponResponseDto updateWishCoupon(
-		@RequestBody UpdateWishCouponRequestDto requestDto
-	) {
+	public UpdateWishCouponResponseDto updateWishCoupon(@RequestBody UpdateWishCouponRequestDto requestDto) {
 		return wishCouponService.uploadWishCoupon(requestDto);
+	}
+
+	@GetMapping("/{wishCouponId}")
+	@ResponseStatus(HttpStatus.OK)
+	public WishCouponResponseDto wishCouponResponseDto(@PathVariable Long wishCouponId) {
+		return wishCouponService.getWishCoupon(wishCouponId);
 	}
 }
