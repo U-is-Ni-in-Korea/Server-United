@@ -24,9 +24,9 @@ public class WishCouponService {
 
 	@Transactional
 	public UpdateWishCouponResponseDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
-		GameType gameType = GameType.valueOf(requestDto.getGameType());
-		List<WishCoupon> wishCouponList = wishCouponRepository
-			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
+		GameType gameType = GameType.valueOf(requestDto.gameType());
+		List<WishCoupon> wishCouponList = wishCouponRepository.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(
+			gameType);
 
 		if (wishCouponList.isEmpty()) {
 			throw new BadRequestException(ErrorType.INVALID_REQUEST_METHOD);
@@ -34,7 +34,7 @@ public class WishCouponService {
 
 		WishCoupon wishCoupon = wishCouponList.get(0);
 
-		wishCoupon.setContent(requestDto.getContent());
+		wishCoupon.setContent(requestDto.content());
 		wishCoupon.setVisible(true);
 
 		return fromWishCoupon(wishCoupon);
