@@ -9,13 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.universe.uni.domain.MissionType;
-import com.universe.uni.domain.entity.convertor.GameResultAttributeConverter;
 import com.universe.uni.domain.entity.convertor.MissionTypeAttributeConverter;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @Table(name = "mission_category")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MissionCategory {

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum GameResult {
-	WIN, LOSE, DRAW;
+	WIN, LOSE, DRAW, UNDECIDED;
 
 	public static GameResult findMatchResultBy(String gameResultName) {
 		return Arrays.stream(values())

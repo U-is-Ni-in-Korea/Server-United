@@ -25,7 +25,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@Table(name = "user_match_history")
+@Table(name = "user_game_history")
 @NoArgsConstructor(access = PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

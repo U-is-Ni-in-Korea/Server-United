@@ -18,6 +18,9 @@ public enum ErrorType {
 	 * 404 NOT FOUND
 	 */
 	NOT_FOUND_USER_EXCEPTION(HttpStatus.NOT_FOUND, "", "존재하지 않는 유저입니다"),
+	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "", "존재하지 않는 미션 카테고리입니다"),
+	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "", "해당 카테고리 미션이 존재하지 않습니다."),
+	NOT_FOUND_ROUND_MISSION(HttpStatus.NOT_FOUND, "", "해당 라운드 미션이 존재하지 않습니다."),
 
 	/**
 	 * 409 CONFLICT
