@@ -17,6 +17,8 @@ public enum ErrorType {
 		"요청 방식이 잘못된 경우입니다. 요청 방식 자체가 잘못된 경우입니다."),
 	VALIDATION_TOKEN_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "UE1002",
 		"요청 시 토큰이 누락되어 토큰 값이 없는 경우입니다."),
+	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
+		"이미 생성된 승부가 있습니다."),
 
 	/**
 	 * 401 Unauthorized

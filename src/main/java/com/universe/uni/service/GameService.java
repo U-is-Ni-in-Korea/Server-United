@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.universe.uni.domain.entity.Couple;
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
@@ -16,6 +17,7 @@ import com.universe.uni.domain.entity.ShortGame;
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.dto.CreateShortGameRequestDto;
 import com.universe.uni.dto.CreateShortGameResponseDto;
+import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.GameRepository;
 import com.universe.uni.repository.RoundGameRepository;
@@ -38,10 +40,13 @@ public class GameService {
 	public CreateShortGameResponseDto createShortGame(CreateShortGameRequestDto createShortGameRequestDto) {
 
 		User user = getUser();
+		Couple couple = user.getCouple();
+
+		verifyOngoingGame(couple);
 
 		//한판승부 생성
 		ShortGame shortGame = ShortGame.builder()
-			.couple(user.getCouple())
+			.couple(couple)
 			.build();
 
 		//미션 카테고리 가져와서
@@ -90,5 +95,11 @@ public class GameService {
 	private User getUser() {
 		Optional<User> byId = userRepository.findById(1L);
 		return byId.get();
+	}
+
+	private void verifyOngoingGame(Couple couple) {
+		if(gameRepository.existsByCoupleAndEnable(couple, true)) {
+			throw new BadRequestException(ALREADY_GAME_CREATED);
+		}
 	}
 }
