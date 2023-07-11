@@ -37,10 +37,10 @@ public class WishCouponService {
 		wishCoupon.updateContent(requestDto.content());
 		wishCoupon.makeVisible();
 
-		return fromWishCoupon(wishCoupon);
+		return fromWishCouponToUpdateWishCouponResponseDto(wishCoupon);
 	}
 
-	private UpdateWishCouponResponseDto fromWishCoupon(WishCoupon wishCoupon) {
+	private UpdateWishCouponResponseDto fromWishCouponToUpdateWishCouponResponseDto(WishCoupon wishCoupon) {
 		String usedAt = wishCoupon.getUsedAt() != null ? wishCoupon.getUsedAt().toString() : null;
 
 		return UpdateWishCouponResponseDto.builder()
