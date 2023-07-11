@@ -14,9 +14,9 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.universe.uni.service.JwtManager;
 
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 @Slf4j
 @Component
@@ -31,9 +31,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		HttpServletResponse response,
 		FilterChain filterChain
 	) throws ServletException, IOException {
-		String token = getJwtFromRequest(request);
-
-		if (jwtManager.verifyToken(token)) {
+		val uri = request.getRequestURI();
+		if (isContainApiPath(uri)) {
+			String token = getJwtFromRequest(request);
 			Long userId = jwtManager.getUserIdFromJwt(token);
 			UsernamePasswordAuthenticationToken authentication =
 				new UsernamePasswordAuthenticationToken(userId, null, null);
@@ -48,10 +48,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		final String tokenType = "Bearer ";
 
 		String header = request.getHeader("Authorization");
-		if (header != null && header.startsWith(tokenType)) {
-			return header.substring(tokenType.length());
-		}
-		log.error("UNSUPPORTED_JWT_TOKEN_TYPE");
-		throw new JwtException("UNSUPPORTED_JWT_TOKEN_TYPE");
+		return header.substring(tokenType.length());
+	}
+
+	private boolean isContainApiPath(String uri) {
+		return uri.contains("/api");
 	}
 }

@@ -12,10 +12,12 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.universe.uni.exception.UnauthorizedException;
+import com.universe.uni.exception.dto.ErrorType;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Header;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -67,26 +69,29 @@ public class JwtManager {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public boolean verifyToken(String token) {
-
+	public boolean isVerifiedToken(String token) {
 		try {
 			getBody(token);
 			return true;
-		} catch (ExpiredJwtException exception) {
-			log.error("EXPIRED_JWT_TOKEN");
-			throw new JwtException("EXPIRED_JWT_TOKEN");
-		} catch (MalformedJwtException | UnsupportedJwtException | SignatureException exception) {
-			log.error("UNSUPPORTED_JWT_TOKEN");
-			throw new JwtException("UNSUPPORTED_JWT_TOKEN");
+		} catch (UnauthorizedException exception) {
+			return false;
 		}
 	}
 
 	private Claims getBody(String token) {
-		return Jwts.parserBuilder()
-			.setSigningKey(getSigningKey())
-			.build()
-			.parseClaimsJwt(token)
-			.getBody();
+		try {
+			return Jwts.parserBuilder()
+				.setSigningKey(getSigningKey())
+				.build()
+				.parseClaimsJwt(token)
+				.getBody();
+		} catch (ExpiredJwtException exception) {
+			log.error("EXPIRED_JWT_TOKEN");
+			throw new UnauthorizedException(ErrorType.EXPIRED_TOKEN);
+		} catch (MalformedJwtException | UnsupportedJwtException | SignatureException exception) {
+			log.error("UNSUPPORTED_JWT_TOKEN");
+			throw new UnauthorizedException(ErrorType.UNSUPPORTED_TOKEN);
+		}
 	}
 
 	public Long getUserIdFromJwt(String token) {

@@ -1,6 +1,7 @@
 package com.universe.uni.domain.entity;
 
 import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;

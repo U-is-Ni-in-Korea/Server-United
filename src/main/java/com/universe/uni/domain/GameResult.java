@@ -8,8 +8,8 @@ public enum GameResult {
 
 	public static GameResult findMatchResultBy(String gameResultName) {
 		return Arrays.stream(values())
-				.filter(gameResult -> Objects.equals(gameResult.name(),gameResultName))
-				.findFirst()
-				.orElseThrow(()->new IllegalArgumentException("Unsupported match result type"));
+			.filter(gameResult -> Objects.equals(gameResult.name(), gameResultName))
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("Unsupported match result type"));
 	}
 }

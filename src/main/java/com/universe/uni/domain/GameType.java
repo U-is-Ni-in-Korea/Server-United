@@ -9,8 +9,8 @@ public enum GameType {
 
 	public static GameType findMatchTypeBy(String gameTypeName) {
 		return Arrays.stream(values())
-				.filter(gameType -> Objects.equals(gameType.name(), gameTypeName))
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Unsupported match type" + gameTypeName));
+			.filter(gameType -> Objects.equals(gameType.name(), gameTypeName))
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("Unsupported match type" + gameTypeName));
 	}
 }

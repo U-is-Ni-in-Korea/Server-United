@@ -1,5 +1,7 @@
 package com.universe.uni.controller;
 
+import java.util.Objects;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -44,7 +46,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -55,7 +57,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_REQUEST_MISSING_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
@@ -63,8 +65,27 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
 		MissingRequestHeaderException exception
 	) {
-		ErrorResponse errorResponse = ErrorResponse.error(ErrorType.VALIDATION_EXCEPTION);
+		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	}
+
+	@Override
+	protected ResponseEntity<Object> handleExceptionInternal(
+		Exception ex,
+		Object body,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
+	) {
+		try {
+			final ErrorType errorType = ErrorType.findErrorTypeBy(status);
+			final ApiException businessError = new ApiException(errorType, ex.getMessage());
+			final ErrorResponse errorResponse = ErrorResponse.businessErrorOf(errorType);
+			return super.handleExceptionInternal(businessError, errorResponse, headers, status, request);
+		} catch (IllegalArgumentException exception) {
+			final ErrorResponse errorResponse = ErrorResponse.errorOf(status.value());
+			return super.handleExceptionInternal(exception, errorResponse, headers, status, request);
+		}
 	}
 
 	/**
@@ -75,16 +96,17 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ErrorResponse handleException(
 		final Exception exception
 	) {
-		return ErrorResponse.error(ErrorType.INTERNAL_SERVER_ERROR);
+		return ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
 	 * Api custom error
 	 */
 	@ExceptionHandler(ApiException.class)
-	protected ResponseEntity handleCustomException(
+	protected ResponseEntity<ErrorResponse> handleCustomException(
 		ApiException exception
 	) {
-		return ResponseEntity.status(exception.getHttpStatus()).body(ErrorResponse.error(exception.getError()));
+		return ResponseEntity.status(exception.getHttpStatus())
+			.body(ErrorResponse.businessErrorOf(exception.getError()));
 	}
 }

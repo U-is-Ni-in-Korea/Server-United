@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
-
 @Configuration
 public class QueryDslConfig {
 	@PersistenceContext
