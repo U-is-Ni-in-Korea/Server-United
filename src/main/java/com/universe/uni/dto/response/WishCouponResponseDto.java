@@ -1,5 +1,6 @@
 package com.universe.uni.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.Builder;
@@ -11,8 +12,8 @@ public record WishCouponResponseDto(
 	boolean isMine,
 	String image,
 	String content,
-	boolean isVisible,
-	boolean isUsed,
+	@JsonProperty("isVisible") boolean visible,
+	@JsonProperty("isUsed") boolean used,
 	String usedAt,
 	String gameType
 ) {
