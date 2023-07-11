@@ -1,5 +1,7 @@
 package com.universe.uni.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +13,10 @@ public class UpdateWishCouponResponseDto {
 	private Long id;
 	private String image;
 	private String content;
-	private boolean isVisible;
-	private boolean isUsed;
+	@JsonProperty("isVisible")
+	private boolean visible;
+	@JsonProperty("isUsed")
+	private boolean used;
 	private String usedAt;
 	private String gameType;
 
@@ -21,16 +25,16 @@ public class UpdateWishCouponResponseDto {
 		Long id,
 		String image,
 		String content,
-		boolean isVisible,
-		boolean isUsed,
+		boolean visible,
+		boolean used,
 		String usedAt,
 		String gameType
 	) {
 		this.id = id;
 		this.image = image;
 		this.content = content;
-		this.isVisible = isVisible;
-		this.isUsed = isUsed;
+		this.visible = visible;
+		this.used = used;
 		this.usedAt = usedAt;
 		this.gameType = gameType;
 	}

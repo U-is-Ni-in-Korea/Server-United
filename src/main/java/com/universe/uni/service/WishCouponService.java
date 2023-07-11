@@ -23,9 +23,7 @@ public class WishCouponService {
 	private final WishCouponRepository wishCouponRepository;
 
 	@Transactional
-	public UpdateWishCouponResponseDto uploadWishCoupon(
-		UpdateWishCouponRequestDto requestDto
-	) {
+	public UpdateWishCouponResponseDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
 		GameType gameType = GameType.valueOf(requestDto.getGameType());
 		List<WishCoupon> wishCouponList = wishCouponRepository
 			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
@@ -49,8 +47,8 @@ public class WishCouponService {
 			.id(wishCoupon.getId())
 			.image(wishCoupon.getImage())
 			.content(wishCoupon.getContent())
-			.isVisible(wishCoupon.isVisible())
-			.isUsed(wishCoupon.isUsed())
+			.visible(wishCoupon.isVisible())
+			.used(wishCoupon.isUsed())
 			.usedAt(usedAt)
 			.gameType(String.valueOf(wishCoupon.getGameType()))
 			.build();

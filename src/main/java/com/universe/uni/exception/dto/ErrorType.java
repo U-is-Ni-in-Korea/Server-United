@@ -1,6 +1,7 @@
 package com.universe.uni.exception.dto;
 
 import java.util.Arrays;
+
 import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
@@ -20,8 +21,8 @@ public enum ErrorType {
 	/**
 	 * 401 Unauthorized
 	 */
-	TOKEN_EXPIRED_EXCEPTION(HttpStatus.UNAUTHORIZED, "UE2001", "토큰이 만료된 경우입니다."),
-	INVALID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "UE2002",
+	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "UE2001", "토큰이 만료된 경우입니다."),
+	UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "UE2002",
 		"서버에서 인증하지 않는 방식의 토큰 혹은 변조된 토큰을 사용한 경우입니다."),
 
 	/**
@@ -84,7 +85,7 @@ public enum ErrorType {
 
 	public static ErrorType findErrorTypeBy(HttpStatus httpStatus) {
 		return Arrays.stream(values()).filter((errorType -> errorType.hasErrorType(httpStatus)))
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("UnSupported Business HttpStatus Code :" + httpStatus));
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("UnSupported Business HttpStatus Code :" + httpStatus));
 	}
 }

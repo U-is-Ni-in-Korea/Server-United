@@ -24,19 +24,18 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http
-				.cors().and().csrf().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and()
-				.formLogin().disable()
-				.authorizeRequests()
-				.antMatchers("/swagger-ui.html", "/swagger-ui/**", "/auth/*", "/status/uni/*").permitAll()
-				.and()
-				.authorizeRequests()
-				.antMatchers("/api").authenticated()
-				.anyRequest().permitAll()
-				.and()
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
-				.build();
+			.cors().and().csrf().disable()
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and()
+			.formLogin().disable()
+			.authorizeRequests()
+			.antMatchers("/swager-ui.html", "/swagger-ui/**", "/auth/*", "/status/uni/*").permitAll()
+			.and()
+			.authorizeRequests()
+			.anyRequest().permitAll()
+			.and()
+			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(jwtExceptionFilter, JwtAuthenticationFilter.class)
+			.build();
 	}
 }

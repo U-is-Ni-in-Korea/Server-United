@@ -80,5 +80,4 @@ public class WishCoupon {
 		WishCoupon wishCoupon = WishCoupon.builder().content(content).gameType(gameType).build();
 		return wishCoupon;
 	}
-
 }
