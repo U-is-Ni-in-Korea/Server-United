@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.universe.uni.dto.AuthTokenDto;
 import com.universe.uni.exception.UnauthorizedException;
 import com.universe.uni.exception.dto.ErrorType;
 
@@ -41,7 +42,7 @@ public class JwtManager {
 			.encodeToString(jwtSecret.getBytes(StandardCharsets.UTF_8));
 	}
 
-	public String issueToken(String userId) {
+	public AuthTokenDto issueToken(Long userId) {
 		ZoneId seoulZoneId = ZoneId.of("Asia/Seoul");
 		OffsetDateTime now = OffsetDateTime.now(seoulZoneId);
 		OffsetDateTime expiration = now.plusSeconds(accessTokenExpiryPeriod);
@@ -53,11 +54,13 @@ public class JwtManager {
 
 		claims.put("userId", userId);
 
-		return Jwts.builder()
+		String accessToken = Jwts.builder()
 			.setHeaderParam(Header.TYPE, Header.JWT_TYPE)
 			.setClaims(claims)
 			.signWith(getSigningKey())
 			.compact();
+
+		return new AuthTokenDto(accessToken, null);
 	}
 
 	private Date toDate(OffsetDateTime offsetDateTime) {
