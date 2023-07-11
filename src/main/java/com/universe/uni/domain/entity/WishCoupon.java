@@ -21,13 +21,11 @@ import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "wish_coupon")
 @NoArgsConstructor(access = PROTECTED)
 @Getter
-@Setter
 public class WishCoupon {
 
 	@Id
@@ -76,8 +74,11 @@ public class WishCoupon {
 		this.gameType = gameType;
 	}
 
-	public static WishCoupon uploadWishCoupon(String content, GameType gameType) {
-		WishCoupon wishCoupon = WishCoupon.builder().content(content).gameType(gameType).build();
-		return wishCoupon;
+	public void updateContent(String content) {
+		this.content = content;
+	}
+
+	public void makeVisible() {
+		this.isVisible = true;
 	}
 }

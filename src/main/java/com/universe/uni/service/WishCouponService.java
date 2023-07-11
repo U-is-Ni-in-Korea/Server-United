@@ -34,8 +34,8 @@ public class WishCouponService {
 
 		WishCoupon wishCoupon = wishCouponList.get(0);
 
-		wishCoupon.setContent(requestDto.content());
-		wishCoupon.setVisible(true);
+		wishCoupon.updateContent(requestDto.content());
+		wishCoupon.makeVisible();
 
 		return fromWishCoupon(wishCoupon);
 	}
