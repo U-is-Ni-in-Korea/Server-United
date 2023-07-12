@@ -43,6 +43,11 @@ checkstyle {
     configProperties = ["suppressionFile": "checkstyle/naver-checkstyle-suppressions.xml"]
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.8"
+    }
+}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -51,6 +56,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     // sentry dependency
     implementation 'io.sentry:sentry-spring-boot-starter:6.23.0'
@@ -66,6 +73,8 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
     runtimeOnly 'com.mysql:mysql-connector-j'
+
+    //implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
