@@ -9,7 +9,9 @@ import com.universe.uni.dto.AuthTokenDto;
 import com.universe.uni.service.AuthServiceContract;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("auth")
@@ -24,6 +26,7 @@ public class AuthController {
 
 	@GetMapping("google")
 	public AuthTokenDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
+		log.info("code:" + authenticationCode);
 		return authService.authWithGoogle(authenticationCode);
 	}
 }

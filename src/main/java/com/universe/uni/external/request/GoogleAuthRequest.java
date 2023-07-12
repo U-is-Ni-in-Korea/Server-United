@@ -1,19 +1,20 @@
 package com.universe.uni.external.request;
 
 import feign.form.FormProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Builder
-public record GoogleAuthRequest(
+@AllArgsConstructor
+public class GoogleAuthRequest {
 	@FormProperty("code")
-	String code,
+	private String code;
 	@FormProperty("grant_type")
-	String grantType,
+	private String grantType;
 	@FormProperty("client_id")
-	String clientId,
+	private String clientId;
 	@FormProperty("client_secret")
-	String clientSecret,
+	private String clientSecret;
 	@FormProperty("redirect_uri")
-	String redirectUri
-) {
+	private String redirectUri;
 }
