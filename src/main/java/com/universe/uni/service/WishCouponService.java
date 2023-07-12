@@ -24,11 +24,10 @@ public class WishCouponService {
 
 	private final WishCouponRepository wishCouponRepository;
 
-	@Transactional
 	public UpdateWishCouponResponseDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
 		GameType gameType = GameType.valueOf(requestDto.gameType());
-		List<WishCoupon> wishCouponList = wishCouponRepository.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(
-			gameType);
+		List<WishCoupon> wishCouponList = wishCouponRepository
+			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
 
 		if (wishCouponList.isEmpty()) {
 			throw new BadRequestException(ErrorType.INVALID_REQUEST_METHOD);
@@ -42,7 +41,13 @@ public class WishCouponService {
 		return fromWishCouponToUpdateWishCouponResponseDto(wishCoupon);
 	}
 
-	@Transactional
+	public void useWishCoupon(Long wishCouponId) {
+		WishCoupon wishCoupon = wishCouponRepository.findById(wishCouponId)
+			.orElseThrow(() -> new NotFoundException(ErrorType.INVALID_ENDPOINT_EXCEPTION));
+
+		wishCoupon.useWishCoupon();
+	}
+
 	public WishCouponResponseDto getWishCoupon(Long wishCouponId) {
 		WishCoupon wishCoupon = wishCouponRepository.findById(wishCouponId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.INVALID_ENDPOINT_EXCEPTION));

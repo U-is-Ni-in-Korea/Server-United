@@ -29,6 +29,12 @@ public class WishCouponController {
 		return wishCouponService.uploadWishCoupon(requestDto);
 	}
 
+	@PatchMapping("/{wishCouponId}")
+	@ResponseStatus(HttpStatus.OK)
+	public void useWishCoupon(@PathVariable Long wishCouponId) {
+		wishCouponService.useWishCoupon(wishCouponId);
+	}
+
 	@GetMapping("/{wishCouponId}")
 	@ResponseStatus(HttpStatus.OK)
 	public WishCouponResponseDto wishCouponResponseDto(@PathVariable Long wishCouponId) {

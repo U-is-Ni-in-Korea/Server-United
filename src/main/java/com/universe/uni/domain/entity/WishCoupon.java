@@ -81,4 +81,9 @@ public class WishCoupon {
 	public void makeVisible() {
 		this.isVisible = true;
 	}
+
+	public void useWishCoupon() {
+		this.isUsed = true;
+		this.usedAt = LocalDateTime.now();
+	}
 }
