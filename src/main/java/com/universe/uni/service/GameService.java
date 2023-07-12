@@ -1,5 +1,6 @@
 package com.universe.uni.service;
 
+import static com.universe.uni.domain.entity.QGame.*;
 import static com.universe.uni.exception.dto.ErrorType.*;
 
 import java.util.List;
@@ -10,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.Couple;
+import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
 import com.universe.uni.domain.entity.ShortGame;
 import com.universe.uni.domain.entity.User;
+import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.CreateShortGameRequestDto;
 import com.universe.uni.dto.CreateShortGameResponseDto;
 import com.universe.uni.exception.BadRequestException;
@@ -35,6 +38,7 @@ public class GameService {
 	private final RoundMissionRepository roundMissionRepository;
 	private final UserRepository userRepository;
 	private final MissionService missionService;
+	private final WishCouponService wishCouponService;
 
 	@Transactional
 	public CreateShortGameResponseDto createShortGame(CreateShortGameRequestDto createShortGameRequestDto) {
@@ -65,13 +69,15 @@ public class GameService {
 			.map(u -> createRoundMission(roundGame, u))
 			.collect(Collectors.toList());
 
-		/**
-		 * 소원권 생성 로직 추가하기
-		 */
+		//소원권 생성
+		WishCoupon wishCoupon = wishCouponService.issueWishCoupon(createShortGameRequestDto.getWishContent(),
+			shortGame);
 
 		gameRepository.save(shortGame);
 		roundGameRepository.save(roundGame);
 		roundMissionRepository.saveAll(roundMissionList);
+		wishCouponService.saveWishCoupon(wishCoupon);
+
 
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
