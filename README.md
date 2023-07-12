@@ -4,6 +4,8 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 해당 프로젝트는 SOPT 32th APPJAM 프로젝트입니다.
 
+Sparkle, 연인과 승부를 통한 설렘 가득 소원권 내기 앱 서비스입니다.
+
 ## Contributors
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
@@ -94,3 +96,21 @@ hotfix : 출시 버전에서 발생한 버그를 수정 하는 브랜치
         
     └──  test
 ```
+
+### 역할 분담
+```
+박진수
+DB 설계, AWS 인프라, CD 구성, User 도메인 및 소셜 로그인 api, 잡일
+```
+```
+이영주
+DB 설계, CI구성, 소원권 및 미션 카테고리 api
+```
+```
+신지연
+DB 설계, 한판 승부 및 승부 히스토리 api
+```
+
+### Architecture
+
+<img width="672" alt="image" src="https://github.com/TeamPophory/pophory-server/assets/81692211/4e1ac301-9bc5-4fb9-b877-d58c18c0ca8b">

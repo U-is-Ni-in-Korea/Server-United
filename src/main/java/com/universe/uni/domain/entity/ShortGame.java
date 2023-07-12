@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,4 +16,8 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "game_id")
 public class ShortGame extends Game {
 
+	@Builder
+	public ShortGame(Couple couple) {
+		super(couple);
+	}
 }
