@@ -52,7 +52,14 @@ public class WishCouponService {
 	public WishCouponResponseDto getWishCoupon(Long wishCouponId) {
 		WishCoupon wishCoupon = wishCouponRepository.findById(wishCouponId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.INVALID_ENDPOINT_EXCEPTION));
-		return fromWishCouponToWishCouponResponseDto(wishCoupon);
+
+		/** TODO 영주 : 추후 1L 내 userId로 바꾸기*/
+		boolean isMine = wishCoupon.getUser().getId() == 1L;
+
+		return WishCouponResponseDto.builder()
+			.isMine(isMine)
+			.wishCoupon(fromWishCouponToWishCouponDto(wishCoupon))
+			.build();
 	}
 
 	private WishCouponDto fromWishCouponToUpdateWishCouponResponseDto(WishCoupon wishCoupon) {
@@ -91,14 +98,11 @@ public class WishCouponService {
 		wishCouponRepository.save(wishCoupon);
 	}
 
-	private WishCouponResponseDto fromWishCouponToWishCouponResponseDto(WishCoupon wishCoupon) {
-		/** TODO 영주 : 추후 1L 내 userId로 바꾸기*/
-		boolean isMine = wishCoupon.getUser().getId() == 1L;
+	private WishCouponDto fromWishCouponToWishCouponDto(WishCoupon wishCoupon) {
 		String usedAt = wishCoupon.getUsedAt() != null ? wishCoupon.getUsedAt().toString() : null;
 
-		return WishCouponResponseDto.builder()
+		return WishCouponDto.builder()
 			.id(wishCoupon.getId())
-			.isMine(isMine)
 			.image(wishCoupon.getImage())
 			.content(wishCoupon.getContent())
 			.visible(wishCoupon.isVisible())
