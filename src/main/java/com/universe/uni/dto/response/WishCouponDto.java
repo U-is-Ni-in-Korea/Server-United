@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @JsonPropertyOrder({"id", "image", "content", "isVisible", "isUsed", "usedAt", "gameType"})
 @Builder
-public record UpdateWishCouponResponseDto(
+public record WishCouponDto(
 	Long id,
 	String image,
 	String content,

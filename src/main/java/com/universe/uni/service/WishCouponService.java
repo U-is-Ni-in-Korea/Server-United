@@ -9,7 +9,7 @@ import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
-import com.universe.uni.dto.response.UpdateWishCouponResponseDto;
+import com.universe.uni.dto.response.WishCouponDto;
 import com.universe.uni.dto.response.WishCouponResponseDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
@@ -25,8 +25,7 @@ public class WishCouponService {
 
 	private final WishCouponRepository wishCouponRepository;
 
-	@Transactional
-	public UpdateWishCouponResponseDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
+	public WishCouponDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
 		GameType gameType = GameType.valueOf(requestDto.gameType());
 		List<WishCoupon> wishCouponList = wishCouponRepository
 			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
@@ -56,10 +55,10 @@ public class WishCouponService {
 		return fromWishCouponToWishCouponResponseDto(wishCoupon);
 	}
 
-	private UpdateWishCouponResponseDto fromWishCouponToUpdateWishCouponResponseDto(WishCoupon wishCoupon) {
+	private WishCouponDto fromWishCouponToUpdateWishCouponResponseDto(WishCoupon wishCoupon) {
 		String usedAt = wishCoupon.getUsedAt() != null ? wishCoupon.getUsedAt().toString() : null;
 
-		return UpdateWishCouponResponseDto.builder()
+		return WishCouponDto.builder()
 			.id(wishCoupon.getId())
 			.image(wishCoupon.getImage())
 			.content(wishCoupon.getContent())
@@ -71,7 +70,7 @@ public class WishCouponService {
 	}
 
 	public WishCoupon issueWishCoupon(String content, Game game) {
-		if(content == null || content.isEmpty()) {
+		if (content == null || content.isEmpty()) {
 			return createWishCoupon(content, game, false);
 		} else {
 			return createWishCoupon(content, game, true);
