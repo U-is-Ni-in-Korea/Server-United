@@ -21,4 +21,9 @@ public class AuthController {
 	public AuthTokenDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
 		return authService.authWithKakao(authenticationCode);
 	}
+
+	@GetMapping("google")
+	public AuthTokenDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
+		return authService.authWithGoogle(authenticationCode);
+	}
 }

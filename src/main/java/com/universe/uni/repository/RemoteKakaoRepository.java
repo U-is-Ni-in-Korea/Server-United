@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class RemoteKakaoRepository implements KakaoRepository {
+
 	private final AuthConfig authConfig;
 	private final KakaoAuthClient kakaoAuthClient;
 	private final KakaoApiClient kakaoApiClient;

@@ -16,4 +16,13 @@ public class AuthConfig {
 
 	@Value("${oauth.kakao.redirect.auth}")
 	private String kakaoRedirectAuth;
+
+	@Value("${oauth.google.client.id}")
+	private String googleClientId;
+
+	@Value("${oauth.google.client.secret}")
+	private String googleClientSecret;
+
+	@Value("${oauth.google.redirect.auth}")
+	private String googleRedirectAuth;
 }
