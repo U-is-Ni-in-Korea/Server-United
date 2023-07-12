@@ -15,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/game/short")
 public class ShortGameController {
 
 	private final GameService gameService;
 
-	@PostMapping("/game/short")
+	@PostMapping
 	public CreateShortGameResponseDto createShortGame(@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
 		return gameService.createShortGame(createShortGameRequestDto);
 	}
