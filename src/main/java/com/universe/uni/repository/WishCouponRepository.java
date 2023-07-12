@@ -11,4 +11,5 @@ public interface WishCouponRepository extends JpaRepository<WishCoupon, Long> {
 
 	List<WishCoupon> findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(GameType gameType);
 
+	List<WishCoupon> findByUserId(Long userId);
 }

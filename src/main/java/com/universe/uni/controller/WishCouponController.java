@@ -36,7 +36,7 @@ public class WishCouponController {
 
 	@GetMapping("/{wishCouponId}")
 	@ResponseStatus(HttpStatus.OK)
-	public WishCouponResponseDto wishCouponResponseDto(@PathVariable Long wishCouponId) {
+	public WishCouponResponseDto getWishCoupon(@PathVariable Long wishCouponId) {
 		return wishCouponService.getWishCoupon(wishCouponId);
 	}
 }
