@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,11 @@ public class RoundGame {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_game_history_id")
 	private UserGameHistory userGameHistory;
+
+	@Builder
+	public RoundGame(Game game, MissionCategory missionCategory) {
+		this.game = game;
+		this.missionCategory = missionCategory;
+		this.enable = Boolean.TRUE;
+	}
 }

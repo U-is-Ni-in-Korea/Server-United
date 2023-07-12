@@ -1,5 +1,8 @@
 package com.universe.uni.domain.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -15,11 +18,9 @@ import javax.persistence.Table;
 import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "wish_coupon")
@@ -48,7 +49,7 @@ public class WishCoupon {
 	private LocalDateTime usedAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -58,4 +59,28 @@ public class WishCoupon {
 	@Column(name = "game_type", nullable = false)
 	@Convert(converter = GameTypeAttributeConverter.class)
 	private GameType gameType;
+
+	@Builder
+	public WishCoupon(String image, String content, boolean isVisible,
+		Game game, GameType gameType) {
+		this.image = image;
+		this.content = content;
+		this.isVisible = isVisible;
+		this.isUsed = Boolean.FALSE;
+		this.game = game;
+		this.gameType = gameType;
+	}
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
+
+	public void makeVisible() {
+		this.isVisible = true;
+	}
+
+	public void useWishCoupon() {
+		this.isUsed = true;
+		this.usedAt = LocalDateTime.now();
+	}
 }

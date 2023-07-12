@@ -17,6 +17,7 @@ import com.universe.uni.domain.GameResult;
 import com.universe.uni.domain.entity.convertor.GameResultAttributeConverter;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -53,4 +54,13 @@ public class RoundMission {
 	@Column(name = "final_result")
 	@Convert(converter = GameResultAttributeConverter.class)
 	private GameResult finalResult;
+
+	@Builder
+	public RoundMission(RoundGame roundGame, MissionContent missionContent, User user) {
+		this.roundGame = roundGame;
+		this.missionContent = missionContent;
+		this.user = user;
+		this.result = GameResult.UNDECIDED;
+		this.finalResult = GameResult.UNDECIDED;
+	}
 }

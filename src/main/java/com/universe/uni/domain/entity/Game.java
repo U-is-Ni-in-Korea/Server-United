@@ -41,4 +41,9 @@ public class Game {
 
 	@Column(name = "finish_at")
 	private LocalDateTime finishAt;
+
+	public Game(Couple couple) {
+		this.couple = couple;
+		this.enable = Boolean.TRUE;
+	}
 }
