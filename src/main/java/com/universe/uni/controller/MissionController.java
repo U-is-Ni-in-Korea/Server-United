@@ -1,5 +1,7 @@
 package com.universe.uni.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,5 +24,11 @@ public class MissionController {
 	@ResponseStatus(HttpStatus.OK)
 	public MissionCategoryResponseDto getMissionCategory(@PathVariable Long missionCategoryId) {
 		return missionService.getMissionCategory(missionCategoryId);
+	}
+
+	@GetMapping()
+	@ResponseStatus(HttpStatus.OK)
+	public List<MissionCategoryResponseDto> getMissionCategoryList() {
+		return missionService.getMissionCategoryList();
 	}
 }
