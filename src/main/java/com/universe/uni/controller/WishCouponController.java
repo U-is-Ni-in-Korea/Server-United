@@ -2,6 +2,7 @@ package com.universe.uni.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,5 +27,11 @@ public class WishCouponController {
 		@RequestBody UpdateWishCouponRequestDto requestDto
 	) {
 		return wishCouponService.uploadWishCoupon(requestDto);
+	}
+
+	@PatchMapping("/{wishCouponId}")
+	@ResponseStatus(HttpStatus.OK)
+	public void useWishCoupon(@PathVariable Long wishCouponId) {
+		wishCouponService.useWishCoupon(wishCouponId);
 	}
 }

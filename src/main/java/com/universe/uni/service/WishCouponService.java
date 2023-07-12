@@ -10,6 +10,7 @@ import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
 import com.universe.uni.dto.response.UpdateWishCouponResponseDto;
 import com.universe.uni.exception.BadRequestException;
+import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.repository.WishCouponRepository;
 
@@ -22,11 +23,10 @@ public class WishCouponService {
 
 	private final WishCouponRepository wishCouponRepository;
 
-	@Transactional
 	public UpdateWishCouponResponseDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
 		GameType gameType = GameType.valueOf(requestDto.gameType());
-		List<WishCoupon> wishCouponList = wishCouponRepository.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(
-			gameType);
+		List<WishCoupon> wishCouponList = wishCouponRepository
+			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
 
 		if (wishCouponList.isEmpty()) {
 			throw new BadRequestException(ErrorType.INVALID_REQUEST_METHOD);
@@ -38,6 +38,13 @@ public class WishCouponService {
 		wishCoupon.makeVisible();
 
 		return fromWishCoupon(wishCoupon);
+	}
+
+	public void useWishCoupon(Long wishCouponId) {
+		WishCoupon wishCoupon = wishCouponRepository.findById(wishCouponId)
+			.orElseThrow(() -> new NotFoundException(ErrorType.INVALID_ENDPOINT_EXCEPTION));
+
+		wishCoupon.useWishCoupon();
 	}
 
 	private UpdateWishCouponResponseDto fromWishCoupon(WishCoupon wishCoupon) {
