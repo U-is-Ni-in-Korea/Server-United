@@ -50,13 +50,21 @@ public class MissionService {
 		return fromMissionCategoryToMissionCategoryResponseDto(missionCategory);
 	}
 
+	public List<MissionCategoryResponseDto> getMissionCategoryList() {
+		List<MissionCategory> missionCategoryList = missionCategoryRepository.findAll();
+		return missionCategoryList
+			.stream()
+			.map(this::fromMissionCategoryToMissionCategoryResponseDto)
+			.toList();
+	}
+
 	private MissionCategoryResponseDto fromMissionCategoryToMissionCategoryResponseDto(
 		MissionCategory missionCategory) {
 
-		List<MissionContent> missionContents = missionContentRepository.findByMissionCategoryId(
+		List<MissionContent> missionContentList = missionContentRepository.findByMissionCategoryId(
 			missionCategory.getId());
 
-		List<MissionContentResponseDto> missionContentResponseDtoList = missionContents.stream()
+		List<MissionContentResponseDto> missionContentResponseDtoList = missionContentList.stream()
 			.map(this::fromMissionContentToMissionContentResponseDto)
 			.collect(Collectors.toList());
 
