@@ -1,4 +1,4 @@
-package com.universe.uni.dto;
+package com.universe.uni.dto.request;
 
 import javax.validation.constraints.NotNull;
 

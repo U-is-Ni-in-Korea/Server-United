@@ -1,4 +1,4 @@
-package com.universe.uni.dto;
+package com.universe.uni.dto.response;
 
 import java.time.LocalDateTime;
 
@@ -7,12 +7,12 @@ import com.universe.uni.domain.entity.ShortGame;
 import lombok.Getter;
 
 @Getter
-public class ShortGameVO {
+public class ShortGameDto {
 	private Long id;
 	private Boolean enable;
 	private LocalDateTime finishAt;
 
-	public ShortGameVO(ShortGame shortGame) {
+	public ShortGameDto(ShortGame shortGame) {
 		this.id = shortGame.getId();
 		this.enable = shortGame.getEnable();
 		this.finishAt = shortGame.getFinishAt();

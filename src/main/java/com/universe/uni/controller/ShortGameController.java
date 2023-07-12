@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.universe.uni.dto.CreateShortGameRequestDto;
-import com.universe.uni.dto.CreateShortGameResponseDto;
+import com.universe.uni.dto.request.CreateShortGameRequestDto;
+import com.universe.uni.dto.response.CreateShortGameResponseDto;
 import com.universe.uni.service.GameService;
 
 import lombok.RequiredArgsConstructor;

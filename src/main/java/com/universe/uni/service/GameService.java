@@ -1,6 +1,5 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.domain.entity.QGame.*;
 import static com.universe.uni.exception.dto.ErrorType.*;
 
 import java.util.List;
@@ -11,15 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.Couple;
-import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
 import com.universe.uni.domain.entity.ShortGame;
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
-import com.universe.uni.dto.CreateShortGameRequestDto;
-import com.universe.uni.dto.CreateShortGameResponseDto;
+import com.universe.uni.dto.request.CreateShortGameRequestDto;
+import com.universe.uni.dto.response.CreateShortGameResponseDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.GameRepository;
