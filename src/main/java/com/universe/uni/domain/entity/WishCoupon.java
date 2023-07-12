@@ -49,7 +49,7 @@ public class WishCoupon {
 	private LocalDateTime usedAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -61,15 +61,12 @@ public class WishCoupon {
 	private GameType gameType;
 
 	@Builder
-	public WishCoupon(Long id, String image, String content, boolean isVisible, boolean isUsed, LocalDateTime usedAt,
-		User user, Game game, GameType gameType) {
-		this.id = id;
+	public WishCoupon(String image, String content, boolean isVisible,
+		Game game, GameType gameType) {
 		this.image = image;
 		this.content = content;
 		this.isVisible = isVisible;
-		this.isUsed = isUsed;
-		this.usedAt = usedAt;
-		this.user = user;
+		this.isUsed = Boolean.FALSE;
 		this.game = game;
 		this.gameType = gameType;
 	}

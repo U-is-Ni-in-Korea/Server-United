@@ -17,6 +17,8 @@ public enum ErrorType {
 		"요청 방식이 잘못된 경우입니다. 요청 방식 자체가 잘못된 경우입니다."),
 	VALIDATION_TOKEN_MISSING_EXCEPTION(HttpStatus.BAD_REQUEST, "UE1002",
 		"요청 시 토큰이 누락되어 토큰 값이 없는 경우입니다."),
+	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
+		"이미 생성된 승부가 있습니다."),
 
 	/**
 	 * 401 Unauthorized
@@ -32,6 +34,9 @@ public enum ErrorType {
 		"잘못된 endpoint에 요청한 경우입니다."),
 	USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "UE5002",
 		"조회한 유저가 존재하지 않는 경우 입니다."),
+	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "UE5003", "존재하지 않는 미션 카테고리입니다"),
+	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "UE5004", "해당 카테고리 미션이 존재하지 않습니다."),
+	NOT_FOUND_ROUND_MISSION(HttpStatus.NOT_FOUND, "UE5005", "해당 라운드 미션이 존재하지 않습니다."),
 
 	/**
 	 * 406 Not Acceptable
