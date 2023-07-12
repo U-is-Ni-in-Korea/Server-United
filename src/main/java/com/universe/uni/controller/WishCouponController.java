@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
-import com.universe.uni.dto.response.UpdateWishCouponResponseDto;
 import com.universe.uni.dto.response.WishCouponResponseDto;
 import com.universe.uni.service.WishCouponService;
 
@@ -25,8 +24,8 @@ public class WishCouponController {
 
 	@PatchMapping
 	@ResponseStatus(HttpStatus.OK)
-	public UpdateWishCouponResponseDto updateWishCoupon(@RequestBody UpdateWishCouponRequestDto requestDto) {
-		return wishCouponService.uploadWishCoupon(requestDto);
+	public void updateWishCoupon(@RequestBody UpdateWishCouponRequestDto requestDto) {
+		wishCouponService.uploadWishCoupon(requestDto);
 	}
 
 	@PatchMapping("/{wishCouponId}")
