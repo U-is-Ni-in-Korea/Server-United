@@ -6,7 +6,7 @@ import lombok.Builder;
 
 @JsonPropertyOrder({"id", "content"})
 @Builder
-public record MissionContentResponseDto(
+public record MissionContentDto(
 	Long id,
 	String content
 ) {

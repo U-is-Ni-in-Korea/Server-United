@@ -14,6 +14,6 @@ public record MissionCategoryResponseDto(
 	String description,
 	String tip,
 	String image,
-	List<MissionContentResponseDto> missionContentList
+	List<MissionContentDto> missionContentList
 ) {
 }
