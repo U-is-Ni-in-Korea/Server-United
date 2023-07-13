@@ -63,4 +63,13 @@ public class RoundMission {
 		this.result = GameResult.UNDECIDED;
 		this.finalResult = GameResult.UNDECIDED;
 	}
+
+	public void updateResult(GameResult result, LocalDateTime time) {
+		this.result = result;
+		this.updatedAt = time;
+	}
+
+	public void updateFinalResult(GameResult finalResult) {
+		this.finalResult = finalResult;
+	}
 }

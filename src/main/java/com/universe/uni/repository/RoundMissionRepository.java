@@ -10,4 +10,6 @@ import com.universe.uni.domain.entity.User;
 
 public interface RoundMissionRepository extends JpaRepository<RoundMission, Long> {
 	Optional<RoundMission> findByRoundGameAndUser(RoundGame roundGame, User user);
+
+	Optional<RoundMission> findByRoundGameAndUserIsNot(RoundGame roundGame, User user);
 }
