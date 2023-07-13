@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
+import com.universe.uni.dto.WishCouponDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
-import com.universe.uni.dto.response.WishCouponDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.repository.UserRepository;
@@ -26,7 +26,7 @@ public class UserService {
 
 	public UserWishCouponResponseDto getUserWishCouponList(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND_EXCEPTION));
+			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
 
 		List<WishCoupon> wishCouponList = wishCouponRepository.findByUserId(user.getId());
 
