@@ -8,4 +8,6 @@ import com.universe.uni.domain.entity.Game;
 public interface GameRepository extends JpaRepository<Game, Long> {
 
 	boolean existsByCoupleAndEnable(Couple couple, boolean enable);
+
+	Game findByCoupleId(Long coupleId);
 }
