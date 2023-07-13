@@ -19,6 +19,7 @@ public enum ErrorType {
 		"요청 시 토큰이 누락되어 토큰 값이 없는 경우입니다."),
 	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
 		"이미 생성된 승부가 있습니다."),
+	ALREADY_GAME_DONE(HttpStatus.BAD_REQUEST, "UE1005", "이미 종료된 라운드입니다."),
 
 	/**
 	 * 401 Unauthorized

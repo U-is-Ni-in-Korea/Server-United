@@ -2,6 +2,7 @@ package com.universe.uni.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,4 +38,8 @@ public class ShortGameController {
 		return gameService.updateGameScore(roundGameId, enterGameResultDto.getResult());
 	}
 
+	@GetMapping("/{roundGameId}")
+	public GameReportResponseDto showGameReport(@PathVariable final Long roundGameId) {
+		return gameService.getGameReportIfGameIsOngoing(roundGameId);
+	}
 }

@@ -53,7 +53,7 @@ public class GameService {
 		User user = getUser();
 		Couple couple = user.getCouple();
 
-		verifyOngoingGame(couple);
+		verifyIsThereOngoingGame(couple);
 
 		//한판승부 생성
 		ShortGame shortGame = ShortGame.builder()
@@ -110,7 +110,7 @@ public class GameService {
 		return byId.get();
 	}
 
-	private void verifyOngoingGame(Couple couple) {
+	private void verifyIsThereOngoingGame(Couple couple) {
 		if(gameRepository.existsByCoupleAndEnable(couple, true)) {
 			throw new BadRequestException(ALREADY_GAME_CREATED);
 		}
@@ -232,5 +232,22 @@ public class GameService {
 	private RoundGame getRoundGameById(Long roundGameId) {
 		return roundGameRepository.findById(roundGameId)
 			.orElseThrow(() -> new NotFoundException(NOT_FOUND_ROUND_MISSION));
+	}
+
+	@Transactional(readOnly = true)
+	public GameReportResponseDto getGameReportIfGameIsOngoing(Long roundGameId) {
+		User user = getUser();
+		RoundGame roundGame = getRoundGameById(roundGameId);
+
+		verifyIsOngoingGame(roundGame);
+		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
+
+		return GameReportResponseDto.of(myRoundMission);
+	}
+
+	private void verifyIsOngoingGame(RoundGame roundGame) {
+		if(!roundGame.getEnable()) {
+			throw new BadRequestException(ALREADY_GAME_DONE);
+		}
 	}
 }
