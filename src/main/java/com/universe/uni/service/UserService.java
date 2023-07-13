@@ -26,7 +26,7 @@ public class UserService {
 
 	public UserWishCouponResponseDto getUserWishCouponList(Long userId) {
 		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_FOUND_EXCEPTION));
+			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
 
 		List<WishCoupon> wishCouponList = wishCouponRepository.findByUserId(user.getId());
 

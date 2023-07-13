@@ -32,7 +32,7 @@ public enum ErrorType {
 	 */
 	INVALID_ENDPOINT_EXCEPTION(HttpStatus.NOT_FOUND, "UE5001",
 		"잘못된 endpoint에 요청한 경우입니다."),
-	USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "UE5002",
+	NOT_FOUND_USER(HttpStatus.NOT_FOUND, "UE5002",
 		"조회한 유저가 존재하지 않는 경우 입니다."),
 	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "UE5003", "존재하지 않는 미션 카테고리입니다"),
 	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "UE5004", "해당 카테고리 미션이 존재하지 않습니다."),
