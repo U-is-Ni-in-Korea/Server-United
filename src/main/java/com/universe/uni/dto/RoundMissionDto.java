@@ -3,6 +3,7 @@ package com.universe.uni.dto.response;
 import java.time.LocalDateTime;
 
 import com.universe.uni.domain.GameResult;
+import com.universe.uni.domain.entity.MissionContent;
 import com.universe.uni.domain.entity.RoundMission;
 
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.universe.uni.dto.response;
+package com.universe.uni.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @JsonPropertyOrder({"id", "image", "content", "isVisible", "isUsed", "usedAt", "gameType"})
 @Builder
-public record UpdateWishCouponResponseDto(
+public record WishCouponDto(
 	Long id,
 	String image,
 	String content,
