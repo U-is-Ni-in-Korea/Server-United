@@ -1,4 +1,4 @@
-package com.universe.uni.dto.response;
+package com.universe.uni.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

@@ -1,4 +1,4 @@
-package com.universe.uni.dto.response;
+package com.universe.uni.dto;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ public class RoundMissionDto {
 	private GameResult finalResult;
 	private LocalDateTime updatedAt;
 
-	public RoundMissionDto(RoundMission roundMission){
+	public RoundMissionDto(RoundMission roundMission) {
 		this.roundMissionId = roundMission.getId();
 		this.missionContent = roundMission.getMissionContent();
 		this.result = roundMission.getResult();

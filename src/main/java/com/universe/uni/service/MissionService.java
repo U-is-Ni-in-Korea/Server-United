@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.MissionContent;
+import com.universe.uni.dto.MissionContentDto;
 import com.universe.uni.dto.response.MissionCategoryResponseDto;
-import com.universe.uni.dto.response.MissionContentDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.MissionCategoryRepository;
 import com.universe.uni.repository.MissionContentRepository;

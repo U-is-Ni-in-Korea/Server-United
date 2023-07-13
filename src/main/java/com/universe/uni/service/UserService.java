@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
+import com.universe.uni.dto.WishCouponDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
-import com.universe.uni.dto.response.WishCouponDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.repository.UserRepository;

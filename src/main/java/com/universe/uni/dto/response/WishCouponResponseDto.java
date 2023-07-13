@@ -1,6 +1,7 @@
 package com.universe.uni.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.universe.uni.dto.WishCouponDto;
 
 import lombok.Builder;
 
