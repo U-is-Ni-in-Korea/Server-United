@@ -83,4 +83,8 @@ public class WishCoupon {
 		this.isUsed = true;
 		this.usedAt = LocalDateTime.now();
 	}
+
+	public void setWinnerToWishCoupon(User user) {
+		this.user = user;
+	}
 }

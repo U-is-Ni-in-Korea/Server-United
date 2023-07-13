@@ -1,5 +1,7 @@
 package com.universe.uni.service;
 
+import static com.universe.uni.exception.dto.ErrorType.*;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.Game;
+import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
 import com.universe.uni.dto.response.UpdateWishCouponResponseDto;
@@ -107,5 +110,16 @@ public class WishCouponService {
 			.usedAt(usedAt)
 			.gameType(String.valueOf(wishCoupon.getGameType()))
 			.build();
+	}
+
+	@Transactional
+	public void giveWishCouponToWinner(Game game, User user) {
+		WishCoupon wishCoupon = getWishCouponByGame(game);
+		wishCoupon.setWinnerToWishCoupon(user);
+	}
+
+	private WishCoupon getWishCouponByGame(Game game) {
+		return wishCouponRepository.findByGame(game)
+			.orElseThrow(() -> new NotFoundException(NOT_FOUND_WISH_COUPON));
 	}
 }

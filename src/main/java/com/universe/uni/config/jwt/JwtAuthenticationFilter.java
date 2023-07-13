@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		FilterChain filterChain
 	) throws ServletException, IOException {
 		val uri = request.getRequestURI();
-		if (isContainApiPath(uri)) {
+		if (!isContainApiPath(uri)) {
 			String token = getJwtFromRequest(request);
 			Long userId = jwtManager.getUserIdFromJwt(token);
 			UsernamePasswordAuthenticationToken authentication =
