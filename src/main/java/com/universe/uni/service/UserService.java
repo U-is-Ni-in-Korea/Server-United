@@ -29,9 +29,30 @@ public class UserService implements UserServiceContract {
 
 	@Override
 	@Transactional
-	public UserDto updateUser(Long userId, String nickname) {
+	public Long findUserCoupleId(Long userId) {
+		return findUserBy(userId).getCouple().getId();
+	}
+
+	@Override
+	@Transactional
+	public UserDto updateUserNickname(
+		Long userId,
+		String nickname
+	) {
 		final User user = findUserBy(userId);
 		user.updateNickname(nickname);
+		return userMapper.toUserDto(user);
+	}
+
+	@Override
+	@Transactional
+	public UserDto updateUserNicknameAndImage(
+		Long userId,
+		String imageUrl,
+		String nickName
+	) {
+		final User user = findUserBy(userId);
+		user.updateNickname(nickName);
 		return userMapper.toUserDto(user);
 	}
 

@@ -10,5 +10,15 @@ public interface UserServiceContract {
 	UserDto findUser(Long userId);
 
 	@Transactional
-	UserDto updateUser(Long userId, String nickname);
+	Long findUserCoupleId(Long userId);
+
+	@Transactional
+	UserDto updateUserNickname(Long userId, String nickname);
+
+	@Transactional
+	UserDto updateUserNicknameAndImage(
+		Long userId,
+		String imageUrl,
+		String nickname
+	);
 }

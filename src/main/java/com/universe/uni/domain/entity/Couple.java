@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "couple")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Couple {
+
+	public static final int MAX_HEART_LIMIT = 5;
 
 	@Id
 	@Column(name = "couple_id")
@@ -35,4 +38,39 @@ public class Couple {
 	@Column(name = "heart_token", nullable = false)
 	@ColumnDefault("5")
 	private int heartToken;
+
+	@Builder
+	public Couple(LocalDate startDate, String inviteCode) {
+		this.startDate = startDate;
+		this.inviteCode = inviteCode;
+	}
+
+	public void updateStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public boolean hasHeartToken() {
+		return heartToken > 0;
+	}
+
+	public boolean isMaxHeartToken() {
+		return this.heartToken >= 5;
+	}
+
+	public void increaseHeartTokenBy(int amount) {
+		this.heartToken += amount;
+	}
+
+	public void changeHeartTokenMaximum() {
+		if (!isMaxHeartToken()) {
+			this.heartToken = MAX_HEART_LIMIT;
+		}
+	}
+
+	public void decreaseHeartToken() throws IllegalStateException {
+		if (!this.hasHeartToken()) {
+			throw new IllegalStateException("Unable to decrease the heart token");
+		}
+		this.heartToken -= 1;
+	}
 }

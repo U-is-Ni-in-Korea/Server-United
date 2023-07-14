@@ -20,6 +20,7 @@ public enum ErrorType {
 	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
 		"이미 생성된 승부가 있습니다."),
 	USER_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1004", "존재하지 않는 유저의 요청"),
+	COUPLE_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1006", "존재하지 않는 커플 id 입니다"),
 
 	/**
 	 * 401 Unauthorized
