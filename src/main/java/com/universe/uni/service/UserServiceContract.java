@@ -3,13 +3,10 @@ package com.universe.uni.service;
 import javax.transaction.Transactional;
 
 import com.universe.uni.dto.UserDto;
+import com.universe.uni.dto.response.UserWishCouponResponseDto;
 
 public interface UserServiceContract {
 
-	@Transactional
-	UserDto findUser(Long userId);
-
-	@Transactional
 	Long findUserCoupleId(Long userId);
 
 	@Transactional
@@ -21,4 +18,6 @@ public interface UserServiceContract {
 		String imageUrl,
 		String nickname
 	);
+
+	UserWishCouponResponseDto getUserWishCouponList(Long userId);
 }

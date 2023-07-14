@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.MissionContent;
+import com.universe.uni.dto.MissionContentDto;
 import com.universe.uni.dto.response.MissionCategoryResponseDto;
-import com.universe.uni.dto.response.MissionContentResponseDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.MissionCategoryRepository;
 import com.universe.uni.repository.MissionContentRepository;
@@ -64,7 +64,7 @@ public class MissionService {
 		List<MissionContent> missionContentList = missionContentRepository.findByMissionCategoryId(
 			missionCategory.getId());
 
-		List<MissionContentResponseDto> missionContentResponseDtoList = missionContentList.stream()
+		List<MissionContentDto> missionContentDtoList = missionContentList.stream()
 			.map(this::fromMissionContentToMissionContentResponseDto)
 			.collect(Collectors.toList());
 
@@ -74,12 +74,12 @@ public class MissionService {
 			.description(missionCategory.getDescription())
 			.tip(missionCategory.getTip())
 			.image(missionCategory.getImage())
-			.missionContentList(missionContentResponseDtoList)
+			.missionContentList(missionContentDtoList)
 			.build();
 	}
 
-	private MissionContentResponseDto fromMissionContentToMissionContentResponseDto(MissionContent missionContent) {
-		return MissionContentResponseDto.builder()
+	private MissionContentDto fromMissionContentToMissionContentResponseDto(MissionContent missionContent) {
+		return MissionContentDto.builder()
 			.id(missionContent.getId())
 			.content(missionContent.getContent())
 			.build();

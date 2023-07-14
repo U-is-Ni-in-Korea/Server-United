@@ -3,6 +3,7 @@ package com.universe.uni.dto.response;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.universe.uni.dto.MissionContentDto;
 
 import lombok.Builder;
 
@@ -14,6 +15,6 @@ public record MissionCategoryResponseDto(
 	String description,
 	String tip,
 	String image,
-	List<MissionContentResponseDto> missionContentList
+	List<MissionContentDto> missionContentList
 ) {
 }

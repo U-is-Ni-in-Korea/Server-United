@@ -20,6 +20,7 @@ public enum ErrorType {
 	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
 		"이미 생성된 승부가 있습니다."),
 	USER_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1004", "존재하지 않는 유저의 요청"),
+	ALREADY_GAME_DONE(HttpStatus.BAD_REQUEST, "UE1005", "이미 종료된 라운드입니다."),
 	COUPLE_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1006", "존재하지 않는 커플 id 입니다"),
 
 	/**
@@ -34,11 +35,12 @@ public enum ErrorType {
 	 */
 	INVALID_ENDPOINT_EXCEPTION(HttpStatus.NOT_FOUND, "UE5001",
 		"잘못된 endpoint에 요청한 경우입니다."),
-	USER_NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "UE5002",
+	NOT_FOUND_USER(HttpStatus.NOT_FOUND, "UE5002",
 		"조회한 유저가 존재하지 않는 경우 입니다."),
 	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "UE5003", "존재하지 않는 미션 카테고리입니다"),
 	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "UE5004", "해당 카테고리 미션이 존재하지 않습니다."),
 	NOT_FOUND_ROUND_MISSION(HttpStatus.NOT_FOUND, "UE5005", "해당 라운드 미션이 존재하지 않습니다."),
+	NOT_FOUND_WISH_COUPON(HttpStatus.NOT_FOUND, "UE5006", "소원권이 존재하지 않습니다."),
 
 	/**
 	 * 406 Not Acceptable

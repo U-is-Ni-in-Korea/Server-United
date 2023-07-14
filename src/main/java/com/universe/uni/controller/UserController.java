@@ -3,7 +3,9 @@ package com.universe.uni.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.universe.uni.dto.UserDto;
 import com.universe.uni.dto.request.UpdateUserNicknameRequestDto;
+import com.universe.uni.dto.response.UserWishCouponResponseDto;
 import com.universe.uni.service.CoupleServiceContract;
 import com.universe.uni.service.UserServiceContract;
 
@@ -46,7 +49,12 @@ public class UserController {
 	) {
 		final Long userCoupleId = userService.findUserCoupleId(userId);
 		coupleService.updateCoupleStartDate(userCoupleId, startDate);
-		final UserDto userDto = userService.updateUserNicknameAndImage(userId, "", nickname);
-		return userDto;
+		return userService.updateUserNicknameAndImage(userId, "", nickname);
+	}
+
+	@GetMapping("/{userId}/wish")
+	@ResponseStatus(HttpStatus.OK)
+	public UserWishCouponResponseDto getUserWishCouponList(@PathVariable Long userId) {
+		return userService.getUserWishCouponList(userId);
 	}
 }
