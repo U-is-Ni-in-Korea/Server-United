@@ -3,6 +3,7 @@ package com.universe.uni.service;
 import static com.universe.uni.domain.GameResult.*;
 import static com.universe.uni.exception.dto.ErrorType.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -47,11 +48,13 @@ public class GameService {
 	private final UserGameHistoryRepository userGameHistoryRepository;
 	private final MissionService missionService;
 	private final WishCouponService wishCouponService;
+	private final UserUtil userUtil;
+
 
 	@Transactional
 	public CreateShortGameResponseDto createShortGame(CreateShortGameRequestDto createShortGameRequestDto) {
 
-		User user = getUser();
+		User user = userUtil.getCurrentUser();
 		Couple couple = user.getCouple();
 
 		verifyIsThereOngoingGame(couple);
@@ -72,7 +75,7 @@ public class GameService {
 			.build();
 
 		//커플 유저 둘 다 가져와서 roundMission 만들어주기
-		List<User> userList = userRepository.findByCouple(getUser().getCouple());
+		List<User> userList = userRepository.findByCouple(user.getCouple());
 		List<RoundMission> roundMissionList = userList.stream()
 			.map(u -> createRoundMission(roundGame, u))
 			.collect(Collectors.toList());
@@ -105,12 +108,6 @@ public class GameService {
 			.orElseThrow(() -> new NotFoundException(NOT_FOUND_ROUND_MISSION));
 	}
 
-	//임시 : 유저 가져오는 함수
-	private User getUser() {
-		Optional<User> byId = userRepository.findById(1L);
-		return byId.get();
-	}
-
 	private void verifyIsThereOngoingGame(Couple couple) {
 		if (gameRepository.existsByCoupleAndEnable(couple, true)) {
 			throw new BadRequestException(ALREADY_GAME_CREATED);
@@ -120,7 +117,7 @@ public class GameService {
 	@Transactional
 	public GameReportResponseDto updateGameScore(Long roundGameId, Boolean result) {
 
-		User user = getUser();
+		User user = userUtil.getCurrentUser();
 		RoundGame roundGame = getRoundGameById(roundGameId);
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 		RoundMission partnerRoundMission = getPartnerRoundMission(roundGame, user);
@@ -232,7 +229,7 @@ public class GameService {
 
 	@Transactional(readOnly = true)
 	public GameReportResponseDto getGameReportIfGameIsOngoing(Long roundGameId) {
-		User user = getUser();
+		User user = userUtil.getCurrentUser();
 		RoundGame roundGame = getRoundGameById(roundGameId);
 
 		verifyIsOngoingGame(roundGame);
