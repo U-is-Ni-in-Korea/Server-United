@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.universe.uni.domain.GameResult;
 import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.Couple;
+import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
@@ -61,7 +62,7 @@ public class GameService {
 			.build();
 
 		//미션 카테고리 가져와서
-		MissionCategory missionCategory= missionService
+		MissionCategory missionCategory = missionService
 			.getMissionCategoryById(createShortGameRequestDto.getMissionCategoryId());
 
 		//roundGame 생성
@@ -84,7 +85,6 @@ public class GameService {
 		roundGameRepository.save(roundGame);
 		roundMissionRepository.saveAll(roundMissionList);
 		wishCouponService.saveWishCoupon(wishCoupon);
-
 
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
@@ -111,7 +111,7 @@ public class GameService {
 	}
 
 	private void verifyIsThereOngoingGame(Couple couple) {
-		if(gameRepository.existsByCoupleAndEnable(couple, true)) {
+		if (gameRepository.existsByCoupleAndEnable(couple, true)) {
 			throw new BadRequestException(ALREADY_GAME_CREATED);
 		}
 	}
@@ -126,7 +126,7 @@ public class GameService {
 
 		updateGameResultWithTimeRecord(myRoundMission, result);
 
-		if(isResultEntered(partnerRoundMission)) {
+		if (isResultEntered(partnerRoundMission)) {
 			User winner = decideFinalGameScore(myRoundMission, partnerRoundMission);
 			finishGame(roundGame);
 			updateGameHistory(myRoundMission, partnerRoundMission);
@@ -174,14 +174,14 @@ public class GameService {
 
 		User winner = null;
 
-		if(myResult == WIN && partnerResult == WIN) {
+		if (myResult == WIN && partnerResult == WIN) {
 			updateFinalGameScore(myRoundMission, partnerRoundMission, LOSE, WIN);
 			winner = partnerRoundMission.getUser();
-		} else if(myResult == LOSE && partnerResult == LOSE) {
+		} else if (myResult == LOSE && partnerResult == LOSE) {
 			updateFinalGameScore(myRoundMission, partnerRoundMission, DRAW, DRAW);
 		} else {
 			updateFinalGameScore(myRoundMission, partnerRoundMission, myResult, partnerResult);
-			if(myResult == WIN) {
+			if (myResult == WIN) {
 				winner = myRoundMission.getUser();
 			} else {
 				winner = partnerRoundMission.getUser();
@@ -195,14 +195,13 @@ public class GameService {
 		RoundMission myRoundMission,
 		RoundMission partnerRoundMission,
 		GameResult myFinalResult,
-		GameResult partnerFinalResult)
-	{
+		GameResult partnerFinalResult) {
 		myRoundMission.updateFinalResult(myFinalResult);
 		partnerRoundMission.updateFinalResult(partnerFinalResult);
 	}
 
 	private Boolean isResultEntered(RoundMission roundMission) {
-		if(roundMission.getResult() == GameResult.UNDECIDED) {
+		if (roundMission.getResult() == GameResult.UNDECIDED) {
 			return false;
 		} else {
 			return true;
@@ -217,7 +216,7 @@ public class GameService {
 	private void updateGameResultWithTimeRecord(RoundMission roundMission, Boolean result) {
 		LocalDateTime now = getCurrentTime();
 
-		if(result) {
+		if (result) {
 			roundMission.updateResult(GameResult.WIN, now);
 		} else {
 			roundMission.updateResult(LOSE, now);
@@ -246,8 +245,15 @@ public class GameService {
 	}
 
 	private void verifyIsOngoingGame(RoundGame roundGame) {
-		if(!roundGame.getEnable()) {
+		if (!roundGame.getEnable()) {
 			throw new BadRequestException(ALREADY_GAME_DONE);
 		}
+	}
+
+	public void quitGame(Long roundGameId) {
+		RoundGame roundGame = getRoundGameById(roundGameId);
+		Game game = roundGame.getGame();
+
+		gameRepository.delete(game);
 	}
 }

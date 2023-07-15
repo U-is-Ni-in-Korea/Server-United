@@ -2,6 +2,7 @@ package com.universe.uni.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,20 +27,25 @@ public class ShortGameController {
 	private final GameService gameService;
 
 	@PostMapping
-	public CreateShortGameResponseDto createShortGame(@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
+	public CreateShortGameResponseDto createShortGame(
+		@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
 		return gameService.createShortGame(createShortGameRequestDto);
 	}
 
 	@PatchMapping("/{roundGameId}")
 	public GameReportResponseDto enterGameResult(
 		@PathVariable final Long roundGameId,
-		@RequestBody @Valid final EnterGameResultDto enterGameResultDto)
-	{
+		@RequestBody @Valid final EnterGameResultDto enterGameResultDto) {
 		return gameService.updateGameScore(roundGameId, enterGameResultDto.getResult());
 	}
 
 	@GetMapping("/{roundGameId}")
 	public GameReportResponseDto showGameReport(@PathVariable final Long roundGameId) {
 		return gameService.getGameReportIfGameIsOngoing(roundGameId);
+	}
+
+	@DeleteMapping("/{roundGameId}")
+	public void quitGame(@PathVariable final Long roundGameId) {
+		gameService.quitGame(roundGameId);
 	}
 }
