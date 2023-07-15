@@ -22,6 +22,7 @@ public enum ErrorType {
 	USER_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1004", "존재하지 않는 유저의 요청"),
 	ALREADY_GAME_DONE(HttpStatus.BAD_REQUEST, "UE1005", "이미 종료된 라운드입니다."),
 	COUPLE_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1006", "존재하지 않는 커플 id 입니다"),
+	INVALID_INVITE_CODE(HttpStatus.BAD_REQUEST, "UE1007", "올바르지 않은 초대 코드입니다."),
 
 	/**
 	 * 401 Unauthorized
