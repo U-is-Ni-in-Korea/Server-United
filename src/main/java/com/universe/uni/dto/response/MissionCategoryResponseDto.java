@@ -7,12 +7,13 @@ import com.universe.uni.dto.MissionContentDto;
 
 import lombok.Builder;
 
-@JsonPropertyOrder({"id", "title", "description", "tip", "image", "missionContentList"})
+@JsonPropertyOrder({"id", "title", "description", "rule", "tip", "image", "missionContentList"})
 @Builder
 public record MissionCategoryResponseDto(
 	Long id,
 	String title,
 	String description,
+	String rule,
 	String tip,
 	String image,
 	List<MissionContentDto> missionContentList
