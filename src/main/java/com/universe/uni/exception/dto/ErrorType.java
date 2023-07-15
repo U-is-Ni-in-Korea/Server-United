@@ -34,9 +34,14 @@ public enum ErrorType {
 		"잘못된 endpoint에 요청한 경우입니다."),
 	NOT_FOUND_USER(HttpStatus.NOT_FOUND, "UE5002",
 		"조회한 유저가 존재하지 않는 경우 입니다."),
-	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "UE5003", "존재하지 않는 미션 카테고리입니다"),
-	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "UE5004", "해당 카테고리 미션이 존재하지 않습니다."),
-	NOT_FOUND_ROUND_MISSION(HttpStatus.NOT_FOUND, "UE5005", "해당 라운드 미션이 존재하지 않습니다."),
+	NOT_FOUND_MISSION_CATEGORY_EXCEPTION(HttpStatus.NOT_FOUND, "UE5003",
+		"존재하지 않는 미션 카테고리입니다"),
+	NOT_FOUND_MISSION_CONTENT(HttpStatus.NOT_FOUND, "UE5004",
+		"해당 카테고리 미션이 존재하지 않습니다."),
+	NOT_FOUND_ROUND_MISSION(HttpStatus.NOT_FOUND, "UE5005",
+		"해당 라운드 미션이 존재하지 않습니다."),
+	NOT_FOUND_ROUND_GAME(HttpStatus.NOT_FOUND, "UE5006", "해당 라운드 게임이 존재하지 않습니다."),
+	NOT_FOUND_COUPLE(HttpStatus.NOT_FOUND, "UE5007", "커플이 존재하지 않습니다."),
 
 	/**
 	 * 406 Not Acceptable
