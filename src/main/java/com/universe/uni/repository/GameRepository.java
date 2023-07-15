@@ -10,4 +10,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	boolean existsByCoupleAndEnable(Couple couple, boolean enable);
 
 	Game findByCoupleId(Long coupleId);
+
+	Game findByCoupleIdAndEnable(Long CoupleId, boolean enable);
 }

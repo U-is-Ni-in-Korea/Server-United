@@ -1,6 +1,6 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.*;
+import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_USER;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -42,8 +42,8 @@ public class HomeService {
 		Long userId = 1L;
 
 		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
-
-		Game game = gameRepository.findByCoupleId(user.getCouple().getId());
+		
+		Game game = gameRepository.findByCoupleIdAndEnable(user.getCouple().getId(), true);
 
 		List<UserGameHistory> gameHistoryList = userGameHistoryRepository.findByUserId(userId);
 
