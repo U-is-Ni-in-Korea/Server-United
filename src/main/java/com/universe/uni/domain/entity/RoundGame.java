@@ -47,4 +47,8 @@ public class RoundGame {
 		this.missionCategory = missionCategory;
 		this.enable = Boolean.TRUE;
 	}
+
+	public void finishGame() {
+		this.enable = false;
+	}
 }

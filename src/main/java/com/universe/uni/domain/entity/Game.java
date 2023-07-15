@@ -46,4 +46,9 @@ public class Game {
 		this.couple = couple;
 		this.enable = Boolean.TRUE;
 	}
+
+	public void finishGame(LocalDateTime now) {
+		this.enable = false;
+		this.finishAt = now;
+	}
 }
