@@ -86,6 +86,7 @@ public class GameService {
 		roundMissionRepository.saveAll(roundMissionList);
 		wishCouponService.saveWishCoupon(wishCoupon);
 
+
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
 		return CreateShortGameResponseDto.of(shortGame, myRoundMission);
@@ -201,11 +202,7 @@ public class GameService {
 	}
 
 	private Boolean isResultEntered(RoundMission roundMission) {
-		if (roundMission.getResult() == GameResult.UNDECIDED) {
-			return false;
-		} else {
-			return true;
-		}
+		return roundMission.getResult() != GameResult.UNDECIDED;
 	}
 
 	private RoundMission getPartnerRoundMission(RoundGame roundGame, User user) {

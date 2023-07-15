@@ -32,6 +32,9 @@ public class MissionCategory {
 	@Column(name = "description", nullable = false)
 	private String description;
 
+	@Column(name = "rule", nullable = false)
+	private String rule;
+
 	@Column(name = "tip", nullable = false)
 	private String tip;
 

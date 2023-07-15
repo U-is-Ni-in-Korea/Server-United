@@ -1,5 +1,7 @@
 package com.universe.uni.repository;
 
+import static org.assertj.core.api.Assertions.*;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.User;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest

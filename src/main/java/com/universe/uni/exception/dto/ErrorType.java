@@ -19,7 +19,10 @@ public enum ErrorType {
 		"요청 시 토큰이 누락되어 토큰 값이 없는 경우입니다."),
 	ALREADY_GAME_CREATED(HttpStatus.BAD_REQUEST, "UE1003",
 		"이미 생성된 승부가 있습니다."),
+	USER_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1004", "존재하지 않는 유저의 요청"),
 	ALREADY_GAME_DONE(HttpStatus.BAD_REQUEST, "UE1005", "이미 종료된 라운드입니다."),
+	COUPLE_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1006", "존재하지 않는 커플 id 입니다"),
+	INVALID_INVITE_CODE(HttpStatus.BAD_REQUEST, "UE1007", "올바르지 않은 초대 코드입니다."),
 
 	/**
 	 * 401 Unauthorized

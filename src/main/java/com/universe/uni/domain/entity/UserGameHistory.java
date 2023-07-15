@@ -1,5 +1,8 @@
 package com.universe.uni.domain.entity;
 
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -22,9 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "user_game_history")

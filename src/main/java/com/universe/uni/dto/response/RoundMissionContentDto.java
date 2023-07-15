@@ -6,10 +6,10 @@ import lombok.Getter;
 
 @Getter
 public class RoundMissionContentDto {
-	private Long id;
-	private MissionCategoryDto missionCategory;
-	private String content;
-	private String image;
+	private final Long id;
+	private final MissionCategoryDto missionCategory;
+	private final String content;
+	private final String image;
 
 	public RoundMissionContentDto(MissionContent missionContent) {
 		this.id = missionContent.getId();
