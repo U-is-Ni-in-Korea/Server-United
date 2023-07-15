@@ -3,8 +3,8 @@ package com.universe.uni.service;
 import static com.universe.uni.exception.dto.ErrorType.*;
 import static java.util.Objects.*;
 
-import java.security.Principal;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.universe.uni.domain.entity.User;
@@ -19,11 +19,12 @@ import lombok.RequiredArgsConstructor;
 public class UserUtil {
 	private final UserRepository userRepository;
 
-	public User getCurrentUser(Principal principal) {
-		if (isNull(principal)) {
+	public User getCurrentUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (isNull(authentication) || isNull(authentication.getPrincipal())) {
 			throw new UnauthorizedException(EMPTY_SECURITY_CONTEXT);
 		}
-		return getUserById(Long.valueOf(principal.getName()));
+		return getUserById((Long)authentication.getPrincipal());
 	}
 
 	private User getUserById(Long userId) {
