@@ -1,6 +1,7 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.*;
+import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_MISSION_CATEGORY_EXCEPTION;
+import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_MISSION_CONTENT;
 
 import java.util.List;
 import java.util.Random;
@@ -71,6 +72,7 @@ public class MissionService {
 			.id(missionCategory.getId())
 			.title(missionCategory.getTitle())
 			.description(missionCategory.getDescription())
+			.rule(missionCategory.getRule())
 			.tip(missionCategory.getTip())
 			.image(missionCategory.getImage())
 			.missionContentList(missionContentDtoList)
