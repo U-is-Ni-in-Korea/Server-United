@@ -76,6 +76,11 @@ dependencies {
 
     //implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
 
+    def mapstructVersion = "1.5.5.Final"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -72,6 +72,7 @@ public class MissionService {
 			.id(missionCategory.getId())
 			.title(missionCategory.getTitle())
 			.description(missionCategory.getDescription())
+			.rule(missionCategory.getRule())
 			.tip(missionCategory.getTip())
 			.image(missionCategory.getImage())
 			.missionContentList(missionContentDtoList)

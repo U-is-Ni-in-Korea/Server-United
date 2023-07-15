@@ -1,7 +1,7 @@
 package com.universe.uni.domain.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
 
 import java.time.LocalDateTime;
 
@@ -82,5 +82,9 @@ public class WishCoupon {
 	public void useWishCoupon() {
 		this.isUsed = true;
 		this.usedAt = LocalDateTime.now();
+	}
+
+	public void setWinnerToWishCoupon(User user) {
+		this.user = user;
 	}
 }

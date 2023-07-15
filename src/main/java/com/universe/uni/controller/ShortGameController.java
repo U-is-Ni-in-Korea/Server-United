@@ -2,13 +2,18 @@ package com.universe.uni.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.universe.uni.dto.request.CreateShortGameRequestDto;
+import com.universe.uni.dto.request.EnterGameResultDto;
 import com.universe.uni.dto.response.CreateShortGameResponseDto;
+import com.universe.uni.dto.response.GameReportResponseDto;
 import com.universe.uni.service.GameService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +26,20 @@ public class ShortGameController {
 	private final GameService gameService;
 
 	@PostMapping
-	public CreateShortGameResponseDto createShortGame(@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
+	public CreateShortGameResponseDto createShortGame(
+		@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
 		return gameService.createShortGame(createShortGameRequestDto);
 	}
 
+	@PatchMapping("/{roundGameId}")
+	public GameReportResponseDto enterGameResult(
+		@PathVariable final Long roundGameId,
+		@RequestBody @Valid final EnterGameResultDto enterGameResultDto) {
+		return gameService.updateGameScore(roundGameId, enterGameResultDto.getResult());
+	}
+
+	@GetMapping("/{roundGameId}")
+	public GameReportResponseDto showGameReport(@PathVariable final Long roundGameId) {
+		return gameService.getGameReportIfGameIsOngoing(roundGameId);
+	}
 }

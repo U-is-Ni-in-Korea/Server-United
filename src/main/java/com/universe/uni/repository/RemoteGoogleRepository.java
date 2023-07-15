@@ -2,7 +2,6 @@ package com.universe.uni.repository;
 
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.universe.uni.config.AuthConfig;
 import com.universe.uni.external.GoogleAuthClient;

@@ -1,7 +1,5 @@
 package com.universe.uni.controller;
 
-import java.util.Objects;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

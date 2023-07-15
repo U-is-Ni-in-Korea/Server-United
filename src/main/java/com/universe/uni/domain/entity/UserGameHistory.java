@@ -1,5 +1,8 @@
 package com.universe.uni.domain.entity;
 
+import static javax.persistence.GenerationType.*;
+import static lombok.AccessLevel.*;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -19,11 +22,9 @@ import com.universe.uni.domain.entity.convertor.GameTypeAttributeConverter;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import static javax.persistence.GenerationType.IDENTITY;
-import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Table(name = "user_game_history")
@@ -55,4 +56,13 @@ public class UserGameHistory {
 	@Column(name = "game_type")
 	@Convert(converter = GameTypeAttributeConverter.class)
 	private GameType gameType;
+
+	@Builder
+	public UserGameHistory(User user, Game game, GameResult gameResult, LocalDateTime now, GameType gameType) {
+		this.user = user;
+		this.game = game;
+		this.result = gameResult;
+		this.updatedAt = now;
+		this.gameType = gameType;
+	}
 }
