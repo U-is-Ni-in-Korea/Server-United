@@ -1,7 +1,6 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_MISSION_CATEGORY_EXCEPTION;
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_MISSION_CONTENT;
+import static com.universe.uni.exception.dto.ErrorType.*;
 
 import java.util.List;
 import java.util.Random;

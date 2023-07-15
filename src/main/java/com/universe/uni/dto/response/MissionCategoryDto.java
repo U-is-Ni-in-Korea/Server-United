@@ -7,14 +7,14 @@ import lombok.Getter;
 
 @Getter
 public class MissionCategoryDto {
-	private Long id;
-	private String title;
-	private String description;
-	private String tip;
-	private String image;
-	private int level;
-	private int expectedTime;
-	private MissionType missionType;
+	private final Long id;
+	private final String title;
+	private final String description;
+	private final String tip;
+	private final String image;
+	private final int level;
+	private final int expectedTime;
+	private final MissionType missionType;
 
 	public MissionCategoryDto(MissionCategory missionCategory) {
 		this.id = missionCategory.getId();

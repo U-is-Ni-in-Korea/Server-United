@@ -10,11 +10,11 @@ import lombok.Getter;
 
 @Getter
 public class RoundMissionDto {
-	private long id;
-	private RoundMissionContentDto missionContent;
-	private GameResult result;
-	private GameResult finalResult;
-	private LocalDateTime updatedAt;
+	private final long id;
+	private final RoundMissionContentDto missionContent;
+	private final GameResult result;
+	private final GameResult finalResult;
+	private final LocalDateTime updatedAt;
 
 	public RoundMissionDto(RoundMission roundMission) {
 		this.id = roundMission.getId();

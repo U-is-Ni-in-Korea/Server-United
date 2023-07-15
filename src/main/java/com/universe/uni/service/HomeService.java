@@ -1,6 +1,6 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_USER;
+import static com.universe.uni.exception.dto.ErrorType.*;
 
 import java.time.LocalDate;
 import java.time.Period;

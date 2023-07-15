@@ -26,15 +26,15 @@ public class ShortGameController {
 	private final GameService gameService;
 
 	@PostMapping
-	public CreateShortGameResponseDto createShortGame(@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
+	public CreateShortGameResponseDto createShortGame(
+		@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
 		return gameService.createShortGame(createShortGameRequestDto);
 	}
 
 	@PatchMapping("/{roundGameId}")
 	public GameReportResponseDto enterGameResult(
 		@PathVariable final Long roundGameId,
-		@RequestBody @Valid final EnterGameResultDto enterGameResultDto)
-	{
+		@RequestBody @Valid final EnterGameResultDto enterGameResultDto) {
 		return gameService.updateGameScore(roundGameId, enterGameResultDto.getResult());
 	}
 
