@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.universe.uni.domain.GameResult;
 import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.Couple;
+import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
@@ -84,6 +85,7 @@ public class GameService {
 		roundGameRepository.save(roundGame);
 		roundMissionRepository.saveAll(roundMissionList);
 		wishCouponService.saveWishCoupon(wishCoupon);
+
 
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
@@ -243,5 +245,12 @@ public class GameService {
 		if (!roundGame.getEnable()) {
 			throw new BadRequestException(ALREADY_GAME_DONE);
 		}
+	}
+
+	public void quitGame(Long roundGameId) {
+		RoundGame roundGame = getRoundGameById(roundGameId);
+		Game game = roundGame.getGame();
+
+		gameRepository.delete(game);
 	}
 }
