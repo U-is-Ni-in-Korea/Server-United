@@ -32,7 +32,7 @@ public class Couple {
 	@Column(name = "start_date", nullable = false)
 	private LocalDate startDate;
 
-	@Column(name = "invite_code", nullable = false)
+	@Column(name = "invite_code", nullable = false, unique = true)
 	private String inviteCode;
 
 	@Column(name = "heart_token", nullable = false)
