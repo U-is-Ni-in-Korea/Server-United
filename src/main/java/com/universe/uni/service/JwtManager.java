@@ -86,7 +86,7 @@ public class JwtManager {
 			return Jwts.parserBuilder()
 				.setSigningKey(getSigningKey())
 				.build()
-				.parseClaimsJwt(token)
+				.parseClaimsJws(token)
 				.getBody();
 		} catch (ExpiredJwtException exception) {
 			log.error("EXPIRED_JWT_TOKEN");

@@ -2,15 +2,20 @@ package com.universe.uni.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
+import com.universe.uni.dto.UserDto;
 import com.universe.uni.dto.WishCouponDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
+import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.dto.ErrorType;
+import com.universe.uni.mapper.UserMapper;
 import com.universe.uni.repository.UserRepository;
 import com.universe.uni.repository.WishCouponRepository;
 
@@ -18,12 +23,45 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
-public class UserService {
-
+public class UserService implements UserServiceContract {
 	private final UserRepository userRepository;
 	private final WishCouponRepository wishCouponRepository;
+	private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
+	@Override
+	public Long findUserCoupleId(Long userId) {
+		return userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT))
+			.getCouple()
+			.getId();
+	}
+
+	@Override
+	@Transactional
+	public UserDto updateUserNickname(
+		Long userId,
+		String nickname
+	) {
+		final User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		user.updateNickname(nickname);
+		return userMapper.toUserDto(user);
+	}
+
+	@Override
+	@Transactional
+	public UserDto updateUserNicknameAndImage(
+		Long userId,
+		String imageUrl,
+		String nickName
+	) {
+		final User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		user.updateNickname(nickName);
+		return userMapper.toUserDto(user);
+	}
+
+	@Override
 	public UserWishCouponResponseDto getUserWishCouponList(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
