@@ -52,6 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isContainApiPath(String uri) {
-		return uri.contains("/api");
+		return uri.startsWith("/api");
 	}
 }
