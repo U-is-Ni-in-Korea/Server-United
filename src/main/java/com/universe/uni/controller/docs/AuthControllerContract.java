@@ -1,11 +1,13 @@
 package com.universe.uni.controller.docs;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.universe.uni.dto.AuthTokenDto;
+import com.universe.uni.dto.request.AuthRequestDto;
 import com.universe.uni.exception.dto.ErrorResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,22 +29,32 @@ public interface AuthControllerContract {
 			@ApiResponse(
 					responseCode = "200",
 					description = "성공",
-					content = @Content(schema = @Schema(implementation = AuthTokenDto.class))
+					content = @Content(
+							mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(implementation = AuthTokenDto.class)
+					)
 			),
 			@ApiResponse(
-					responseCode = "UE500",
+					responseCode = "500",
 					description = "사용자 인증의 실패한 경우 입니다.",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(
+							mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(example = "{ \"code\": \"UE500\"}")
+					)
 			)
 	})
-	@GetMapping("kakao")
-	AuthTokenDto redirectKakaoAuth(
+	@PostMapping("kakao")
+	public AuthTokenDto authByKakao(
 			@Parameter(
 					description = "Kakao 에서 받은 인증 코드",
 					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
 			)
-			@RequestParam(name = "code") String authenticationCode
+			@RequestBody AuthRequestDto request
 	);
+
+	@GetMapping("kakao/callback")
+	@Operation(hidden = true)
+	AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode);
 
 	@Operation(
 			summary = "google 인증",
@@ -52,20 +64,30 @@ public interface AuthControllerContract {
 			@ApiResponse(
 					responseCode = "200",
 					description = "성공",
-					content = @Content(schema = @Schema(implementation = AuthTokenDto.class))
+					content = @Content(
+							mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(implementation = AuthTokenDto.class)
+					)
 			),
 			@ApiResponse(
-					responseCode = "UE500",
+					responseCode = "500",
 					description = "사용자 인증의 실패한 경우 입니다.",
-					content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+					content = @Content(
+							mediaType = MediaType.APPLICATION_JSON_VALUE,
+							schema = @Schema(example = "{ \"code\": \"UE500\"}")
+					)
 			)
 	})
-	@GetMapping("google")
-	AuthTokenDto redirectGoogleAuth(
+	@PostMapping("google")
+	AuthTokenDto authByGoogle(
 			@Parameter(
 					description = "Google 에서 받은 인증 코드",
 					content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
 			)
-			@RequestParam(name = "code") String authenticationCode
+			@RequestBody AuthRequestDto request
 	);
+
+	@GetMapping("google/callback")
+	@Operation(hidden = true)
+	AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode);
 }

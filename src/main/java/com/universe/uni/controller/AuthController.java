@@ -1,12 +1,15 @@
 package com.universe.uni.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.universe.uni.controller.docs.AuthControllerContract;
 import com.universe.uni.dto.AuthTokenDto;
+import com.universe.uni.dto.request.AuthRequestDto;
 import com.universe.uni.service.AuthServiceContract;
 
 import lombok.RequiredArgsConstructor;
@@ -20,16 +23,27 @@ public class AuthController implements AuthControllerContract {
 
 	private final AuthServiceContract authService;
 
-	@GetMapping("kakao")
+	@PostMapping("kakao")
 	@Override
-	public AuthTokenDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
-		return authService.authWithKakao(authenticationCode);
+	public AuthTokenDto authByKakao(@RequestBody AuthRequestDto request) {
+		return authService.authWithKakao(request.code());
 	}
 
-	@GetMapping("google")
+	@GetMapping("kakao/callback")
 	@Override
-	public AuthTokenDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
-		log.info("code:" + authenticationCode);
-		return authService.authWithGoogle(authenticationCode);
+	public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
+		return new AuthRequestDto(authenticationCode);
+	}
+
+	@PostMapping("google")
+	@Override
+	public AuthTokenDto authByGoogle(@RequestBody AuthRequestDto request) {
+		return authService.authWithGoogle(request.code());
+	}
+
+	@GetMapping("google/callback")
+	@Override
+	public AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
+		return new AuthRequestDto(authenticationCode);
 	}
 }
