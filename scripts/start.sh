@@ -4,7 +4,7 @@ DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
 JAR_NAME=$(ls ${DEFAULT_PATH}/build/libs/ | grep '.jar' | tail -n 1)
 JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
 
-source ${DEFAULT_PATH}/script/profile.sh
+source ${DEFAULT_PATH}/scripts/profile.sh
 
 TARGET_PORT = $(find_target_port)
 
