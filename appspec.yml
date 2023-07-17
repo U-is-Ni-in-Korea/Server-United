@@ -23,7 +23,3 @@ hooks:
     - location: scripts/health_check.sh
       timeout: 180
       runas: root
-
-    - location: scripts/switch.sh
-      timeout: 60
-      runas: root
