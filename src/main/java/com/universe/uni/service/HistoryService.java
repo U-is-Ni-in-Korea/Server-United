@@ -89,6 +89,7 @@ public class HistoryService {
 			.findFirst()
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ROUND_MISSION));
 		return MissionResultDto.builder()
+			.content(roundMission.getMissionContent().getContent())
 			.result(roundMission.getResult().name())
 			.time(roundMission.getUpdatedAt().format(DateTimeFormatter.ISO_LOCAL_TIME))
 			.build();
