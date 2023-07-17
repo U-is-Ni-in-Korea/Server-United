@@ -26,6 +26,6 @@ if [ ! -z ${TARGET_PID} ]; then
 fi
 
 echo "${JAR_PATH} 를 배포합니다"
-nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} ${JAR_PATH} >/home/ubuntu/jarlog.out 2>&1 &
+nohup java -jar -Dspring.profiles.active=prod -Dserver.port=${TARGET_PORT} ${JAR_PATH} >/home/ubuntu/jarlog.out 2>&1 </dev/null &
 echo "${TARGET_PORT} 로 새로운 서비스를 시작합니다"
 exit 0
