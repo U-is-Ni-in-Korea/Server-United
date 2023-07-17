@@ -1,16 +1,14 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_USER;
-
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.universe.uni.domain.GameResult;
+import com.universe.uni.domain.entity.Couple;
 import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.ShortGame;
@@ -19,11 +17,9 @@ import com.universe.uni.domain.entity.UserGameHistory;
 import com.universe.uni.dto.CoupleDto;
 import com.universe.uni.dto.ShortGameDto;
 import com.universe.uni.dto.response.HomeResponseDto;
-import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.GameRepository;
 import com.universe.uni.repository.RoundGameRepository;
 import com.universe.uni.repository.UserGameHistoryRepository;
-import com.universe.uni.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,56 +27,58 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class HomeService {
-	private final UserRepository userRepository;
 	private final GameRepository gameRepository;
 	private final UserGameHistoryRepository userGameHistoryRepository;
 	private final RoundGameRepository roundGameRepository;
+	private final UserUtil userUtil;
 
 	public HomeResponseDto getHome() {
+		User user = userUtil.getCurrentUser();
+		Couple couple = user.getCouple();
 
-		/** TODO 영주 : 추후 1L 내 userId로 바꾸기*/
-		Long userId = 1L;
+		Game game = gameRepository.findByCoupleIdAndEnable(couple.getId(), true);
+		RoundGame roundGame = game != null ? roundGameRepository.findByGameId(game.getId()) : null;
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(NOT_FOUND_USER));
-		
-		Game game = gameRepository.findByCoupleIdAndEnable(user.getCouple().getId(), true);
+		List<UserGameHistory> gameHistoryList = userGameHistoryRepository.findByUserId(user.getId());
 
-		List<UserGameHistory> gameHistoryList = userGameHistoryRepository.findByUserId(userId);
+		int myScore = calculateScore(gameHistoryList, GameResult.WIN);
+		int partnerScore = calculateScore(gameHistoryList, GameResult.LOSE);
+		int drawCount = calculateScore(gameHistoryList, GameResult.DRAW);
 
-		RoundGame roundGame = roundGameRepository.findByGameId(game.getId());
+		int dDay = calculateDays(couple);
 
-		int myScore = (int)gameHistoryList.stream().filter(history -> history.getResult() == GameResult.WIN).count();
-
-		int partnerScore = (int)gameHistoryList.stream()
-			.filter(history -> history.getResult() == GameResult.LOSE)
-			.count();
-
-		int drawCount = (int)gameHistoryList.stream().filter(history -> history.getResult() == GameResult.DRAW).count();
-
-		LocalDate today = LocalDate.now();
-		Period period = Period.between(user.getCouple().getStartDate(), today);
-		int dDay = period.getDays() + 1;
-
-		Optional<ShortGameDto> shortGameDto = Optional.empty();
-		if (game instanceof ShortGame) {
-			shortGameDto = Optional.of(new ShortGameDto((ShortGame)game));
-		}
-
-		CoupleDto coupleDto = CoupleDto.builder()
-			.id(user.getCouple().getId())
-			.startDate(String.valueOf(user.getCouple().getStartDate()))
-			.heartToken(user.getCouple().getHeartToken())
-			.build();
+		ShortGameDto shortGameDto = game instanceof ShortGame ? new ShortGameDto((ShortGame)game) : null;
+		CoupleDto coupleDto = fromCoupleToCoupleDtoMapper(couple);
 
 		return HomeResponseDto.builder()
-			.userId(userId)
-			.roundGameId(roundGame.getId())
+			.userId(user.getId())
+			.roundGameId(roundGame != null ? roundGame.getId() : null)
 			.myScore(myScore)
 			.partnerScore(partnerScore)
 			.drawCount(drawCount)
 			.dDay(dDay)
 			.couple(coupleDto)
-			.shortGame(shortGameDto.orElse(null))
+			.shortGame(shortGameDto)
+			.build();
+	}
+
+	private int calculateScore(List<UserGameHistory> gameHistoryList, GameResult result) {
+		return gameHistoryList != null
+			? (int)gameHistoryList.stream().filter(history -> history.getResult() == result).count()
+			: 0;
+	}
+
+	private int calculateDays(Couple couple) {
+		LocalDate today = LocalDate.now();
+		Period period = Period.between(couple.getStartDate(), today);
+		return period.getDays() + 1;
+	}
+
+	private CoupleDto fromCoupleToCoupleDtoMapper(Couple couple) {
+		return CoupleDto.builder()
+			.id(couple.getId())
+			.startDate(String.valueOf(couple.getStartDate()))
+			.heartToken(couple.getHeartToken())
 			.build();
 	}
 }
