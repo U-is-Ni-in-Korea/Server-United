@@ -42,18 +42,14 @@ public class HistoryService {
 		User user = userUtil.getCurrentUser();
 
 		List<UserGameHistory> userGameHistoryList = userGameHistoryRepository.findByUser(user);
+		System.out.println(userGameHistoryList);
 
 		return userGameHistoryList.stream()
 			.map(userGameHistory -> {
-				// UserGameHistory의 Game의 id로 RoundGame 조회
-				RoundGame roundGame = roundGameRepository.findById(userGameHistory.getGame().getId())
-					.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ROUND_GAME));
-				// RoundGame의 MissionCategory의 id로 MissionCategory 조회
+				RoundGame roundGame = roundGameRepository.findByGameId(userGameHistory.getGame().getId());
 				MissionCategory missionCategory = missionCategoryRepository.findById(
 						roundGame.getMissionCategory().getId())
 					.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
-
-				// RoundGame으로 RoundMission 리스트 조회
 				List<RoundMission> roundMissionList = roundMissionRepository.findByRoundGame(roundGame);
 
 				return GameHistoryResponseDto.builder()
