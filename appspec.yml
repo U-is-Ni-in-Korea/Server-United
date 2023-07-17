@@ -9,17 +9,16 @@ files:
     overwrite: yes
 
 hooks:
-  ApplicationStop:
+  ApplicationStart:
     - location: scripts/run_new.sh
       timeout: 60
       runas: root
 
-  AfterInstall:
     - location: scripts/switch.sh
-      timeout: 180
+      timeout: 60
       runas: root
 
   ValidateService:
     - location: scripts/health_check.sh
-      timeout: 100
+      timeout: 180
       runas: root
