@@ -92,7 +92,7 @@ public class GameService {
 
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
-		return CreateShortGameResponseDto.of(shortGame, myRoundMission);
+		return CreateShortGameResponseDto.of(shortGame, roundGame.getId(), myRoundMission);
 	}
 
 	private RoundMission createRoundMission(RoundGame roundGame, User user) {
