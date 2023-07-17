@@ -6,8 +6,8 @@ import com.universe.uni.dto.AuthTokenDto;
 
 public interface AuthServiceContract {
 	@Transactional
-	AuthTokenDto authWithKakao(String code);
+	AuthTokenDto authWithKakao(String accessToken);
 
 	@Transactional
-	AuthTokenDto authWithGoogle(String code);
+	AuthTokenDto authWithGoogle(String accessToken);
 }
