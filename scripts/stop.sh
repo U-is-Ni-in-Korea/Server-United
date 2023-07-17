@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
-
 source ${DEFAULT_PATH}/scripts/profile.sh
 
 TARGET_PORT = $(find_target_port)
