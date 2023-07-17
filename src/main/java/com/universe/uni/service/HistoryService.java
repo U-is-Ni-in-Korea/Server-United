@@ -1,5 +1,6 @@
 package com.universe.uni.service;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +61,7 @@ public class HistoryService {
 
 			return GameHistoryResponseDto.builder()
 				.roundGameId(roundGame.getId().intValue())
-				.date(userGameHistory.getUpdatedAt().format(DateTimeFormatter.ISO_DATE))
+				.date(userGameHistory.getUpdatedAt().format(DateTimeFormatter.ofPattern("yy.MM.dd")))
 				.result(userGameHistory.getResult().name())
 				.title(missionCategory.getTitle())
 				.image(missionCategory.getImage())
@@ -88,10 +89,12 @@ public class HistoryService {
 			.filter(rm -> rm.getUser().getId().equals(userId))
 			.findFirst()
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ROUND_MISSION));
+		LocalTime updateTime = roundMission.getUpdatedAt().toLocalTime();
+		String formattedTime = updateTime.format(DateTimeFormatter.ofPattern("HH:mm"));
 		return MissionResultDto.builder()
 			.content(roundMission.getMissionContent().getContent())
 			.result(roundMission.getResult().name())
-			.time(roundMission.getUpdatedAt().format(DateTimeFormatter.ISO_LOCAL_TIME))
+			.time(formattedTime)
 			.build();
 	}
 }
