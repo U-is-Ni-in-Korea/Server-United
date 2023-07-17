@@ -6,7 +6,16 @@ JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
 
 source ${DEFAULT_PATH}/scripts/profile.sh
 
-TARGET_PORT=$(find_target_port)
+CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
+TARGET_PORT=8081
+
+if [ ${CURRENT_PORT} -eq "8081" ]; then
+  TARGET_PORT=8082
+elif [ ${CURRENT_PORT} -eq "8082" ]; then
+  TARGET_PORT=8081
+else
+  TARGET_PORT=8081
+fi
 
 echo "${JAR_PATH} 를 배포합니다"
 nohup java -jar \

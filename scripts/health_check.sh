@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
-source ${DEFAULT_PATH}/scripts/switch.sh
 
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 
@@ -15,7 +14,6 @@ for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10; do
 
   if [ ${RESPONSE_CODE} -eq 200 ]; then
     echo ">> 서비스가 성공적으로 작동 중 입니다"
-    switch_proxy
     break
   else
     echo ">> ${RESPONSE_CODE}"
