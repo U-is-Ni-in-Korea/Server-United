@@ -9,8 +9,13 @@ files:
     overwrite: yes
 
 hooks:
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: root
+
   ApplicationStart:
-    - location: scripts/run_new.sh
+    - location: scripts/start.sh
       timeout: 60
       runas: root
 
