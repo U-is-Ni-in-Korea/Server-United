@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
-source ${DEFAULT_PATH}/scripts/profile.sh
 
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=8081

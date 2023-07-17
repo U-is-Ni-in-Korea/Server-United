@@ -4,8 +4,6 @@ DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
 JAR_NAME=$(ls ${DEFAULT_PATH}/build/libs/ | grep '.jar' | tail -n 1)
 JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
 
-source ${DEFAULT_PATH}/scripts/profile.sh
-
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=8081
 
