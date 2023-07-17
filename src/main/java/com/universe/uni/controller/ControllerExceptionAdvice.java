@@ -17,6 +17,7 @@ import com.universe.uni.exception.ApiException;
 import com.universe.uni.exception.dto.ErrorResponse;
 import com.universe.uni.exception.dto.ErrorType;
 
+import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -33,6 +34,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
+		Sentry.captureException(exception);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -44,6 +46,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
+		Sentry.captureException(exception);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -55,6 +58,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
+		Sentry.captureException(exception);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -63,6 +67,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
 		MissingRequestHeaderException exception
 	) {
+		Sentry.captureException(exception);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -75,6 +80,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
+		Sentry.captureException(ex);
 		try {
 			final ErrorType errorType = ErrorType.findErrorTypeBy(status);
 			final ApiException businessError = new ApiException(errorType, ex.getMessage());
@@ -94,6 +100,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ErrorResponse handleException(
 		final Exception exception
 	) {
+		Sentry.captureException(exception);
 		return ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR);
 	}
 
@@ -104,6 +111,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<ErrorResponse> handleCustomException(
 		ApiException exception
 	) {
+		Sentry.captureException(exception);
 		return ResponseEntity.status(exception.getHttpStatus())
 			.body(ErrorResponse.businessErrorOf(exception.getError()));
 	}
