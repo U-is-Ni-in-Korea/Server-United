@@ -17,9 +17,7 @@ import com.universe.uni.dto.MissionResultDto;
 import com.universe.uni.dto.response.GameHistoryResponseDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.dto.ErrorType;
-import com.universe.uni.repository.CoupleRepository;
 import com.universe.uni.repository.MissionCategoryRepository;
-import com.universe.uni.repository.MissionContentRepository;
 import com.universe.uni.repository.RoundGameRepository;
 import com.universe.uni.repository.RoundMissionRepository;
 import com.universe.uni.repository.UserGameHistoryRepository;
@@ -35,19 +33,14 @@ public class HistoryService {
 	private final UserGameHistoryRepository userGameHistoryRepository;
 	private final RoundGameRepository roundGameRepository;
 	private final MissionCategoryRepository missionCategoryRepository;
-	private final MissionContentRepository missionContentRepository;
 	private final RoundMissionRepository roundMissionRepository;
-	private final CoupleRepository coupleRepository;
 	private final UserRepository userRepository;
+	private final UserUtil userUtil;
 
 	public List<GameHistoryResponseDto> getGameHistory() {
-		Long userId = 1L; // TODO: replace with actual user id
 
-		// User 가져옴
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
+		User user = userUtil.getCurrentUser();
 
-		// User로 UserGameHistory 가져옴
 		List<UserGameHistory> userGameHistoryList = userGameHistoryRepository.findByUser(user);
 
 		return userGameHistoryList.stream()
@@ -69,8 +62,8 @@ public class HistoryService {
 					.result(userGameHistory.getResult().name())
 					.title(missionCategory.getTitle())
 					.image(missionCategory.getImage())
-					.myMission(createMissionResultDto(roundMissionList, userId))
-					.partnerMission(createMissionResultDto(roundMissionList, getPartnerId(userId)))
+					.myMission(fromRoundMissionToMissionResultDto(roundMissionList, user.getId()))
+					.partnerMission(fromRoundMissionToMissionResultDto(roundMissionList, getPartnerId(user.getId())))
 					.build();
 			}).collect(Collectors.toList());
 	}
@@ -88,8 +81,8 @@ public class HistoryService {
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_COUPLE));
 	}
 
-	private MissionResultDto createMissionResultDto(List<RoundMission> roundMissions, Long userId) {
-		RoundMission roundMission = roundMissions.stream()
+	private MissionResultDto fromRoundMissionToMissionResultDto(List<RoundMission> roundMissionList, Long userId) {
+		RoundMission roundMission = roundMissionList.stream()
 			.filter(rm -> rm.getUser().getId().equals(userId))
 			.findFirst()
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ROUND_MISSION));
