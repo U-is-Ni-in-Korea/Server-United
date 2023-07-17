@@ -12,9 +12,17 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateShortGameResponseDto {
 	private ShortGameDto shortGame;
+	private Long roundGameId;
 	private RoundMissionDto roundMission;
 
-	public static CreateShortGameResponseDto of(ShortGame shortGame, RoundMission roundMission) {
-		return new CreateShortGameResponseDto(new ShortGameDto(shortGame), new RoundMissionDto(roundMission));
+	public static CreateShortGameResponseDto of(
+		ShortGame shortGame,
+		Long roundGameId,
+		RoundMission roundMission)
+	{
+		return new CreateShortGameResponseDto(
+			new ShortGameDto(shortGame),
+			roundGameId,
+			new RoundMissionDto(roundMission));
 	}
 }
