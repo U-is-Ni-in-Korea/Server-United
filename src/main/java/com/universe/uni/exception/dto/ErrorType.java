@@ -30,6 +30,9 @@ public enum ErrorType {
 	EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "UE2001", "토큰이 만료된 경우입니다."),
 	UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "UE2002",
 		"서버에서 인증하지 않는 방식의 토큰 혹은 변조된 토큰을 사용한 경우입니다."),
+	EMPTY_SECURITY_CONTEXT(HttpStatus.UNAUTHORIZED, "UE2003",
+		"Security Context에 인증 정보가 없습니다."),
+
 
 	/**
 	 * 404 NOT FOUND
