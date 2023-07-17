@@ -28,9 +28,8 @@ public class AuthService implements AuthServiceContract {
 
 	@Override
 	@Transactional
-	public AuthTokenDto authWithKakao(String code) {
-		final KakaoAuthResponse kakaoToken = kakaoRepository.fetchTokenBy(code);
-		final KakaoUserResponse kakaoUser = kakaoRepository.getUser(kakaoToken.accessToken());
+	public AuthTokenDto authWithKakao(String accessToken) {
+		final KakaoUserResponse kakaoUser = kakaoRepository.getUser(accessToken);
 		final User user = userRepository.findBySnsAuthCode(kakaoUser.id().toString())
 			.orElseGet(() -> userRepository.save(registerKakaoUser(kakaoUser)));
 		return beIssuedAuthToken(user.getId());
@@ -45,9 +44,8 @@ public class AuthService implements AuthServiceContract {
 
 	@Override
 	@Transactional
-	public AuthTokenDto authWithGoogle(String code) {
-		final GoogleAccessTokenResponse googleToken = googleRepository.fetchTokenBy(code);
-		final GoogleUserInfoResponse googleUser = googleRepository.getUser(googleToken.idToken());
+	public AuthTokenDto authWithGoogle(String accessToken) {
+		final GoogleUserInfoResponse googleUser = googleRepository.getUser(accessToken);
 		final User user = userRepository.findBySnsAuthCode(googleUser.mSub())
 			.orElseGet(() -> userRepository.save(registerGoogleUser(googleUser)));
 		return beIssuedAuthToken(user.getId());
