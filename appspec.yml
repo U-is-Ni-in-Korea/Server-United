@@ -19,10 +19,6 @@ hooks:
       timeout: 60
       runas: root
 
-    - location: scripts/switch.sh
-      timeout: 60
-      runas: root
-
   ValidateService:
     - location: scripts/health_check.sh
       timeout: 180
