@@ -1,14 +1,6 @@
-# Server-United
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-해당 프로젝트는 SOPT 32th APPJAM 프로젝트입니다.
-
-Sparkle, 연인과 승부를 통한 설렘 가득 소원권 내기 앱 서비스입니다.
-
 ## Contributors
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -34,6 +26,10 @@ Sparkle, 연인과 승부를 통한 설렘 가득 소원권 내기 앱 서비스
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+# Server-United
+![image](https://github.com/U-is-Ni-in-Korea/Server-United/assets/45380072/a4a4d35f-3980-45e7-8469-b9774bc5150b)
+해당 프로젝트는 SOPT 32th APPJAM 프로젝트입니다.
 
 ### Build
 ```text
