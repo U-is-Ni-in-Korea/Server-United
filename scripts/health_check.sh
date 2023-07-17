@@ -12,8 +12,11 @@ for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10; do
 
   if [ ${RESPONSE_CODE} -eq 200 ]; then
     echo ">> 서비스가 성공적으로 작동 중 입니다"
-    exit 0
-  elif [ ${RETRY_COUNT} -eq 10 ]; then
+    break
+  else
+    echo ">> ${RESPONSE_CODE}"
+  fi
+  if [ ${RETRY_COUNT} -eq 10 ]; then
     echo ">> 서비스가 작동중이지 않습니다"
     exit 1
   fi
