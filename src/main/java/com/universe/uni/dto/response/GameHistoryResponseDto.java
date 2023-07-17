@@ -5,7 +5,7 @@ import com.universe.uni.dto.MissionResultDto;
 
 import lombok.Builder;
 
-@JsonPropertyOrder({"roundGameId", "date", "result", "title", "image", "myMission", "partnerMission"})
+@JsonPropertyOrder({"roundGameId", "date", "result", "title", "image", "winner", "myMission", "partnerMission"})
 @Builder
 public record GameHistoryResponseDto(
 	int roundGameId,
@@ -13,6 +13,7 @@ public record GameHistoryResponseDto(
 	String result,
 	String title,
 	String image,
+	String winner,
 	MissionResultDto myMission,
 	MissionResultDto partnerMission
 ) {

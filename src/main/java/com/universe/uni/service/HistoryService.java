@@ -41,32 +41,38 @@ public class HistoryService {
 
 		User user = userUtil.getCurrentUser();
 
+		User partner = userRepository.findByCoupleIdAndIdNot(user.getCouple().getId(), user.getId());
+
 		List<UserGameHistory> userGameHistoryList = userGameHistoryRepository.findByUser(user);
-		System.out.println(userGameHistoryList);
 
-		return userGameHistoryList.stream()
-			.map(userGameHistory -> {
-				RoundGame roundGame = roundGameRepository.findByGameId(userGameHistory.getGame().getId());
-				MissionCategory missionCategory = missionCategoryRepository.findById(
-						roundGame.getMissionCategory().getId())
-					.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
-				List<RoundMission> roundMissionList = roundMissionRepository.findByRoundGame(roundGame);
+		return userGameHistoryList.stream().map(userGameHistory -> {
+			RoundGame roundGame = roundGameRepository.findByGameId(userGameHistory.getGame().getId());
+			MissionCategory missionCategory = missionCategoryRepository.findById(roundGame.getMissionCategory().getId())
+				.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
+			List<RoundMission> roundMissionList = roundMissionRepository.findByRoundGame(roundGame);
 
-				return GameHistoryResponseDto.builder()
-					.roundGameId(roundGame.getId().intValue())
-					.date(userGameHistory.getUpdatedAt().format(DateTimeFormatter.ISO_DATE))
-					.result(userGameHistory.getResult().name())
-					.title(missionCategory.getTitle())
-					.image(missionCategory.getImage())
-					.myMission(fromRoundMissionToMissionResultDto(roundMissionList, user.getId()))
-					.partnerMission(fromRoundMissionToMissionResultDto(roundMissionList, getPartnerId(user.getId())))
-					.build();
-			}).collect(Collectors.toList());
+			String winner;
+			switch (userGameHistory.getResult()) {
+				case WIN -> winner = user.getNickname();
+				case LOSE -> winner = partner.getNickname();
+				default -> winner = "";
+			}
+
+			return GameHistoryResponseDto.builder()
+				.roundGameId(roundGame.getId().intValue())
+				.date(userGameHistory.getUpdatedAt().format(DateTimeFormatter.ISO_DATE))
+				.result(userGameHistory.getResult().name())
+				.title(missionCategory.getTitle())
+				.image(missionCategory.getImage())
+				.winner(winner)
+				.myMission(fromRoundMissionToMissionResultDto(roundMissionList, user.getId()))
+				.partnerMission(fromRoundMissionToMissionResultDto(roundMissionList, getPartnerId(user.getId())))
+				.build();
+		}).collect(Collectors.toList());
 	}
 
 	private Long getPartnerId(Long userId) {
-		User user = userRepository.findById(userId)
-			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
+		User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
 		Couple couple = user.getCouple();
 
 		List<User> userListInCouple = userRepository.findByCouple(couple);
