@@ -29,20 +29,18 @@ public class AuthController implements AuthControllerContract {
 		return authService.authWithKakao(request.code());
 	}
 
-	@GetMapping("kakao/callback")
-	@Override
-	public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
-		return new AuthRequestDto(authenticationCode);
-	}
-
 	@PostMapping("google")
 	@Override
 	public AuthTokenDto authByGoogle(@RequestBody AuthRequestDto request) {
 		return authService.authWithGoogle(request.code());
 	}
 
+    @GetMapping("kakao/callback")
+    public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
+        return new AuthRequestDto(authenticationCode);
+    }
+
 	@GetMapping("google/callback")
-	@Override
 	public AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
 		return new AuthRequestDto(authenticationCode);
 	}
