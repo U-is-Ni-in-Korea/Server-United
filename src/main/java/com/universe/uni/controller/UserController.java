@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.universe.uni.dto.UserDto;
 import com.universe.uni.dto.request.UpdateUserNicknameRequestDto;
+import com.universe.uni.dto.response.ProfileResponseDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
 import com.universe.uni.service.CoupleServiceContract;
 import com.universe.uni.service.UserServiceContract;
@@ -56,5 +57,11 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public UserWishCouponResponseDto getUserWishCouponList(@PathVariable Long userId) {
 		return userService.getUserWishCouponList(userId);
+	}
+
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public ProfileResponseDto getProfile() {
+		return userService.getProfile();
 	}
 }

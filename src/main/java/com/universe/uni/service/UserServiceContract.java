@@ -3,6 +3,7 @@ package com.universe.uni.service;
 import javax.transaction.Transactional;
 
 import com.universe.uni.dto.UserDto;
+import com.universe.uni.dto.response.ProfileResponseDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
 
 public interface UserServiceContract {
@@ -19,5 +20,9 @@ public interface UserServiceContract {
 		String nickname
 	);
 
+	@Transactional
 	UserWishCouponResponseDto getUserWishCouponList(Long userId);
+
+	@Transactional
+	ProfileResponseDto getProfile();
 }
