@@ -20,6 +20,7 @@ import com.universe.uni.dto.response.HomeResponseDto;
 import com.universe.uni.repository.GameRepository;
 import com.universe.uni.repository.RoundGameRepository;
 import com.universe.uni.repository.UserGameHistoryRepository;
+import com.universe.uni.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,11 +31,13 @@ public class HomeService {
 	private final GameRepository gameRepository;
 	private final UserGameHistoryRepository userGameHistoryRepository;
 	private final RoundGameRepository roundGameRepository;
+	private final UserRepository userRepository;
 	private final UserUtil userUtil;
 
 	public HomeResponseDto getHome() {
 		User user = userUtil.getCurrentUser();
 		Couple couple = user.getCouple();
+		User partner = userRepository.findByCoupleIdAndIdNot(user.getCouple().getId(), user.getId());
 
 		Game game = gameRepository.findByCoupleIdAndEnable(couple.getId(), true);
 		RoundGame roundGame = game != null ? roundGameRepository.findByGameId(game.getId()) : null;
@@ -52,6 +55,7 @@ public class HomeService {
 
 		return HomeResponseDto.builder()
 			.userId(user.getId())
+			.partnerId(partner.getId())
 			.roundGameId(roundGame != null ? roundGame.getId() : null)
 			.myScore(myScore)
 			.partnerScore(partnerScore)

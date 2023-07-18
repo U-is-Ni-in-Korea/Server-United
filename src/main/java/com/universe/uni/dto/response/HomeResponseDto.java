@@ -6,10 +6,12 @@ import com.universe.uni.dto.ShortGameDto;
 
 import lombok.Builder;
 
-@JsonPropertyOrder({"userId", "roundGameId", "myScore", "partnerScore", "drawCount", "dDay", "couple", "shortGame"})
+@JsonPropertyOrder({"userId", "partnerId", "roundGameId", "myScore", "partnerScore", "drawCount", "dDay", "couple",
+	"shortGame"})
 @Builder
 public record HomeResponseDto(
 	Long userId,
+	Long partnerId,
 	Long roundGameId,
 	int myScore,
 	int partnerScore,
