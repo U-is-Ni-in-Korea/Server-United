@@ -11,6 +11,7 @@ import com.universe.uni.domain.entity.User;
 import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.UserDto;
 import com.universe.uni.dto.WishCouponDto;
+import com.universe.uni.dto.response.ProfileResponseDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements UserServiceContract {
 	private final UserRepository userRepository;
 	private final WishCouponRepository wishCouponRepository;
+	private final UserUtil userUtil;
 	private final UserMapper userMapper = Mappers.getMapper(UserMapper.class);
 
 	@Override
@@ -62,6 +64,7 @@ public class UserService implements UserServiceContract {
 	}
 
 	@Override
+	@Transactional
 	public UserWishCouponResponseDto getUserWishCouponList(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));
@@ -83,6 +86,13 @@ public class UserService implements UserServiceContract {
 			.build();
 	}
 
+	@Override
+	@Transactional
+	public ProfileResponseDto getProfile() {
+		User user = userUtil.getCurrentUser();
+		return fromUserToProfileResponseDto(user);
+	}
+
 	private WishCouponDto fromWishCouponToWishCouponDto(WishCoupon wishCoupon) {
 		String usedAt = wishCoupon.getUsedAt() != null ? wishCoupon.getUsedAt().toString() : null;
 
@@ -94,6 +104,15 @@ public class UserService implements UserServiceContract {
 			.used(wishCoupon.isUsed())
 			.usedAt(usedAt)
 			.gameType(String.valueOf(wishCoupon.getGameType()))
+			.build();
+	}
+
+	private ProfileResponseDto fromUserToProfileResponseDto(User user) {
+		return ProfileResponseDto.builder()
+			.userId(user.getId())
+			.nickname(user.getNickname())
+			.image(user.getImage())
+			.startDate(user.getCouple().getStartDate().toString())
 			.build();
 	}
 }
