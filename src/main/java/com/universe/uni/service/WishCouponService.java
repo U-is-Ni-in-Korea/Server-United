@@ -1,8 +1,9 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.*;
+import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_WISH_COUPON;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,11 +28,13 @@ import lombok.RequiredArgsConstructor;
 public class WishCouponService {
 
 	private final WishCouponRepository wishCouponRepository;
+	private final UserUtil userUtil;
 
-	public WishCouponDto uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
+	public void uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
+		User user = userUtil.getCurrentUser();
 		GameType gameType = GameType.valueOf(requestDto.gameType());
 		List<WishCoupon> wishCouponList = wishCouponRepository
-			.findByGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(gameType);
+			.findByUserAndGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(user, gameType);
 
 		if (wishCouponList.isEmpty()) {
 			throw new BadRequestException(ErrorType.INVALID_REQUEST_METHOD);
@@ -41,8 +44,6 @@ public class WishCouponService {
 
 		wishCoupon.updateContent(requestDto.content());
 		wishCoupon.makeVisible();
-
-		return fromWishCouponToUpdateWishCouponResponseDto(wishCoupon);
 	}
 
 	public void useWishCoupon(Long wishCouponId) {
@@ -56,26 +57,13 @@ public class WishCouponService {
 		WishCoupon wishCoupon = wishCouponRepository.findById(wishCouponId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.INVALID_ENDPOINT_EXCEPTION));
 
-		/** TODO 영주 : 추후 1L 내 userId로 바꾸기*/
-		boolean isMine = wishCoupon.getUser().getId() == 1L;
+		User user = userUtil.getCurrentUser();
+
+		boolean isMine = Objects.equals(wishCoupon.getUser().getId(), user.getId());
 
 		return WishCouponResponseDto.builder()
 			.isMine(isMine)
 			.wishCoupon(fromWishCouponToWishCouponDto(wishCoupon))
-			.build();
-	}
-
-	private WishCouponDto fromWishCouponToUpdateWishCouponResponseDto(WishCoupon wishCoupon) {
-		String usedAt = wishCoupon.getUsedAt() != null ? wishCoupon.getUsedAt().toString() : null;
-
-		return WishCouponDto.builder()
-			.id(wishCoupon.getId())
-			.image(wishCoupon.getImage())
-			.content(wishCoupon.getContent())
-			.visible(wishCoupon.isVisible())
-			.used(wishCoupon.isUsed())
-			.usedAt(usedAt)
-			.gameType(String.valueOf(wishCoupon.getGameType()))
 			.build();
 	}
 
@@ -88,12 +76,7 @@ public class WishCouponService {
 	}
 
 	private WishCoupon createWishCoupon(String content, Game game, Boolean isVisible) {
-		return WishCoupon.builder()
-			.content(content)
-			.isVisible(isVisible)
-			.game(game)
-			.gameType(GameType.SHORT)
-			.build();
+		return WishCoupon.builder().content(content).isVisible(isVisible).game(game).gameType(GameType.SHORT).build();
 	}
 
 	@Transactional
@@ -122,7 +105,6 @@ public class WishCouponService {
 	}
 
 	private WishCoupon getWishCouponByGame(Game game) {
-		return wishCouponRepository.findByGame(game)
-			.orElseThrow(() -> new NotFoundException(NOT_FOUND_WISH_COUPON));
+		return wishCouponRepository.findByGame(game).orElseThrow(() -> new NotFoundException(NOT_FOUND_WISH_COUPON));
 	}
 }
