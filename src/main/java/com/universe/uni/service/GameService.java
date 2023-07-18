@@ -1,13 +1,15 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.domain.GameResult.*;
-import static com.universe.uni.exception.dto.ErrorType.*;
+import static com.universe.uni.domain.GameResult.DRAW;
+import static com.universe.uni.domain.GameResult.LOSE;
+import static com.universe.uni.domain.GameResult.WIN;
+import static com.universe.uni.exception.dto.ErrorType.ALREADY_GAME_CREATED;
+import static com.universe.uni.exception.dto.ErrorType.ALREADY_GAME_DONE;
+import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_ROUND_MISSION;
 
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -50,7 +52,6 @@ public class GameService {
 	private final WishCouponService wishCouponService;
 	private final UserUtil userUtil;
 
-
 	@Transactional
 	public CreateShortGameResponseDto createShortGame(CreateShortGameRequestDto createShortGameRequestDto) {
 
@@ -80,15 +81,15 @@ public class GameService {
 			.map(u -> createRoundMission(roundGame, u))
 			.collect(Collectors.toList());
 
+		String normalizedContent = WhitespaceNormalizer.normalizeWhitespace(createShortGameRequestDto.getWishContent());
+
 		//소원권 생성
-		WishCoupon wishCoupon = wishCouponService.issueWishCoupon(createShortGameRequestDto.getWishContent(),
-			shortGame);
+		WishCoupon wishCoupon = wishCouponService.issueWishCoupon(normalizedContent, shortGame);
 
 		gameRepository.save(shortGame);
 		roundGameRepository.save(roundGame);
 		roundMissionRepository.saveAll(roundMissionList);
 		wishCouponService.saveWishCoupon(wishCoupon);
-
 
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
