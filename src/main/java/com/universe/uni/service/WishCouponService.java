@@ -33,8 +33,8 @@ public class WishCouponService {
 	public void uploadWishCoupon(UpdateWishCouponRequestDto requestDto) {
 		User user = userUtil.getCurrentUser();
 		GameType gameType = GameType.valueOf(requestDto.gameType());
-		List<WishCoupon> wishCouponList = wishCouponRepository
-			.findByUserAndGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(user, gameType);
+		List<WishCoupon> wishCouponList = wishCouponRepository.findByUserAndGameTypeAndIsVisibleFalseAndIsUsedFalseAndUsedAtIsNull(
+			user, gameType);
 
 		if (wishCouponList.isEmpty()) {
 			throw new BadRequestException(ErrorType.INVALID_REQUEST_METHOD);
@@ -42,7 +42,9 @@ public class WishCouponService {
 
 		WishCoupon wishCoupon = wishCouponList.get(0);
 
-		wishCoupon.updateContent(requestDto.content());
+		String normalizedContent = WhitespaceNormalizer.normalizeWhitespace(requestDto.content());
+
+		wishCoupon.updateContent(normalizedContent);
 		wishCoupon.makeVisible();
 	}
 
