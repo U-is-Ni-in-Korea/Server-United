@@ -4,18 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.universe.uni.dto.UserDto;
 import com.universe.uni.dto.request.UpdateUserNicknameRequestDto;
+import com.universe.uni.dto.request.UpdateUserProfileRequestDto;
 import com.universe.uni.dto.response.ProfileResponseDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
 import com.universe.uni.service.CoupleServiceContract;
@@ -40,17 +39,18 @@ public class UserController {
 		return userService.updateUserNickname(userId, requestDto.nickname());
 	}
 
-	@PatchMapping(value = "/info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PatchMapping(
+		value = "/info",
+		consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+		produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public UserDto updateUserProfile(
 		@AuthenticationPrincipal long userId,
-		@RequestPart MultipartFile image,
-		@RequestParam String nickname,
-		@RequestParam String startDate
+		@ModelAttribute final UpdateUserProfileRequestDto updateUserProfileRequestDto
 	) {
 		final Long userCoupleId = userService.findUserCoupleId(userId);
-		coupleService.updateCoupleStartDate(userCoupleId, startDate);
-		return userService.updateUserNicknameAndImage(userId, "", nickname);
+		coupleService.updateCoupleStartDate(userCoupleId, updateUserProfileRequestDto.startDate());
+		return userService.updateUserNicknameAndImage(userId, "", updateUserProfileRequestDto.nickname());
 	}
 
 	@GetMapping("/{userId}/wish")
