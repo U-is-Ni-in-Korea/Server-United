@@ -115,15 +115,18 @@ copy {
     }
 }
 
+
+
 def sentryProperties = new Properties()
 file("src/main/resources/sentry.yml").withInputStream { sentryProperties.load(it) }
 
 
 sentry {
+    debug = true
     includeSourceContext = true
 
     org = "uni-universe"
-    projectName = "java-spring-boot"
+    projectName = "sparkle-dev-be"
     authToken = sentryProperties.getProperty("sentry-auth-token")
 }
 
