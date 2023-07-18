@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findByCouple(Couple couple);
 
 	User findByCoupleIdAndIdNot(Long coupleId, Long userId);
+
+	User findByCoupleId(Long coupleId);
 }
