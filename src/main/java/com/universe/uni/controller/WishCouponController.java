@@ -22,13 +22,13 @@ public class WishCouponController {
 
 	private final WishCouponService wishCouponService;
 
-	@PatchMapping("/{wishCouponId}")
+	@PatchMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateWishCoupon(@RequestBody UpdateWishCouponRequestDto requestDto) {
 		wishCouponService.uploadWishCoupon(requestDto);
 	}
 
-	@PatchMapping
+	@PatchMapping("/{wishCouponId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void useWishCoupon(@PathVariable Long wishCouponId) {
 		wishCouponService.useWishCoupon(wishCouponId);
