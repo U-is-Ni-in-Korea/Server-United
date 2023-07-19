@@ -2,6 +2,8 @@ package com.universe.uni.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.universe.uni.domain.InviteCodeStrategy;
 import com.universe.uni.domain.entity.Couple;
 import com.universe.uni.domain.entity.User;
+import com.universe.uni.dto.response.CoupleConnectionResponseDto;
 import com.universe.uni.dto.response.CoupleDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.dto.ErrorType;
@@ -73,5 +76,18 @@ public class CoupleService implements CoupleServiceContract {
 			.orElseThrow(() -> new BadRequestException(ErrorType.COUPLE_NOT_EXISTENT));
 		couple.updateStartDate(date);
 		return coupleMapper.toCoupleDto(couple);
+	}
+
+	@Override
+	@Transactional
+	public CoupleConnectionResponseDto checkConnection(Long userId) {
+		final User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		final Couple couple = user.getCouple();
+		List<User> userList = userRepository.findByCouple(couple);
+		if(userList.size() == 2) {
+			return new CoupleConnectionResponseDto(true);
+		}
+		return new CoupleConnectionResponseDto(false);
 	}
 }

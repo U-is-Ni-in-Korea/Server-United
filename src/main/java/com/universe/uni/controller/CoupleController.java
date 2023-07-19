@@ -2,6 +2,7 @@ package com.universe.uni.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.universe.uni.dto.request.CreateCoupleRequestDto;
 import com.universe.uni.dto.request.JoinCoupleRequestDto;
+import com.universe.uni.dto.response.CoupleConnectionResponseDto;
 import com.universe.uni.dto.response.CoupleDto;
 import com.universe.uni.service.CoupleServiceContract;
 
@@ -37,5 +39,13 @@ public class CoupleController {
 		@RequestBody JoinCoupleRequestDto body
 	) {
 		coupleService.joinCouple(userId, body.inviteCode());
+	}
+
+	@GetMapping("join")
+	@ResponseStatus(HttpStatus.OK)
+	public CoupleConnectionResponseDto checkConnection(
+		@AuthenticationPrincipal Long userId
+	) {
+		return coupleService.checkConnection(userId);
 	}
 }
