@@ -1,6 +1,8 @@
 package com.universe.uni.service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -76,8 +78,13 @@ public class UserService implements UserServiceContract {
 		int newWishCoupon = (int)wishCouponList.stream().filter(WishCoupon::isVisible).count();
 
 		List<WishCouponDto> wishCouponDtoList = wishCouponList.stream()
+			.sorted(Comparator.comparing(WishCoupon::getId).reversed())
+			.collect(Collectors.partitioningBy(WishCoupon::isUsed))
+			.entrySet()
+			.stream()
+			.flatMap(entry -> entry.getValue().stream())
 			.map(this::fromWishCouponToWishCouponDto)
-			.toList();
+			.collect(Collectors.toList());
 
 		return UserWishCouponResponseDto.builder()
 			.availableWishCoupon(availableWishCoupon)
