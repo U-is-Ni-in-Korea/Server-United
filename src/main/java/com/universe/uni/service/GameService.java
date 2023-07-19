@@ -132,6 +132,9 @@ public class GameService {
 			wishCouponService.giveWishCouponToWinner(roundGame.getGame(), winner);
 			return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
 		} else {
+			if (result) {
+				myRoundMission.updateFinalResult(WIN);
+			}
 			return GameReportResponseDto.of(myRoundMission);
 		}
 	}
