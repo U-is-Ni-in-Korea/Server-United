@@ -2,6 +2,7 @@ package com.universe.uni.service;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +70,7 @@ public class HistoryService {
 				.myMission(fromRoundMissionToMissionResultDto(roundMissionList, user.getId()))
 				.partnerMission(fromRoundMissionToMissionResultDto(roundMissionList, getPartnerId(user.getId())))
 				.build();
-		}).collect(Collectors.toList());
+		}).sorted(Comparator.comparing(GameHistoryResponseDto::roundGameId).reversed()).collect(Collectors.toList());
 	}
 
 	private Long getPartnerId(Long userId) {
