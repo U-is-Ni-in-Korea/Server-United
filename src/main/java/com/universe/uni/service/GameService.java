@@ -236,7 +236,7 @@ public class GameService {
 		User user = userUtil.getCurrentUser();
 		RoundGame roundGame = getRoundGameById(roundGameId);
 
-		verifyIsOngoingGame(roundGame);
+		//verifyIsOngoingGame(roundGame);
 		RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
 		return GameReportResponseDto.of(myRoundMission);
