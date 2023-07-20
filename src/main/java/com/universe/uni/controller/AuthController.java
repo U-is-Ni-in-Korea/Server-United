@@ -35,10 +35,15 @@ public class AuthController implements AuthControllerContract {
 		return authService.authWithGoogle(request.code());
 	}
 
-    @GetMapping("kakao/callback")
-    public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
-        return new AuthRequestDto(authenticationCode);
-    }
+	@PostMapping("apple")
+	public AuthTokenDto authByApple(@RequestBody AuthRequestDto request) {
+		return authService.authWithAppleUser(request.code());
+	}
+
+	@GetMapping("kakao/callback")
+	public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
+		return new AuthRequestDto(authenticationCode);
+	}
 
 	@GetMapping("google/callback")
 	public AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
