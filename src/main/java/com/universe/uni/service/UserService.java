@@ -84,6 +84,7 @@ public class UserService implements UserServiceContract {
 			.stream()
 			.flatMap(entry -> entry.getValue().stream())
 			.map(this::fromWishCouponToWishCouponDto)
+			.filter(wishCouponDto -> !wishCouponDto.content().isBlank())
 			.collect(Collectors.toList());
 
 		return UserWishCouponResponseDto.builder()
