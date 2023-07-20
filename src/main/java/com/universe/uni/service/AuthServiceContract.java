@@ -10,4 +10,7 @@ public interface AuthServiceContract {
 
 	@Transactional
 	AuthTokenDto authWithGoogle(String accessToken);
+
+	@Transactional
+	AuthTokenDto authWithAppleUser(String identityToken);
 }
