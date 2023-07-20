@@ -1,5 +1,7 @@
 package com.universe.uni.config.jwt;
 
+import static java.util.Objects.*;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -12,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.universe.uni.exception.UnauthorizedException;
+import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.service.JwtManager;
 
 import lombok.RequiredArgsConstructor;
@@ -48,6 +52,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		final String tokenType = "Bearer ";
 
 		String header = request.getHeader("Authorization");
+
+		if(isNull(header)) {
+			throw new UnauthorizedException(ErrorType.TOKEN_VALUE_NOT_EXIST);
+		}
 		return header.substring(tokenType.length());
 	}
 
