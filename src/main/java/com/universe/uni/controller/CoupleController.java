@@ -13,6 +13,8 @@ import com.universe.uni.dto.request.CreateCoupleRequestDto;
 import com.universe.uni.dto.request.JoinCoupleRequestDto;
 import com.universe.uni.dto.response.CoupleConnectionResponseDto;
 import com.universe.uni.dto.response.CoupleDto;
+import com.universe.uni.exception.BadRequestException;
+import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.service.CoupleServiceContract;
 import com.universe.uni.service.UserServiceContract;
 

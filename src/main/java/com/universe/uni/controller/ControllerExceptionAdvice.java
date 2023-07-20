@@ -35,7 +35,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -47,7 +47,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -59,16 +59,19 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(MissingRequestHeaderException.class)
 	protected ResponseEntity<Object> handleMissingRequestHeaderException(
-		MissingRequestHeaderException exception
+		MissingRequestHeaderException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
@@ -81,7 +84,7 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		HttpStatus status,
 		WebRequest request
 	) {
-		Sentry.captureException(ex);
+		sendSentryEvent(ex, headers, status, request);
 		try {
 			final ErrorType errorType = ErrorType.findErrorTypeBy(status);
 			final ApiException businessError = new ApiException(errorType, ex.getMessage());
@@ -99,9 +102,12 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	protected ErrorResponse handleException(
-		final Exception exception
+		final Exception exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		return ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR);
 	}
 
@@ -110,19 +116,36 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(ApiException.class)
 	protected ResponseEntity<ErrorResponse> handleCustomException(
-		ApiException exception
+		ApiException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		return ResponseEntity.status(exception.getHttpStatus())
 			.body(ErrorResponse.businessErrorOf(exception.getError()));
 	}
 
 	@ExceptionHandler(FeignException.class)
 	protected ResponseEntity<Object> handleFeginException(
-		FeignException exception
+		FeignException exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
 	) {
-		Sentry.captureException(exception);
+		sendSentryEvent(exception, headers, status, request);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 			.body(ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR));
+	}
+
+	private void sendSentryEvent(
+		Exception exception,
+		HttpHeaders headers,
+		HttpStatus status,
+		WebRequest request
+	) {
+		SentryEventSender.of(
+			exception, headers, status, request
+		).sendEvent();
 	}
 }
