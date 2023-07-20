@@ -75,7 +75,7 @@ public class UserService implements UserServiceContract {
 
 		int availableWishCoupon = (int)wishCouponList.stream().filter(wishCoupon -> !wishCoupon.isUsed()).count();
 
-		int newWishCoupon = (int)wishCouponList.stream().filter(WishCoupon::isVisible).count();
+		int newWishCoupon = (int)wishCouponList.stream().filter(wishCoupon -> !wishCoupon.isVisible()).count();
 
 		List<WishCouponDto> wishCouponDtoList = wishCouponList.stream()
 			.sorted(Comparator.comparing(WishCoupon::getId).reversed())
@@ -84,6 +84,7 @@ public class UserService implements UserServiceContract {
 			.stream()
 			.flatMap(entry -> entry.getValue().stream())
 			.map(this::fromWishCouponToWishCouponDto)
+			.filter(wishCouponDto -> !wishCouponDto.content().isBlank())
 			.collect(Collectors.toList());
 
 		return UserWishCouponResponseDto.builder()

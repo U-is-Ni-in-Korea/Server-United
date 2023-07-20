@@ -4,12 +4,14 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.universe.uni.domain.AppleTokenManager;
 import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.dto.AuthTokenDto;
-import com.universe.uni.external.response.GoogleAccessTokenResponse;
+import com.universe.uni.exception.ApiException;
+import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.external.response.GoogleUserInfoResponse;
-import com.universe.uni.external.response.KakaoAuthResponse;
 import com.universe.uni.external.response.KakaoUserResponse;
 import com.universe.uni.repository.GoogleRepository;
 import com.universe.uni.repository.KakaoRepository;
@@ -25,6 +27,7 @@ public class AuthService implements AuthServiceContract {
 	private final KakaoRepository kakaoRepository;
 	private final GoogleRepository googleRepository;
 	private final UserRepository userRepository;
+	private final AppleTokenManager appleTokenManager;
 
 	@Override
 	@Transactional
@@ -55,6 +58,22 @@ public class AuthService implements AuthServiceContract {
 		return User.builder()
 			.snsType(SnsType.GOOGLE)
 			.snsAuthCode(googleUser.mSub())
+			.build();
+	}
+
+	@Override
+	@Transactional
+	public AuthTokenDto authWithAppleUser(String identityToken) {
+		final String userEmail = appleTokenManager.decodeEmail(identityToken);
+		final User user = userRepository.findBySnsAuthCode(userEmail)
+			.orElseGet(() -> userRepository.save(registerAppleUser(userEmail)));
+		return beIssuedAuthToken(user.getId());
+	}
+
+	private User registerAppleUser(String email) {
+		return User.builder()
+			.snsType(SnsType.APPLE)
+			.snsAuthCode(email)
 			.build();
 	}
 

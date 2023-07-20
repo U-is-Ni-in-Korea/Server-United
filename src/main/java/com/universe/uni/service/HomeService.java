@@ -1,7 +1,8 @@
 package com.universe.uni.service;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -73,9 +74,9 @@ public class HomeService {
 	}
 
 	private int calculateDays(Couple couple) {
-		LocalDate today = LocalDate.now();
-		Period period = Period.between(couple.getStartDate(), today);
-		return period.getDays() + 1;
+		ZonedDateTime localTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+		long dDay = ChronoUnit.DAYS.between(couple.getStartDate(), localTime.toLocalDate());
+		return (int)dDay + 1;
 	}
 
 	private CoupleDto fromCoupleToCoupleDtoMapper(Couple couple) {
