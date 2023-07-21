@@ -14,6 +14,7 @@ import com.universe.uni.dto.request.JoinCoupleRequestDto;
 import com.universe.uni.dto.response.CoupleConnectionResponseDto;
 import com.universe.uni.dto.response.CoupleDto;
 import com.universe.uni.service.CoupleServiceContract;
+import com.universe.uni.service.UserServiceContract;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("api/couple")
 public class CoupleController {
 
+	private final UserServiceContract userService;
 	private final CoupleServiceContract coupleService;
 
 	@PostMapping("")
@@ -29,7 +31,12 @@ public class CoupleController {
 		@AuthenticationPrincipal Long userId,
 		@RequestBody CreateCoupleRequestDto request
 	) {
-		return coupleService.createCoupleByStartDate(userId, request.startDate());
+		try {
+			final Long coupleId = userService.findUserCoupleId(userId);
+			return coupleService.findCouple(coupleId);
+		} catch (NullPointerException exception) {
+			return coupleService.createCoupleByStartDate(userId, request.startDate());
+		}
 	}
 
 	@PostMapping("join")

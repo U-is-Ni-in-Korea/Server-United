@@ -21,6 +21,9 @@ public interface UserServiceContract {
 	);
 
 	@Transactional
+	void withdrawalUser(Long userId);
+
+	@Transactional
 	UserWishCouponResponseDto getUserWishCouponList(Long userId);
 
 	@Transactional

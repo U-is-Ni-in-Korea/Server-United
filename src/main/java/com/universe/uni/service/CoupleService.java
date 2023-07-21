@@ -3,7 +3,6 @@ package com.universe.uni.service;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -89,5 +88,11 @@ public class CoupleService implements CoupleServiceContract {
 			return new CoupleConnectionResponseDto(true);
 		}
 		return new CoupleConnectionResponseDto(false);
+	}
+
+	@Override
+	@Transactional
+	public void deleteCouple(Long coupleId) {
+		coupleRepository.deleteById(coupleId);
 	}
 }

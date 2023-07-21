@@ -3,6 +3,7 @@ package com.universe.uni.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import com.universe.uni.dto.request.UpdateUserNicknameRequestDto;
 import com.universe.uni.dto.request.UpdateUserProfileRequestDto;
 import com.universe.uni.dto.response.ProfileResponseDto;
 import com.universe.uni.dto.response.UserWishCouponResponseDto;
+import com.universe.uni.service.AuthServiceContract;
 import com.universe.uni.service.CoupleServiceContract;
 import com.universe.uni.service.UserServiceContract;
 
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
+	private final AuthServiceContract authService;
 	private final UserServiceContract userService;
 	private final CoupleServiceContract coupleService;
 
@@ -63,5 +66,18 @@ public class UserController {
 	@ResponseStatus(HttpStatus.OK)
 	public ProfileResponseDto getProfile() {
 		return userService.getProfile();
+	}
+
+	@DeleteMapping("")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void withdrawalUser(@AuthenticationPrincipal Long userId) {
+		//authService.unlinkSns(userId);
+		try {
+			final Long coupleId = userService.findUserCoupleId(userId);
+			coupleService.deleteCouple(coupleId);
+			userService.withdrawalUser(userId);
+		} catch (NullPointerException exception) {
+			userService.withdrawalUser(userId);
+		}
 	}
 }

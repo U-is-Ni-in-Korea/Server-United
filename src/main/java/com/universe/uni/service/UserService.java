@@ -67,6 +67,12 @@ public class UserService implements UserServiceContract {
 
 	@Override
 	@Transactional
+	public void withdrawalUser(Long userId) {
+		userRepository.deleteById(userId);
+	}
+
+	@Override
+	@Transactional
 	public UserWishCouponResponseDto getUserWishCouponList(Long userId) {
 		User user = userRepository.findById(userId)
 			.orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_USER));

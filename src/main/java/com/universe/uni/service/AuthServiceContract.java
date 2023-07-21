@@ -13,4 +13,7 @@ public interface AuthServiceContract {
 
 	@Transactional
 	AuthTokenDto authWithAppleUser(String identityToken);
+
+	@Transactional
+	void unlinkSns(Long userId);
 }
