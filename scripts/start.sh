@@ -7,6 +7,8 @@ JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=8081
 
+echo ">> 현재 nginx의 port = ${CURRENT_PORT}"
+
 if [ ${CURRENT_PORT} -eq "8081" ]; then
   TARGET_PORT=8082
 elif [ ${CURRENT_PORT} -eq "8082" ]; then

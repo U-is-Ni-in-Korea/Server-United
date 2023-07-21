@@ -22,4 +22,7 @@ public interface CoupleServiceContract {
 
 	@Transactional
 	CoupleConnectionResponseDto checkConnection(Long userId);
+
+	@Transactional
+	void deleteCouple(Long coupleId);
 }

@@ -17,6 +17,7 @@ import com.universe.uni.exception.ApiException;
 import com.universe.uni.exception.dto.ErrorResponse;
 import com.universe.uni.exception.dto.ErrorType;
 
+import feign.FeignException;
 import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,5 +115,14 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 		Sentry.captureException(exception);
 		return ResponseEntity.status(exception.getHttpStatus())
 			.body(ErrorResponse.businessErrorOf(exception.getError()));
+	}
+
+	@ExceptionHandler(FeignException.class)
+	protected ResponseEntity<Object> handleFeginException(
+		FeignException exception
+	) {
+		Sentry.captureException(exception);
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR));
 	}
 }

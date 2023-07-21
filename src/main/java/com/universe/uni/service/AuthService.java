@@ -4,12 +4,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.universe.uni.domain.AppleTokenManager;
 import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.User;
 import com.universe.uni.dto.AuthTokenDto;
-import com.universe.uni.exception.ApiException;
+import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.dto.ErrorType;
 import com.universe.uni.external.response.GoogleUserInfoResponse;
 import com.universe.uni.external.response.KakaoUserResponse;
@@ -79,5 +78,15 @@ public class AuthService implements AuthServiceContract {
 
 	private AuthTokenDto beIssuedAuthToken(long userId) {
 		return jwtManager.issueToken(userId);
+	}
+
+	@Override
+	@Transactional
+	public void unlinkSns(Long userId) {
+		final User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		if (user.getSnsType() == SnsType.KAKAO) {
+			kakaoRepository.unlinkUser(Long.valueOf(user.getSnsAuthCode()));
+		}
 	}
 }
