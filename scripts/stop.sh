@@ -3,7 +3,7 @@
 DEFAULT_PATH=/home/ubuntu/uni-sparkle-deploy/uni-sparkle
 
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
-TARGET_PORT=8081
+TARGET_PORT=0
 
 echo ">> 현재 nginx의 port = ${CURRENT_PORT}"
 
