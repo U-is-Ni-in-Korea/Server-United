@@ -4,6 +4,7 @@ import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_WISH_COUPON;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +80,13 @@ public class WishCouponService {
 	}
 
 	private WishCoupon createWishCoupon(String content, Game game, Boolean isVisible) {
-		return WishCoupon.builder().content(content).isVisible(isVisible).game(game).gameType(GameType.SHORT).build();
+		return WishCoupon.builder()
+			.content(content)
+			.isVisible(isVisible)
+			.game(game)
+			.gameType(GameType.SHORT)
+			.image(getRandomImage())
+			.build();
 	}
 
 	@Transactional
@@ -109,5 +116,15 @@ public class WishCouponService {
 
 	private WishCoupon getWishCouponByGame(Game game) {
 		return wishCouponRepository.findByGame(game).orElseThrow(() -> new NotFoundException(NOT_FOUND_WISH_COUPON));
+	}
+
+	private String getRandomImage() {
+		List<String> imageList = List.of(
+			"https://uni-sparkle.s3.ap-northeast-2.amazonaws.com/category/wish1.png",
+			"https://uni-sparkle.s3.ap-northeast-2.amazonaws.com/category/wish2.png",
+			"https://uni-sparkle.s3.ap-northeast-2.amazonaws.com/category/wish3.png");
+
+		int randomImageIdx = new Random().nextInt(imageList.size());
+		return imageList.get(randomImageIdx);
 	}
 }
