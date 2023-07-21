@@ -18,8 +18,8 @@ echo ">> http://localhost:${TARGET_PORT} 의 상태를 체크합니다"
 
 for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10; do
   echo ">> ${RETRY_COUNT} trying ..."
-  RESPONSE=$(curl -s http://127.0.0.1:${CURRENT_PORT}/status/uni/health)
-  UP_COUNT=$(echo $RESPONSE | grep 'UP' | wc -1)
+  RESPONSE=$(curl -s http://127.0.0.1:${TARGET_PORT}/status/uni/health)
+  UP_COUNT=$(echo $RESPONSE | grep 'UP' | wc -l)
 
   if [ ${UP_COUNT} -ge 1 ]; then
     echo ">> 서비스가 성공적으로 작동 중 입니다"
