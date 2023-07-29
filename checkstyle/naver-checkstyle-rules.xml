@@ -33,7 +33,7 @@ The following rules in the Naver coding convention cannot be checked by this con
 
 	<!-- [newline-eof] -->
 	<module name="NewlineAtEndOfFile">
-		<property name="lineSeparator" value="lf, crlf"/>
+		<property name="lineSeparator" value="lf"/>
 	</module>
 
 	<!-- [no-trailing-spaces] -->

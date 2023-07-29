@@ -32,7 +32,10 @@ repositories {
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
-tasks.withType(Checkstyle) {
+tasks.withType(Checkstyle).configureEach {
+    it.source 'src/main/java'
+    it.exclude 'build/classes/java/main'
+
     reports {
         xml.required = true
     }
