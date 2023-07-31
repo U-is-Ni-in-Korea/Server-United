@@ -5,7 +5,7 @@ JAR_NAME=$(ls ${DEFAULT_PATH}/build/libs/ | grep '.jar' | tail -n 1)
 JAR_PATH=${DEFAULT_PATH}/build/libs/${JAR_NAME}
 
 CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
-TARGET_PORT=8081
+TARGET_PORT=0
 
 echo ">> 현재 nginx의 port = ${CURRENT_PORT}"
 
