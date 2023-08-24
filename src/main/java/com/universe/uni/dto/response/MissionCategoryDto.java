@@ -1,5 +1,6 @@
 package com.universe.uni.dto.response;
 
+import com.universe.uni.domain.MissionTool;
 import com.universe.uni.domain.MissionType;
 import com.universe.uni.domain.entity.MissionCategory;
 
@@ -15,6 +16,7 @@ public class MissionCategoryDto {
 	private final int level;
 	private final int expectedTime;
 	private final MissionType missionType;
+	private final MissionTool missionTool;
 
 	public MissionCategoryDto(MissionCategory missionCategory) {
 		this.id = missionCategory.getId();
@@ -25,5 +27,6 @@ public class MissionCategoryDto {
 		this.level = missionCategory.getLevel();
 		this.expectedTime = missionCategory.getExpectedTime();
 		this.missionType = missionCategory.getMissionType();
+		this.missionTool = missionCategory.getMissionTool();
 	}
 }
