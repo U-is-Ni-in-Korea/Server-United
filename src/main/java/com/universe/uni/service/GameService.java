@@ -260,9 +260,8 @@ public class GameService {
 
         //verifyIsOngoingGame(roundGame);
         RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
-        RoundMission partnerRoundMission = getPartnerRoundMission(roundGame, user);
 
-        return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
+        return GameReportResponseDto.of(myRoundMission);
     }
 
     private void verifyIsOngoingGame(RoundGame roundGame) {
