@@ -24,6 +24,8 @@ public enum ErrorType {
 	COUPLE_NOT_EXISTENT(HttpStatus.BAD_REQUEST, "UE1006", "존재하지 않는 커플 id 입니다"),
 	INVALID_INVITE_CODE(HttpStatus.BAD_REQUEST, "UE1007", "올바르지 않은 초대 코드입니다."),
 	TOKEN_VALUE_NOT_EXIST(HttpStatus.BAD_REQUEST, "UE1008", "토큰 값이 존재하지 않습니다."),
+	PARTNER_RESULT_NOT_ENTERED(HttpStatus.BAD_REQUEST, "UE1009",
+		"상대방이 아직 결과를 입력하지 않았습니다."),
 
 	/**
 	 * 401 Unauthorized
