@@ -1,5 +1,6 @@
 package com.universe.uni.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.universe.uni.domain.entity.RoundMission;
 import com.universe.uni.dto.RoundMissionDto;
 
@@ -8,6 +9,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GameReportResponseDto {
 	private RoundMissionDto myRoundMission;
 	private RoundMissionDto partnerRoundMission;
