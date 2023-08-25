@@ -36,16 +36,19 @@ public class AuthController implements AuthControllerContract {
 	}
 
 	@PostMapping("apple")
+    @Override
 	public AuthTokenDto authByApple(@RequestBody AuthRequestDto request) {
 		return authService.authWithAppleUser(request.code());
 	}
 
 	@GetMapping("kakao/callback")
+    @Override
 	public AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode) {
 		return new AuthRequestDto(authenticationCode);
 	}
 
 	@GetMapping("google/callback")
+    @Override
 	public AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode) {
 		return new AuthRequestDto(authenticationCode);
 	}
