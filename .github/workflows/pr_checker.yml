@@ -11,15 +11,17 @@ permissions:
   pull-requests: write
 
 jobs:
-  strategy:
-    matrix:
-      gradle-task: [checkstyleMain, clean build]
-  include:
-    - name: Common Setup
-      uses: ./.github/workflows/common.yml
+  checkstyle:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        checkstyle: [ checkstyleMain, checkstyleTest ]
+    steps:
+      - name: load Common
+        uses: ./.github/workflows/common.yml
 
-    - name: Run Gradle Tasks
-      uses: ./.github/workflows/gradle-task.yml
+      - name: checkstyle
+        run: ./gradlew ${{matrix.checkstyle}}
 
 #  checkstyle:
 #    needs: common
