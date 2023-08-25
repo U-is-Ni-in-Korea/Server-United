@@ -11,9 +11,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
+  common:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -43,20 +42,41 @@ jobs:
       - name: load github submodule
         run: ./gradlew copyConfig
 
+  checkstyle:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkstyle Check
         run: ./gradlew checkstyleMain checkstyleTest
 
+  build:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
       - name: Build with Gradle
         run: ./gradlew clean build
 
+  test:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test with Gradle
+        run: ./gradlew test
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
         with:
           files: build/test-results/**/*.xml
 
+  result-success:
+    needs:
+      - checkstyle
+      - build
+      - test
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
       - name: On Success!! Congratulations
-        if: ${{ success() }}
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_COLOR: '#53A551'
@@ -67,6 +87,14 @@ jobs:
           SLACK_USERNAME: Uni-server
           SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
 
+  result-failure:
+    needs:
+      - checkstyle
+      - build
+      - test
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
       - name: On Failed, Notify in Slack
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2

@@ -8,9 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  common:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -40,12 +39,27 @@ jobs:
       - name: load github submodule
         run: ./gradlew copyConfig
 
+  checkstyle:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkstyle Check
         run: ./gradlew checkstyleMain checkstyleTest
 
+  build:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
       - name: Build with Gradle
         run: ./gradlew clean build
 
+  result:
+    needs:
+      - checkstyle
+      - build
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
       - name: On Failed, Notify in Slack
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2
