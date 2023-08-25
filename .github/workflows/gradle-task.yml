@@ -1,0 +1,9 @@
+on: workflow_call
+
+jobs:
+  gradle-task:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Gradle Task
+        run: ./gradle ${{matrix.gradle.task}}
