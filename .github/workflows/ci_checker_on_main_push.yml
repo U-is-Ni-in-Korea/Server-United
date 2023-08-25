@@ -43,6 +43,12 @@ jobs:
     needs: common
     runs-on: ubuntu-latest
     steps:
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: load github submodule
+        run: ./gradlew copyConfig
+
       - name: Checkstyle Check
         run: ./gradlew checkstyleMain checkstyleTest
 
@@ -50,13 +56,33 @@ jobs:
     needs: common
     runs-on: ubuntu-latest
     steps:
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: load github submodule
+        run: ./gradlew copyConfig
+
       - name: Build with Gradle
         run: ./gradlew clean build
+
+  test:
+    needs: common
+    runs-on: ubuntu-latest
+    steps:
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: load github submodule
+        run: ./gradlew copyConfig
+
+      - name: Build with Gradle
+        run: ./gradlew test
 
   result:
     needs:
       - checkstyle
       - build
+      - test
     if: failure()
     runs-on: ubuntu-latest
     steps:
