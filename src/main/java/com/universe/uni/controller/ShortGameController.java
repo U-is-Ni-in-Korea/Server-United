@@ -40,7 +40,13 @@ public class ShortGameController {
 	public GameReportResponseDto enterGameResult(
 		@PathVariable final Long roundGameId,
 		@RequestBody @Valid final EnterGameResultDto enterGameResultDto) {
-		return gameService.updateGameScore(roundGameId, enterGameResultDto.getResult());
+		return gameService.updateGameResult(roundGameId, enterGameResultDto.getResult());
+	}
+
+	@PostMapping("/{roundGameId}")
+	@ResponseStatus(HttpStatus.OK)
+	public GameReportResponseDto checkFinalGameResult(@PathVariable final Long roundGameId) {
+		return gameService.updateFinalGameResult(roundGameId);
 	}
 
 	@GetMapping("/{roundGameId}")

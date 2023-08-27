@@ -3,9 +3,7 @@ package com.universe.uni.service;
 import static com.universe.uni.domain.GameResult.DRAW;
 import static com.universe.uni.domain.GameResult.LOSE;
 import static com.universe.uni.domain.GameResult.WIN;
-import static com.universe.uni.exception.dto.ErrorType.ALREADY_GAME_CREATED;
-import static com.universe.uni.exception.dto.ErrorType.ALREADY_GAME_DONE;
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_ROUND_MISSION;
+import static com.universe.uni.exception.dto.ErrorType.*;
 
 import com.universe.uni.domain.GameResult;
 import com.universe.uni.domain.GameType;
@@ -134,27 +132,33 @@ public class GameService {
     }
 
     @Transactional
-    public GameReportResponseDto updateGameScore(Long roundGameId, Boolean result) {
+    public GameReportResponseDto updateGameResult(Long roundGameId, Boolean result) {
+        User user = userUtil.getCurrentUser();
+        RoundGame roundGame = getRoundGameById(roundGameId);
+        RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
+        updateGameResultWithTimeRecord(myRoundMission, result);
+
+        return GameReportResponseDto.of(myRoundMission);
+    }
+
+    @Transactional
+    public GameReportResponseDto updateFinalGameResult(Long roundGameId) {
         User user = userUtil.getCurrentUser();
         RoundGame roundGame = getRoundGameById(roundGameId);
         RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
         RoundMission partnerRoundMission = getPartnerRoundMission(roundGame, user);
 
-        updateGameResultWithTimeRecord(myRoundMission, result);
-
-        if (isResultEntered(partnerRoundMission)) {
-            User winner = decideFinalGameScore(myRoundMission, partnerRoundMission);
-            finishGame(roundGame);
-            updateGameHistory(myRoundMission, partnerRoundMission);
-            wishCouponService.giveWishCouponToWinner(roundGame.getGame(), winner);
-            return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
-        } else {
-            if (result) {
-                myRoundMission.updateFinalResult(WIN);
-            }
-            return GameReportResponseDto.of(myRoundMission);
+        if(!isResultEntered(partnerRoundMission)) {
+            throw new BadRequestException(PARTNER_RESULT_NOT_ENTERED);
         }
+
+        User winner = decideFinalGameScore(myRoundMission, partnerRoundMission);
+        finishGame(roundGame);
+        updateGameHistory(myRoundMission, partnerRoundMission);
+        wishCouponService.giveWishCouponToWinner(roundGame.getGame(), winner);
+
+        return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
     }
 
     private void finishGame(RoundGame roundGame) {
@@ -256,9 +260,8 @@ public class GameService {
 
         //verifyIsOngoingGame(roundGame);
         RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
-        RoundMission partnerRoundMission = getPartnerRoundMission(roundGame, user);
 
-        return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
+        return GameReportResponseDto.of(myRoundMission);
     }
 
     private void verifyIsOngoingGame(RoundGame roundGame) {
