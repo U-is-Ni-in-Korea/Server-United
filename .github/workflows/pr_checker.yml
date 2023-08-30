@@ -12,12 +12,9 @@ permissions:
 
 jobs:
   check-style:
-    strategy:
-      matrix:
-        gradle: [checkstyleMain, checkstyleTest]
     uses: ./.github/workflows/gradle-task.yml
     with:
-      tasks :${{ matrix.gradle }}
+      tasks : '["checkstyleMain", "checkstyleTest"]'
 
 #  checkstyle:
 #    needs: common
