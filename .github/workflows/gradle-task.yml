@@ -1,7 +1,15 @@
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      tasks:
+        description: gradle execute option
+        type: string
 
 jobs:
   gradle-task:
+    strategy:
+      matrix:
+        gradle: ${{ fromJSON(inputs.tasks) }}
     needs: common
     runs-on: ubuntu-latest
     steps:

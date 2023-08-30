@@ -17,7 +17,7 @@ jobs:
         gradle: [checkstyleMain, checkstyleTest]
     uses: ./.github/workflows/gradle-task.yml
     with:
-      target :${{ matrix.gradle }}
+      tasks :${{ matrix.gradle }}
 
 #  checkstyle:
 #    needs: common
