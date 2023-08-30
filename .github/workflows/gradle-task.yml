@@ -34,4 +34,4 @@ jobs:
         run: ./gradlew copyConfig
 
       - name: Run Gradle Task
-        run: ./gradle ${{matrix.gradle.task}}
+        run: ./gradle ${{matrix.gradle}}
