@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  CheckStyle:
+  check-style:
     strategy:
       matrix:
         gradle: [checkstyleMain, checkstyleTest]
