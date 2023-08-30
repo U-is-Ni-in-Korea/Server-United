@@ -17,86 +17,48 @@ jobs:
       tasks : '["checkstyleMain", "checkstyleTest", "build -x test", "test"]'
     secrets: inherit
 
-#  checkstyle:
-#    needs: common
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Grant execute permission for gradlew
-#        run: chmod +x gradlew
-#
-#      - name: load github submodule
-#        run: ./gradlew copyConfig
-#
-#      - name: Checkstyle Check
-#        run: ./gradlew checkstyleMain checkstyleTest
-#
-#  build:
-#    needs: common
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Grant execute permission for gradlew
-#        run: chmod +x gradlew
-#
-#      - name: load github submodule
-#        run: ./gradlew copyConfig
-#
-#      - name: Build with Gradle
-#        run: ./gradlew clean build
-#
-#  test:
-#    needs: common
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Grant execute permission for gradlew
-#        run: chmod +x gradlew
-#
-#      - name: load github submodule
-#        run: ./gradlew copyConfig
-#
-#      - name: Test with Gradle
-#        run: ./gradlew test
-#
-#      - name: Publish Test Results
-#        uses: EnricoMi/publish-unit-test-result-action@v1
-#        if: always()
-#        with:
-#          files: build/test-results/**/*.xml
-#
-#  result-success:
-#    needs:
-#      - checkstyle
-#      - build
-#      - test
-#    if: success()
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: On Success!! Congratulations
-#        uses: rtCamp/action-slack-notify@v2
-#        env:
-#          SLACK_COLOR: '#53A551'
-#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-#          SLACK_TITLE: 'Uni/PR Check S.U.C.C.E.S.S 🎉🎉🎉'
-#          SLACK_ICON: ${{ github.event.org.avatar_url }}
-#          MSG_MINIMAL: event,actions url, commit
-#          SLACK_USERNAME: Uni-server
-#          SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
-#
-#  result-failure:
-#    needs:
-#      - checkstyle
-#      - build
-#      - test
-#    if: failure()
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: On Failed, Notify in Slack
-#        if: ${{ failure() }}
-#        uses: rtCamp/action-slack-notify@v2
-#        env:
-#          SLACK_COLOR: '#ff0000'
-#          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-#          SLACK_TITLE: 'Uni/Server Debug build Fail❌ 에러를 확인해주세요'
-#          SLACK_ICON: ${{ github.event.org.avatar_url }}
-#          MSG_MINIMAL: event,actions url, commit
-#          SLACK_USERNAME: Uni-server
-#          SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
+  publish-test-result:
+    needs:
+      - ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        with:
+          files: build/test-results/**/*.xml
+
+
+  result-success:
+    needs:
+      - ci
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - name: On Success!! Congratulations
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#53A551'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: 'Uni/PR Check S.U.C.C.E.S.S 🎉🎉🎉'
+          SLACK_ICON: ${{ github.event.org.avatar_url }}
+          MSG_MINIMAL: event,actions url, commit
+          SLACK_USERNAME: Uni-server
+          SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
+
+  result-failure:
+    needs:
+      - ci
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: On Failed, Notify in Slack
+        if: ${{ failure() }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: '#ff0000'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_TITLE: 'Uni/Server Debug build Fail❌ 에러를 확인해주세요'
+          SLACK_ICON: ${{ github.event.org.avatar_url }}
+          MSG_MINIMAL: event,actions url, commit
+          SLACK_USERNAME: Uni-server
+          SLACK_MESSAGE: '${{ github.server_url }}/${{ github.repository }}/pull/${{ github.event.number}}'
