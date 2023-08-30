@@ -11,10 +11,10 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-style:
+  ci:
     uses: ./.github/workflows/gradle-task.yml
     with:
-      tasks : '["checkstyleMain", "checkstyleTest"]'
+      tasks : '["checkstyleMain", "checkstyleTest", "build -x test", "test"]'
     secrets: inherit
 
 #  checkstyle:
