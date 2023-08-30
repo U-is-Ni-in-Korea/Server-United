@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.ColumnDefault;
 
@@ -28,6 +29,9 @@ public class Couple {
 	@Column(name = "couple_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Version
+	private long version;
 
 	@Column(name = "start_date", nullable = false)
 	private LocalDate startDate;

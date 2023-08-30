@@ -21,6 +21,7 @@ import com.universe.uni.dto.response.CreateShortGameResponseDto;
 import com.universe.uni.dto.response.GameReportResponseDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
+import com.universe.uni.repository.CoupleRepository;
 import com.universe.uni.repository.GameRepository;
 import com.universe.uni.repository.RoundGameRepository;
 import com.universe.uni.repository.RoundMissionRepository;
@@ -45,6 +46,7 @@ public class GameService {
     private final RoundGameRepository roundGameRepository;
     private final RoundMissionRepository roundMissionRepository;
     private final UserRepository userRepository;
+    private final CoupleRepository coupleRepository;
     private final UserGameHistoryRepository userGameHistoryRepository;
     private final MissionService missionService;
     private final WishCouponService wishCouponService;
@@ -59,6 +61,8 @@ public class GameService {
         final User user = userUtil.getCurrentUser();
         final Couple couple = user.getCouple();
 
+        getLockedCoupleById(couple.getId());
+
         //한판승부 생성
         ShortGame shortGame = createShortGameBy(couple);
         //roundGame 생성
@@ -72,6 +76,11 @@ public class GameService {
         RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
         return CreateShortGameResponseDto.of(shortGame, roundGame.getId(), myRoundMission);
+    }
+
+    private void getLockedCoupleById(Long coupleId) {
+        coupleRepository.findWithOptimisticForceIncrementById(coupleId)
+            .orElseThrow(() -> new NotFoundException(NOT_FOUND_COUPLE));
     }
 
     private ShortGame createShortGameBy(Couple couple) {
