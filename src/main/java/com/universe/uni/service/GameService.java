@@ -19,6 +19,7 @@ import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.request.CreateShortGameRequestDto;
 import com.universe.uni.dto.response.CreateShortGameResponseDto;
 import com.universe.uni.dto.response.GameReportResponseDto;
+import com.universe.uni.exception.ApiException;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.CoupleRepository;
@@ -28,6 +29,7 @@ import com.universe.uni.repository.RoundMissionRepository;
 import com.universe.uni.repository.UserGameHistoryRepository;
 import com.universe.uni.repository.UserRepository;
 
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,21 +63,25 @@ public class GameService {
         final User user = userUtil.getCurrentUser();
         final Couple couple = user.getCouple();
 
-        getLockedCoupleById(couple.getId());
+        try {
+            getLockedCoupleById(couple.getId());
 
-        //한판승부 생성
-        ShortGame shortGame = createShortGameBy(couple);
-        //roundGame 생성
-        RoundGame roundGame = createRoundGameBy(shortGame, createShortGameRequestDto.getMissionCategoryId());
-        //커플 유저 둘 다 가져와서 roundMission 만들어주기
-        setRoundMissionsToUsersWith(couple, roundGame);
+            //한판승부 생성
+            ShortGame shortGame = createShortGameBy(couple);
+            //roundGame 생성
+            RoundGame roundGame = createRoundGameBy(shortGame, createShortGameRequestDto.getMissionCategoryId());
+            //커플 유저 둘 다 가져와서 roundMission 만들어주기
+            setRoundMissionsToUsersWith(couple, roundGame);
 
-        //소원권 생성
-        createWishCouponWith(createShortGameRequestDto.getWishContent(), shortGame);
+            //소원권 생성
+            createWishCouponWith(createShortGameRequestDto.getWishContent(), shortGame);
 
-        RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
+            RoundMission myRoundMission = getRoundMissionByRoundGameAndUser(roundGame, user);
 
-        return CreateShortGameResponseDto.of(shortGame, roundGame.getId(), myRoundMission);
+            return CreateShortGameResponseDto.of(shortGame, roundGame.getId(), myRoundMission);
+        } catch (OptimisticLockingFailureException exception) {
+            throw new BadRequestException(ALREADY_GAME_CREATED);
+        }
     }
 
     private void getLockedCoupleById(Long coupleId) {

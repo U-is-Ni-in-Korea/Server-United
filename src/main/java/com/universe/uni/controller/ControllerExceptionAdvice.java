@@ -131,12 +131,6 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
                 .body(ErrorResponse.businessErrorOf(ErrorType.INTERNAL_SERVER_ERROR));
     }
 
-    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
-    public ResponseEntity<ErrorResponse> handleOptimisticLock(ObjectOptimisticLockingFailureException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(ErrorResponse.businessErrorOf(ErrorType.ALREADY_GAME_CREATED));
-    }
-
     private void sendSentryEvent(
             Exception exception,
             WebRequest request
