@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         gradle: ${{ fromJSON(inputs.tasks) }}
-    needs: common
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
