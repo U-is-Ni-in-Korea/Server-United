@@ -11,17 +11,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  checkstyle:
-    runs-on: ubuntu-latest
+  CheckStyle:
     strategy:
       matrix:
-        checkstyle: [ checkstyleMain, checkstyleTest ]
-    steps:
-      - name: load Common
-        uses: ./.github/workflows/common.yml
-
-      - name: checkstyle
-        run: ./gradlew ${{matrix.checkstyle}}
+        gradle: [checkstyleMain, checkstyleTest]
+    uses: ./.github/workflows/gradle-task.yml
 
 #  checkstyle:
 #    needs: common
