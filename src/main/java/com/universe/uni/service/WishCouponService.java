@@ -66,7 +66,7 @@ public class WishCouponService {
 
 		return WishCouponResponseDto.builder()
 			.isMine(isMine)
-			.nickname(user.getNickname())
+			.nickname(wishCoupon.getUser().getNickname())
 			.wishCoupon(fromWishCouponToWishCouponDto(wishCoupon))
 			.build();
 	}
