@@ -1,4 +1,4 @@
-name: Uni PR Builder
+name: On Push CI
 
 on:
   push:
@@ -13,16 +13,6 @@ jobs:
     with:
       tasks : '["checkstyleMain", "checkstyleTest", "build -x test", "test"]'
     secrets: inherit
-
-  publish-test-result:
-    needs:
-      - ci
-    runs-on: ubuntu-latest
-    steps:
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        with:
-          files: build/test-results/**/*.xml
 
   result-failure:
     needs:
