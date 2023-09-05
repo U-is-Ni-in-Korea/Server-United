@@ -5,10 +5,16 @@ import javax.transaction.Transactional;
 import com.universe.uni.dto.AuthTokenDto;
 
 public interface AuthServiceContract {
-	@Transactional
+    @Transactional
+    AuthTokenDto authWithKakaoCode(String authenticationCode);
+
+    @Transactional
 	AuthTokenDto authWithKakao(String accessToken);
 
-	@Transactional
+    @Transactional
+    AuthTokenDto authWithGoogleCode(String authenticationCode);
+
+    @Transactional
 	AuthTokenDto authWithGoogle(String accessToken);
 
 	@Transactional

@@ -5,6 +5,7 @@ import com.universe.uni.dto.request.AuthRequestDto;
 import com.universe.uni.exception.dto.ErrorResponse;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 @Tag(name = "유저 인증", description = "유저 인증 및 로그인/회원가입 api")
 public interface AuthControllerContract {
@@ -123,34 +129,18 @@ public interface AuthControllerContract {
             description = "카카오 웹 페이지 로그인을 통해 로그인한 코드를 받을 경우 사용합니다. 일반적으로 사용되지 않는 api",
             hidden = true
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "인증 후 인증 코드를 담아서 보냅니다",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthRequestDto.class)
-                    )
-            )
-    })
     @GetMapping("kakao/callback")
-    AuthRequestDto redirectKakaoAuth(@RequestParam(name = "code") String authenticationCode);
+    AuthTokenDto redirectKakaoAuth(
+            @RequestParam(name = "code") String authenticationCode
+    );
 
     @Operation(
             summary = "구글 인증 Redirect Link",
             description = "구글 웹 페이지 로그인을 통해 로그인한 코드를 받을 경우 사용합니다. 일반적으로 사용되지 않는 api",
             hidden = true
     )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "인증 후 인증 코드를 담아서 보냅니다.",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthRequestDto.class)
-                    )
-            )
-    })
     @GetMapping("google/callback")
-    AuthRequestDto redirectGoogleAuth(@RequestParam(name = "code") String authenticationCode);
+    AuthTokenDto redirectGoogleAuth(
+            @RequestParam(name = "code") String authenticationCode
+    );
 }

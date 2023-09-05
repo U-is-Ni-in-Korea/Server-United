@@ -2,6 +2,9 @@ package com.universe.uni.service;
 
 import javax.transaction.Transactional;
 
+import com.universe.uni.external.response.GoogleAccessTokenResponse;
+import com.universe.uni.external.response.KakaoAuthResponse;
+
 import org.springframework.stereotype.Service;
 
 import com.universe.uni.domain.AppleTokenManager;
@@ -28,6 +31,13 @@ public class AuthService implements AuthServiceContract {
 	private final UserRepository userRepository;
 	private final AppleTokenManager appleTokenManager;
 
+    @Override
+    @Transactional
+    public AuthTokenDto authWithKakaoCode(String authenticationCode) {
+        final KakaoAuthResponse kakaoAuth = kakaoRepository.fetchTokenBy(authenticationCode);
+        return authWithKakao(kakaoAuth.accessToken());
+    }
+
 	@Override
 	@Transactional
 	public AuthTokenDto authWithKakao(String accessToken) {
@@ -43,6 +53,13 @@ public class AuthService implements AuthServiceContract {
 			.snsAuthCode(kakaoUser.id().toString())
 			.build();
 	}
+
+    @Override
+    @Transactional
+    public AuthTokenDto authWithGoogleCode(String authenticationCode) {
+        final GoogleAccessTokenResponse googleAuth = googleRepository.fetchTokenBy(authenticationCode);
+        return authWithGoogle(googleAuth.idToken());
+    }
 
 	@Override
 	@Transactional
