@@ -1,5 +1,7 @@
 package com.universe.uni.config;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -14,7 +16,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 @OpenAPIDefinition(
 		servers = {
 				@Server(url = "http://uni-sparkle.kro.kr", description = "개발 배포 주소"),
-				@Server(url = "http://localhost/8080", description = "로컬 환경 주소")
+				@Server(url = "http://localhost:8080", description = "로컬 환경 주소")
 		},
 		info = @Info(
 				title = "Sparkle API",
@@ -23,9 +25,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		)
 )
 @SecurityScheme(
-		name = "Authorization",
-		type = SecuritySchemeType.APIKEY,
-		in = SecuritySchemeIn.HEADER
+        name = "Authorization",
+        type = SecuritySchemeType.HTTP,
+        scheme = "Bearer",
+        in= SecuritySchemeIn.HEADER
 )
 @Configuration
 public class SwaggerConfig {
