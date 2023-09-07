@@ -8,6 +8,7 @@ import com.universe.uni.exception.dto.ErrorResponse;
 import com.universe.uni.exception.dto.ErrorType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -69,16 +70,16 @@ public interface CoupleControllerContract {
                             description = "커플 연결 성공"
                     ),
                     @ApiResponse(
-                            responseCode = "400-UE1007",
-                            description = "올바르지 않은 초대 코드입니다.",
+                            responseCode = "400-UE1004",
+                            description = " 존재하지 않는 유저의 요청",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class)
                             )
                     ),
                     @ApiResponse(
-                            responseCode = "400-UE1004",
-                            description = " 존재하지 않는 유저의 요청",
+                            responseCode = "400-UE1007",
+                            description = "올바르지 않은 초대 코드입니다.",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class)
@@ -108,9 +109,34 @@ public interface CoupleControllerContract {
             JoinCoupleRequestDto body
     );
 
+    @Operation(
+            summary = "커플 연결 확인",
+            description = "커플 연결을 확인 할 수 있다."
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "커플 연결 완료",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = CoupleConnectionResponseDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400-UE1004",
+                            description = " 존재하지 않는 유저의 요청",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+                    )
+            }
+    )
     @GetMapping("join")
     @ResponseStatus(HttpStatus.OK)
     CoupleConnectionResponseDto checkConnection(
+            @Parameter(hidden = true)
             @AuthenticationPrincipal Long userId
     );
 }
