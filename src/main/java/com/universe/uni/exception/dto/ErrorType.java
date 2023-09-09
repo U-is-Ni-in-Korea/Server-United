@@ -65,6 +65,8 @@ public enum ErrorType {
 	 */
 	USER_ALREADY_EXISTS_EXCEPTION(HttpStatus.CONFLICT, "UE10001",
 		"이미 존재하는 유저에 대한 생성에 대한 경우입니다."),
+	COUPLE_ALREADY_CONNECTED(HttpStatus.CONFLICT, "UE10002",
+		"이미 커플이 연결된 초대코드입니다."),
 
 	/**
 	 * 415 Unsupported Media Type
