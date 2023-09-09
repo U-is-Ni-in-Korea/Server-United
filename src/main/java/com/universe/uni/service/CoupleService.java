@@ -65,14 +65,14 @@ public class CoupleService implements CoupleServiceContract {
 	public void joinCouple(Long userId, String inviteCode) {
 		final Couple couple = coupleRepository.findByInviteCode(inviteCode)
 			.orElseThrow(() -> new BadRequestException(ErrorType.INVALID_INVITE_CODE));
-		validateIfCoupleConnected(couple);
+		validateCoupleConnected(couple);
 		final User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
 		user.connectCouple(couple);
 
 	}
 
-	private void validateIfCoupleConnected(Couple couple) {
+	private void validateCoupleConnected(Couple couple) {
 		if(userRepository.countByCoupleId(couple.getId()) >= 2) {
 			throw new ConflictException(COUPLE_ALREADY_CONNECTED);
 		}
