@@ -106,4 +106,13 @@ public class CoupleService implements CoupleServiceContract {
 	public void deleteCouple(Long coupleId) {
 		coupleRepository.deleteById(coupleId);
 	}
+
+	@Override
+	@Transactional
+	public void disconnectCouple(Long userId) {
+		final User user = userRepository.findById(userId)
+			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		final Couple couple = user.getCouple();
+		deleteCouple(couple.getId());
+	}
 }
