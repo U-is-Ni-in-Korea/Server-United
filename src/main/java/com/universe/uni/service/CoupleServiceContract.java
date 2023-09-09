@@ -25,4 +25,7 @@ public interface CoupleServiceContract {
 
 	@Transactional
 	void deleteCouple(Long coupleId);
+
+	@Transactional
+	void disconnectCouple(Long userId);
 }
