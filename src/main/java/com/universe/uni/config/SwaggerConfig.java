@@ -2,6 +2,7 @@ package com.universe.uni.config;
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -22,11 +23,13 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				title = "Sparkle API",
 				version = "v1",
 				description = "sparkle API 입니다"
-		)
+		),
+        security = @SecurityRequirement(name = "Authorization")
 )
 @SecurityScheme(
         name = "Authorization",
         type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
         scheme = "Bearer",
         in= SecuritySchemeIn.HEADER
 )
