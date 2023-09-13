@@ -10,6 +10,7 @@ import com.universe.uni.domain.GameType;
 import com.universe.uni.domain.entity.Couple;
 import com.universe.uni.domain.entity.Game;
 import com.universe.uni.domain.entity.MissionCategory;
+import com.universe.uni.domain.entity.MissionContent;
 import com.universe.uni.domain.entity.RoundGame;
 import com.universe.uni.domain.entity.RoundMission;
 import com.universe.uni.domain.entity.ShortGame;
@@ -19,7 +20,6 @@ import com.universe.uni.domain.entity.WishCoupon;
 import com.universe.uni.dto.request.CreateShortGameRequestDto;
 import com.universe.uni.dto.response.CreateShortGameResponseDto;
 import com.universe.uni.dto.response.GameReportResponseDto;
-import com.universe.uni.exception.ApiException;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.CoupleRepository;
@@ -54,9 +54,6 @@ public class GameService {
     private final WishCouponService wishCouponService;
     private final UserUtil userUtil;
 
-    /*TODO: 해당 요청이 Couple 로 연결된 두 User 의 동시 요청이 되는 경우 문제 해결 필요
-     *  Couple이 아닌 두 유저의 경우 동시에 요청이 와도 동시에 처리 되어야 한다.
-     *  Couple인 두 유저의 경우 동시에 요청이 오면 커플에 대한 게임이 2개 생성되지 않도록 처리해야 한다.*/
     @Transactional
     public CreateShortGameResponseDto createShortGame(CreateShortGameRequestDto createShortGameRequestDto) {
 
@@ -117,15 +114,38 @@ public class GameService {
     // TODO: 라운드 게임에 지정된 미션 카테고리를 통해 각 카테고리 별로 유저의 미션을 통일 혹은 다르게 주어야함.
     private void setRoundMissionsToUsersWith(Couple couple, RoundGame roundGame) {
         //커플 유저 둘 다 가져와서 roundMission 만들어주기
-        List<User> userList = userRepository.findByCouple(couple);
-        List<RoundMission> roundMissionList = userList.stream()
-                .map(u -> createRoundMission(roundGame, u))
-                .collect(Collectors.toList());
-
-        roundMissionRepository.saveAll(roundMissionList);
+        List<User> users = userRepository.findByCouple(couple);
+        if (roundGame.getMissionCategory().isMissionTypeSame()) {
+            createSameRoundMission(roundGame, users);
+            return;
+        }
+        createDifferenceRoundMission(roundGame, users);
     }
 
-    private RoundMission createRoundMission(RoundGame roundGame, User user) {
+    private void createSameRoundMission(RoundGame roundGame, List<User> users) {
+        MissionContent missionContent = missionService.getMissionContentByRandom(roundGame.getMissionCategory());
+        List<RoundMission> roundMissions = users.stream()
+                .map(user -> createRoundMission(roundGame, user, missionContent))
+                .toList();
+        roundMissionRepository.saveAll(roundMissions);
+    }
+
+    private RoundMission createRoundMission(RoundGame roundGame, User user, MissionContent missionContent) {
+        return RoundMission.builder()
+                .roundGame(roundGame)
+                .user(user)
+                .missionContent(missionContent)
+                .build();
+    }
+
+    private void createDifferenceRoundMission(RoundGame roundGame, List<User> users) {
+        List<RoundMission> roundMissions = users.stream()
+                .map(user -> createRandomRoundMission(roundGame, user))
+                .toList();
+        roundMissionRepository.saveAll(roundMissions);
+    }
+
+    private RoundMission createRandomRoundMission(RoundGame roundGame, User user) {
         return RoundMission.builder()
                 .roundGame(roundGame)
                 .user(user)
