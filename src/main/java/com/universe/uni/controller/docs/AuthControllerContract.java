@@ -41,8 +41,8 @@ public interface AuthControllerContract {
                     )
             ),
             @ApiResponse(
-                    responseCode = "500",
-                    description = "UE500: 사용자 인증에 실패한 경우 입니다.",
+                    responseCode = "500-UE500",
+                    description = "사용자 인증에 실패한 경우 입니다.",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)
@@ -72,8 +72,8 @@ public interface AuthControllerContract {
                     )
             ),
             @ApiResponse(
-                    responseCode = "500",
-                    description = "UE500: 사용자 인증에 실패한 경우 입니다.",
+                    responseCode = "500-UE500",
+                    description = "사용자 인증에 실패한 경우 입니다.",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)
@@ -103,8 +103,8 @@ public interface AuthControllerContract {
                     )
             ),
             @ApiResponse(
-                    responseCode = "500",
-                    description = "UE500: 사용자 인증에 실패한 경우 입니다",
+                    responseCode = "500-UE500",
+                    description = "사용자 인증에 실패한 경우 입니다",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
                             schema = @Schema(implementation = ErrorResponse.class)
