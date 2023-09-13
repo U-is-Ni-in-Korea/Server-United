@@ -59,4 +59,8 @@ public class MissionCategory {
     @Column(name = "mission_tool", nullable = false)
     @Convert(converter = MissionToolAttributeConverter.class)
     private MissionTool missionTool;
+
+    public boolean isMissionTypeSame() {
+        return this.missionType.equals(MissionType.SAME);
+    }
 }
