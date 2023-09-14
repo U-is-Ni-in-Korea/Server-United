@@ -1,11 +1,11 @@
 package com.universe.uni.controller.docs;
 
-import com.universe.uni.dto.AuthTokenDto;
+import com.universe.uni.domain.AuthToken;
 import com.universe.uni.dto.request.AuthRequestDto;
+import com.universe.uni.dto.response.SnsAuthResponseDto;
 import com.universe.uni.exception.dto.ErrorResponse;
 
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,11 +18,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 @Tag(name = "유저 인증", description = "유저 인증 및 로그인/회원가입 api")
 public interface AuthControllerContract {
@@ -37,7 +32,7 @@ public interface AuthControllerContract {
                     description = "성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthTokenDto.class)
+                            schema = @Schema(implementation = SnsAuthResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -50,7 +45,7 @@ public interface AuthControllerContract {
             )
     })
     @PostMapping("kakao")
-    AuthTokenDto authByKakao(
+    SnsAuthResponseDto authByKakao(
             @Parameter(
                     description = "Kakao 에서 받은 인증 코드",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
@@ -68,7 +63,7 @@ public interface AuthControllerContract {
                     description = "성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthTokenDto.class)
+                            schema = @Schema(implementation = SnsAuthResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -81,7 +76,7 @@ public interface AuthControllerContract {
             )
     })
     @PostMapping("google")
-    AuthTokenDto authByGoogle(
+    SnsAuthResponseDto authByGoogle(
             @Parameter(
                     description = "Google 에서 받은 인증 코드",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
@@ -99,7 +94,7 @@ public interface AuthControllerContract {
                     description = "성공",
                     content = @Content(
                             mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AuthTokenDto.class)
+                            schema = @Schema(implementation = SnsAuthResponseDto.class)
                     )
             ),
             @ApiResponse(
@@ -113,7 +108,7 @@ public interface AuthControllerContract {
 
     })
     @PostMapping("apple")
-    AuthTokenDto authByApple(
+    SnsAuthResponseDto authByApple(
             @Parameter(
                     description = "Apple 에서 받은 identity Token",
                     content = @Content(
@@ -130,7 +125,7 @@ public interface AuthControllerContract {
             hidden = true
     )
     @GetMapping("kakao/callback")
-    AuthTokenDto redirectKakaoAuth(
+    SnsAuthResponseDto redirectKakaoAuth(
             @RequestParam(name = "code") String authenticationCode
     );
 
@@ -140,7 +135,7 @@ public interface AuthControllerContract {
             hidden = true
     )
     @GetMapping("google/callback")
-    AuthTokenDto redirectGoogleAuth(
+    SnsAuthResponseDto redirectGoogleAuth(
             @RequestParam(name = "code") String authenticationCode
     );
 }

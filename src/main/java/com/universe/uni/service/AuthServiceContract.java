@@ -2,23 +2,24 @@ package com.universe.uni.service;
 
 import javax.transaction.Transactional;
 
-import com.universe.uni.dto.AuthTokenDto;
+import com.universe.uni.domain.AuthToken;
+import com.universe.uni.dto.response.SnsAuthResponseDto;
 
 public interface AuthServiceContract {
     @Transactional
-    AuthTokenDto authWithKakaoCode(String authenticationCode);
+    SnsAuthResponseDto authWithKakaoCode(String authenticationCode);
 
     @Transactional
-	AuthTokenDto authWithKakao(String accessToken);
+    SnsAuthResponseDto authWithKakao(String accessToken);
 
     @Transactional
-    AuthTokenDto authWithGoogleCode(String authenticationCode);
+    SnsAuthResponseDto authWithGoogleCode(String authenticationCode);
 
     @Transactional
-	AuthTokenDto authWithGoogle(String accessToken);
+    SnsAuthResponseDto authWithGoogle(String accessToken);
 
 	@Transactional
-	AuthTokenDto authWithAppleUser(String identityToken);
+    SnsAuthResponseDto authWithAppleUser(String identityToken);
 
 	@Transactional
 	void unlinkSns(Long userId);
