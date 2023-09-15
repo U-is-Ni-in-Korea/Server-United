@@ -22,6 +22,8 @@ import com.universe.uni.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService implements AuthServiceContract {
