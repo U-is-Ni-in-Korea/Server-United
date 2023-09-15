@@ -102,7 +102,7 @@ public interface WishCouponControllerContract {
                     @ApiResponse(
                             responseCode = "404-UE5001",
                             description = "잘못된 endpoint에 요청한 경우입니다.",
-                            content = @Content(
+                            content = @Content(a
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class)
                             )
