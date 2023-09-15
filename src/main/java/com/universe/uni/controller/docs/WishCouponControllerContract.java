@@ -119,5 +119,8 @@ public interface WishCouponControllerContract {
     )
     @GetMapping("/{wishCouponId}")
     @ResponseStatus(HttpStatus.OK)
-    WishCouponResponseDto getWishCoupon(@PathVariable Long wishCouponId);
+    WishCouponResponseDto getWishCoupon(
+            @Parameter(required = true)
+            @PathVariable Long wishCouponId
+    );
 }
