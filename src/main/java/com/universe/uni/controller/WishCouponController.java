@@ -33,6 +33,7 @@ public class WishCouponController implements WishCouponControllerContract {
 
 	@PatchMapping("/{wishCouponId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+    @Override
 	public void useWishCoupon(@PathVariable Long wishCouponId) {
 		wishCouponService.useWishCoupon(wishCouponId);
 	}

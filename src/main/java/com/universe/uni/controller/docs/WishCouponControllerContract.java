@@ -1,20 +1,21 @@
 package com.universe.uni.controller.docs;
 
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
-
 import com.universe.uni.exception.dto.ErrorResponse;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(
         name = "Wish Coupon",
@@ -50,4 +51,37 @@ public interface WishCouponControllerContract {
     @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateWishCoupon(@RequestBody UpdateWishCouponRequestDto requestDto);
+
+    @Operation(
+            summary = "소원권 사용",
+            description = "사용자가 소원권을 사용하면 사용된 소원권으로 변경된다",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "소원권 사용 성공"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404-UE5001",
+                            description = "잘못된 endpoint에 요청한 경우입니다.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500-UE500",
+                            description = "서버 내부 오류입니다.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+                    )
+            }
+    )
+    @PatchMapping("/{wishCouponId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void useWishCoupon(
+            @Parameter(required = true)
+            @PathVariable Long wishCouponId
+    );
 }
