@@ -31,6 +31,7 @@ public class MissionController implements MissionControllerContract {
 
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
+    @Override
 	public List<MissionCategoryResponseDto> getMissionCategoryList() {
 		return missionService.getMissionCategoryList();
 	}
