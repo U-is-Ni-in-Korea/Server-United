@@ -96,6 +96,9 @@ public class AuthService implements AuthServiceContract {
 
 	private SnsAuthResponseDto beIssuedAuthToken(User user) {
         final AuthToken authToken = jwtManager.issueToken(user.getId());
+        if (Objects.isNull(user.getCouple())) {
+            return SnsAuthResponseDto.of(authToken, null);
+        }
         return SnsAuthResponseDto.of(authToken, user.getCouple().getId());
 	}
 
