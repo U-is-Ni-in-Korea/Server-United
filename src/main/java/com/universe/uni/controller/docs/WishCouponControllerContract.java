@@ -1,10 +1,12 @@
 package com.universe.uni.controller.docs;
 
 import com.universe.uni.dto.request.UpdateWishCouponRequestDto;
+import com.universe.uni.dto.response.WishCouponResponseDto;
 import com.universe.uni.exception.dto.ErrorResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -84,4 +86,38 @@ public interface WishCouponControllerContract {
             @Parameter(required = true)
             @PathVariable Long wishCouponId
     );
+
+    @Operation(
+            summary = "소원권 상세 조회",
+            description = "사용자는 소원권의 상세 정보를 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "성공",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = WishCouponResponseDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404-UE5001",
+                            description = "잘못된 endpoint에 요청한 경우입니다.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "500-UE500",
+                            description = "서버 내부 오류입니다.",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+                    )
+            }
+    )
+    @GetMapping("/{wishCouponId}")
+    @ResponseStatus(HttpStatus.OK)
+    WishCouponResponseDto getWishCoupon(@PathVariable Long wishCouponId);
 }

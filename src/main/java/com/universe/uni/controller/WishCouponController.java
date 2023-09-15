@@ -40,6 +40,7 @@ public class WishCouponController implements WishCouponControllerContract {
 
 	@GetMapping("/{wishCouponId}")
 	@ResponseStatus(HttpStatus.OK)
+    @Override
 	public WishCouponResponseDto getWishCoupon(@PathVariable Long wishCouponId) {
 		return wishCouponService.getWishCoupon(wishCouponId);
 	}
