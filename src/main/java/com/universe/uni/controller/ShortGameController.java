@@ -62,6 +62,7 @@ public class ShortGameController implements ShortGameControllerContract {
 
 	@DeleteMapping("/{roundGameId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@Override
 	public void quitGame(@PathVariable final Long roundGameId) {
 		gameService.quitGame(roundGameId);
 	}

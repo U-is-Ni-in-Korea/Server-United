@@ -137,4 +137,26 @@ public interface ShortGameControllerContract {
     @GetMapping("/{roundGameId}")
     @ResponseStatus(HttpStatus.OK)
     GameReportResponseDto showGameReport(@PathVariable Long roundGameId);
+
+    @Operation(
+            summary = "승부 중단",
+            description = "사용자가 승부 중단하기를 통해 승부를 중단할 수 있다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "204",
+                            description = "승부 중단 성공(삭제)"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404-UE5005",
+                            description = "해당 라운드 미션이 존재하지 않습니다."
+                    ),
+                    @ApiResponse(
+                            responseCode = "500-UE500",
+                            description = "서버 내부 오류"
+                    )
+            }
+    )
+    @DeleteMapping("/{roundGameId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void quitGame(@PathVariable Long roundGameId);
 }
