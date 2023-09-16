@@ -39,6 +39,7 @@ public class ShortGameController implements ShortGameControllerContract {
 
 	@PatchMapping("/{roundGameId}")
 	@ResponseStatus(HttpStatus.OK)
+	@Override
 	public GameReportResponseDto enterGameResult(
 		@PathVariable final Long roundGameId,
 		@RequestBody @Valid final EnterGameResultDto enterGameResultDto) {
