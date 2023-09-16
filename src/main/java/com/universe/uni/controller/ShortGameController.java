@@ -2,6 +2,7 @@ package com.universe.uni.controller;
 
 import javax.validation.Valid;
 
+import com.universe.uni.controller.docs.ShortGameControllerContract;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,12 +25,13 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/game/short")
-public class ShortGameController {
+public class ShortGameController implements ShortGameControllerContract {
 
 	private final GameService gameService;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.OK)
+	@Override
 	public CreateShortGameResponseDto createShortGame(
 		@RequestBody @Valid final CreateShortGameRequestDto createShortGameRequestDto) {
 		return gameService.createShortGame(createShortGameRequestDto);
