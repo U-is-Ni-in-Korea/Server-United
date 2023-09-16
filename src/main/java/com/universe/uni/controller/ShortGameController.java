@@ -55,6 +55,7 @@ public class ShortGameController implements ShortGameControllerContract {
 
 	@GetMapping("/{roundGameId}")
 	@ResponseStatus(HttpStatus.OK)
+	@Override
 	public GameReportResponseDto showGameReport(@PathVariable final Long roundGameId) {
 		return gameService.getGameReportIfGameIsOngoing(roundGameId);
 	}

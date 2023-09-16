@@ -111,4 +111,30 @@ public interface ShortGameControllerContract {
     @PostMapping("/{roundGameId}")
     @ResponseStatus(HttpStatus.OK)
     GameReportResponseDto checkFinalGameResult(@PathVariable Long roundGameId);
+
+    @Operation(
+            summary = "한판 승부 조회",
+            description = "사용자는 한판 승부 조회 뷰를 통해 한판 승부를 조회할 수 있다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "성공",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = GameReportResponseDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "404-UE5005",
+                            description = "해당 라운드 미션이 존재하지 않습니다."
+                    ),
+                    @ApiResponse(
+                            responseCode = "500-UE500",
+                            description = "서버 내부 오류"
+                    )
+            }
+    )
+    @GetMapping("/{roundGameId}")
+    @ResponseStatus(HttpStatus.OK)
+    GameReportResponseDto showGameReport(@PathVariable Long roundGameId);
 }
