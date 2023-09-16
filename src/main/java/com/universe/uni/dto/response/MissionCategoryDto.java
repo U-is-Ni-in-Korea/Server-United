@@ -4,8 +4,10 @@ import com.universe.uni.domain.MissionTool;
 import com.universe.uni.domain.MissionType;
 import com.universe.uni.domain.entity.MissionCategory;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
+@Schema(description = "미션 카테고리 정보 DTO")
 @Getter
 public class MissionCategoryDto {
 	private final Long id;
@@ -17,7 +19,9 @@ public class MissionCategoryDto {
 	private final String image;
 	private final int level;
 	private final int expectedTime;
+	@Schema(description = "미션 타입 [SAME, DIFFERENCE] enum 값")
 	private final MissionType missionType;
+	@Schema(description = "미션 도구[MEMO,TIMER,NONE] enum 값")
 	private final MissionTool missionTool;
 
 	public MissionCategoryDto(MissionCategory missionCategory) {

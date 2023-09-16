@@ -2,6 +2,8 @@ package com.universe.uni.controller;
 
 import java.util.List;
 
+import com.universe.uni.controller.docs.MissionControllerContract;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,17 +19,19 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/mission")
-public class MissionController {
+public class MissionController implements MissionControllerContract {
 	private final MissionService missionService;
 
 	@GetMapping("/{missionCategoryId}")
 	@ResponseStatus(HttpStatus.OK)
+    @Override
 	public MissionCategoryResponseDto getMissionCategory(@PathVariable Long missionCategoryId) {
 		return missionService.getMissionCategory(missionCategoryId);
 	}
 
 	@GetMapping()
 	@ResponseStatus(HttpStatus.OK)
+    @Override
 	public List<MissionCategoryResponseDto> getMissionCategoryList() {
 		return missionService.getMissionCategoryList();
 	}

@@ -134,6 +134,8 @@ sentry {
 }
 
 def querydslDir = "$buildDir/generated/sources/annotationProcessor"
+
 sourceSets {
+    delete(file(querydslDir))
     main.java.srcDir querydslDir
 }
