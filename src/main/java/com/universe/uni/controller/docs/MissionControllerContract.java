@@ -3,6 +3,7 @@ package com.universe.uni.controller.docs;
 import com.universe.uni.dto.response.MissionCategoryResponseDto;
 import com.universe.uni.exception.dto.ErrorResponse;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,7 +69,10 @@ public interface MissionControllerContract {
                             responseCode = "200",
                             description = "성공",
                             content = @Content(
-                                    mediaType = MediaType.APPLICATION_JSON_VALUE
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    array = @ArraySchema(
+                                            schema = @Schema(implementation = MissionCategoryResponseDto.class)
+                                    )
                             )
                     ),
                     @ApiResponse(
