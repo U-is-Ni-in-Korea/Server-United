@@ -225,7 +225,7 @@ public class GameService {
 
         /**
          * 최종결과 업데이트
-         * 내가 이겼는데 상대도 이김 => 나: LOSE, 상대: WIN
+         * 내가 이겼는데 상대도 이김 => 시간비교 후 빠른 사람이 WIN
          * 내가 이겼는데 상대 짐 => 나: WIN, 상대: LOSE
          * 내가 졌는데 상대 이김 => 나: LOSE, 상대: WIN
          * 내가 졌는데 상대 짐 => 나: DRAW, 상대: DRAW
@@ -234,12 +234,28 @@ public class GameService {
         User winner = null;
 
         if (myResult == WIN && partnerResult == WIN) {
-            updateFinalGameScore(myRoundMission, partnerRoundMission, LOSE, WIN);
+            LocalDateTime myUpdatedAt = myRoundMission.getUpdatedAt();
+            LocalDateTime partnerUpdatedAt = partnerRoundMission.getUpdatedAt();
+
+            if(myUpdatedAt.isAfter(partnerUpdatedAt)) {
+                myRoundMission.updateFinalResult(LOSE);
+                partnerRoundMission.updateFinalResult(WIN);
+                winner = partnerRoundMission.getUser();
+            } else if(myUpdatedAt.isBefore(partnerUpdatedAt)) {
+                myRoundMission.updateFinalResult(WIN);
+                partnerRoundMission.updateFinalResult(LOSE);
+                winner = myRoundMission.getUser();
+            } else {
+                myRoundMission.updateFinalResult(DRAW);
+                partnerRoundMission.updateFinalResult(DRAW);
+            }
             winner = partnerRoundMission.getUser();
         } else if (myResult == LOSE && partnerResult == LOSE) {
-            updateFinalGameScore(myRoundMission, partnerRoundMission, DRAW, DRAW);
+            myRoundMission.updateFinalResult(DRAW);
+            partnerRoundMission.updateFinalResult(DRAW);
         } else {
-            updateFinalGameScore(myRoundMission, partnerRoundMission, myResult, partnerResult);
+            myRoundMission.updateFinalResult(myResult);
+            partnerRoundMission.updateFinalResult(partnerResult);
             if (myResult == WIN) {
                 winner = myRoundMission.getUser();
             } else {
@@ -248,15 +264,6 @@ public class GameService {
         }
 
         return winner;
-    }
-
-    private void updateFinalGameScore(
-            RoundMission myRoundMission,
-            RoundMission partnerRoundMission,
-            GameResult myFinalResult,
-            GameResult partnerFinalResult) {
-        myRoundMission.updateFinalResult(myFinalResult);
-        partnerRoundMission.updateFinalResult(partnerFinalResult);
     }
 
     private Boolean isResultEntered(RoundMission roundMission) {

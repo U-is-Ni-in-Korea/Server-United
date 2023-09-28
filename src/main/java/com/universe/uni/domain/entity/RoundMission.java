@@ -73,4 +73,8 @@ public class RoundMission {
 	public void updateFinalResult(GameResult finalResult) {
 		this.finalResult = finalResult;
 	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
 }
