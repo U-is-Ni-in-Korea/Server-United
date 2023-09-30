@@ -189,9 +189,12 @@ public class GameService {
         }
 
         User winner = decideFinalGameScore(myRoundMission, partnerRoundMission);
-        finishGame(roundGame);
-        updateGameHistory(myRoundMission, partnerRoundMission);
-        wishCouponService.giveWishCouponToWinner(roundGame.getGame(), winner);
+
+        if(!userGameHistoryRepository.existsByGame(roundGame.getGame())) {
+            finishGame(roundGame);
+            updateGameHistory(myRoundMission, partnerRoundMission);
+            wishCouponService.giveWishCouponToWinner(roundGame.getGame(), winner);
+        }
 
         return GameReportResponseDto.of(myRoundMission, partnerRoundMission);
     }
