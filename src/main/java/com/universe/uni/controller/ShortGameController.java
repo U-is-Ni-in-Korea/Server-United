@@ -46,7 +46,7 @@ public class ShortGameController implements ShortGameControllerContract {
 		return gameService.updateGameResult(roundGameId, enterGameResultDto.getResult());
 	}
 
-	@PostMapping("/{roundGameId}")
+	@GetMapping("/result/{roundGameId}")
 	@ResponseStatus(HttpStatus.OK)
 	@Override
 	public GameReportResponseDto checkFinalGameResult(@PathVariable final Long roundGameId) {
