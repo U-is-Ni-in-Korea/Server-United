@@ -71,7 +71,7 @@ public class UserController {
 	@DeleteMapping("")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void withdrawalUser(@AuthenticationPrincipal Long userId) {
-		//authService.unlinkSns(userId);
+		authService.unlinkSns(userId);
 		try {
 			final Long coupleId = userService.findUserCoupleId(userId);
 			coupleService.deleteCouple(coupleId);
