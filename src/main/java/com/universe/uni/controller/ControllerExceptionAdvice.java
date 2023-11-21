@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
@@ -63,6 +64,18 @@ public class ControllerExceptionAdvice extends ResponseEntityExceptionHandler {
         sendSentryEvent(exception, request);
         ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_REQUEST_METHOD);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(
+            NoHandlerFoundException exception,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request
+    ) {
+        sendSentryEvent(exception, request);
+        ErrorResponse errorResponse = ErrorResponse.businessErrorOf(ErrorType.INVALID_ENDPOINT_EXCEPTION);
+        return new ResponseEntity<>(errorResponse, HttpStatus.REQUEST_HEADER_FIELDS_TOO_LARGE);
     }
 
     @ExceptionHandler(MissingRequestHeaderException.class)
