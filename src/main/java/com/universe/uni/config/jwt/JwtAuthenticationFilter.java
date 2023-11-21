@@ -2,6 +2,10 @@ package com.universe.uni.config.jwt;
 
 import static java.util.Objects.*;
 
+import com.universe.uni.domain.entity.User;
+import com.universe.uni.exception.ApiException;
+import com.universe.uni.exception.NotFoundException;
+import com.universe.uni.repository.UserRepository;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -28,6 +32,7 @@ import lombok.val;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final JwtManager jwtManager;
+	private final UserRepository userRepository;
 
 	@Override
 	protected void doFilterInternal(
@@ -39,6 +44,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (isContainApiPath(uri)) {
 			String token = getJwtFromRequest(request);
 			Long userId = jwtManager.getUserIdFromJwt(token);
+			// 임시로 커플아이디 확인 로직 추가
+			if (!isNotRequiredCoupleIdPath(uri)) {
+				User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_EXISTENT));
+				if (user.getCouple() == null) {
+					throw new NotFoundException(ErrorType.COUPLE_NOT_EXISTENT);
+				}
+			}
 			UsernamePasswordAuthenticationToken authentication =
 				new UsernamePasswordAuthenticationToken(userId, null, null);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -61,5 +73,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private boolean isContainApiPath(String uri) {
 		return uri.startsWith("/api");
+	}
+
+	private boolean isNotRequiredCoupleIdPath(String uri) {
+		return uri.contains("user");
 	}
 }
