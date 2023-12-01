@@ -76,6 +76,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	}
 
 	private boolean isNotRequiredCoupleIdPath(String uri) {
-		return uri.contains("user");
+		return uri.contains("user") || uri.contains("couple");
 	}
 }
