@@ -252,7 +252,6 @@ public class GameService {
                 myRoundMission.updateFinalResult(DRAW);
                 partnerRoundMission.updateFinalResult(DRAW);
             }
-            winner = partnerRoundMission.getUser();
         } else if (myResult == LOSE && partnerResult == LOSE) {
             myRoundMission.updateFinalResult(DRAW);
             partnerRoundMission.updateFinalResult(DRAW);
