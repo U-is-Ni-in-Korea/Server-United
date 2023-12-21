@@ -17,7 +17,11 @@ public class MissionCategoryDto {
 	private final String tip;
 	private final String example;
 	private final String image;
+	@Schema(deprecated = true)
+	@Deprecated
 	private final int level;
+	@Schema(deprecated = true)
+	@Deprecated
 	private final int expectedTime;
 	@Schema(description = "미션 타입 [SAME, DIFFERENCE] enum 값")
 	private final MissionType missionType;

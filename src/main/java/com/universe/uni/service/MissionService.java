@@ -7,6 +7,7 @@ import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.MissionContent;
 import com.universe.uni.dto.MissionContentDto;
 import com.universe.uni.dto.response.MissionCategoryResponseDto;
+import com.universe.uni.dto.response.MissionCategoryWithContentsDto;
 import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.repository.MissionCategoryRepository;
 import com.universe.uni.repository.MissionContentRepository;
@@ -44,12 +45,14 @@ public class MissionService {
         }
     }
 
+    @Deprecated
     public MissionCategoryResponseDto getMissionCategory(Long missionCategoryId) {
         MissionCategory missionCategory = missionCategoryRepository.findById(missionCategoryId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
         return fromMissionCategoryToMissionCategoryResponseDto(missionCategory);
     }
 
+    @Deprecated
     public List<MissionCategoryResponseDto> getMissionCategoryList() {
         List<MissionCategory> missionCategoryList = missionCategoryRepository.findAll();
         return missionCategoryList
@@ -58,6 +61,7 @@ public class MissionService {
                 .toList();
     }
 
+    @Deprecated
     private MissionCategoryResponseDto fromMissionCategoryToMissionCategoryResponseDto(
             MissionCategory missionCategory) {
 
@@ -85,6 +89,29 @@ public class MissionService {
                 .content(missionContent.getContent())
                 .recommendTime(missionContent.getRecommendTime())
                 .build();
+    }
+
+    public MissionCategoryWithContentsDto getSelectedMissionCategory(Long missionCategoryId) {
+        MissionCategory missionCategory = missionCategoryRepository.findById(missionCategoryId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
+        return new MissionCategoryWithContentsDto(missionCategory, getAllMissionContents(missionCategory.getId()));
+    }
+
+    public List<MissionCategoryWithContentsDto> getMissionCategories() {
+        List<MissionCategory> missionCategoryList = missionCategoryRepository.findAll();
+
+        return missionCategoryList
+                .stream()
+                .map(missionCategory -> new MissionCategoryWithContentsDto(missionCategory, getAllMissionContents(missionCategory.getId())))
+                .toList();
+    }
+
+    private List<MissionContentDto> getAllMissionContents(Long missionCategoryId) {
+        List<MissionContent> missionContentList = missionContentRepository.findByMissionCategoryId(missionCategoryId);
+
+        return missionContentList.stream()
+                .map(this::fromMissionContentToMissionContentResponseDto)
+                .toList();
     }
 
 }

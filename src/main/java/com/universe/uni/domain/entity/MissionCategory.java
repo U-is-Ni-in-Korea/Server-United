@@ -46,9 +46,11 @@ public class MissionCategory {
     @Column(name = "image", nullable = false)
     private String image;
 
+    @Deprecated
     @Column(name = "level", nullable = false)
     private int level;
 
+    @Deprecated
     @Column(name = "expected_time", nullable = false)
     private int expectedTime;
 
