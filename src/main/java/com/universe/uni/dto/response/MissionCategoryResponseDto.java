@@ -8,7 +8,8 @@ import lombok.Builder;
 
 import java.util.List;
 
-@Schema(description = "미션 카테고리 상세 정보 응답 DTO")
+@Schema(description = "미션 카테고리 상세 정보 응답 DTO", deprecated = true)
+@Deprecated
 @JsonPropertyOrder({"id", "title", "description", "rule", "tip", "image", "missionContentList"})
 @Builder
 public record MissionCategoryResponseDto(

@@ -23,6 +23,7 @@ public class MissionController implements MissionControllerContract {
 	private final MissionService missionService;
 
 	@GetMapping("/{missionCategoryId}")
+	@Deprecated
 	@ResponseStatus(HttpStatus.OK)
     @Override
 	public MissionCategoryResponseDto getMissionCategory(@PathVariable Long missionCategoryId) {
@@ -30,6 +31,7 @@ public class MissionController implements MissionControllerContract {
 	}
 
 	@GetMapping()
+	@Deprecated
 	@ResponseStatus(HttpStatus.OK)
     @Override
 	public List<MissionCategoryResponseDto> getMissionCategoryList() {

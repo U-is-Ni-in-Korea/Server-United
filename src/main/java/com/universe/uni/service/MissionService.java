@@ -44,12 +44,14 @@ public class MissionService {
         }
     }
 
+    @Deprecated
     public MissionCategoryResponseDto getMissionCategory(Long missionCategoryId) {
         MissionCategory missionCategory = missionCategoryRepository.findById(missionCategoryId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_MISSION_CATEGORY_EXCEPTION));
         return fromMissionCategoryToMissionCategoryResponseDto(missionCategory);
     }
 
+    @Deprecated
     public List<MissionCategoryResponseDto> getMissionCategoryList() {
         List<MissionCategory> missionCategoryList = missionCategoryRepository.findAll();
         return missionCategoryList
@@ -58,6 +60,7 @@ public class MissionService {
                 .toList();
     }
 
+    @Deprecated
     private MissionCategoryResponseDto fromMissionCategoryToMissionCategoryResponseDto(
             MissionCategory missionCategory) {
 
