@@ -33,7 +33,7 @@ public interface MissionControllerV1Contract {
                             description = "성공",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = MissionCategoryResponseDto.class)
+                                    schema = @Schema(implementation = MissionCategoryWithContentsDto.class)
                             )
                     ),
                     @ApiResponse(
@@ -71,7 +71,7 @@ public interface MissionControllerV1Contract {
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(
-                                            schema = @Schema(implementation = MissionCategoryResponseDto.class)
+                                            schema = @Schema(implementation = MissionCategoryWithContentsDto.class)
                                     )
                             )
                     ),
