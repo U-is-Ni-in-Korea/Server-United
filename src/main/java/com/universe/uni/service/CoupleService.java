@@ -68,6 +68,7 @@ public class CoupleService implements CoupleServiceContract {
 		validateCoupleConnected(couple);
 		final User user = userRepository.findById(userId)
 			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
+		validateUserAlreadyConnected(user);
 		user.connectCouple(couple);
 
 	}
@@ -75,6 +76,12 @@ public class CoupleService implements CoupleServiceContract {
 	private void validateCoupleConnected(Couple couple) {
 		if(userRepository.countByCoupleId(couple.getId()) >= 2) {
 			throw new ConflictException(COUPLE_ALREADY_CONNECTED);
+		}
+	}
+
+	private void validateUserAlreadyConnected(User user) {
+		if (user.getCouple() != null) {
+			throw new ConflictException(USER_ALREADY_HAS_COUPLE);
 		}
 	}
 

@@ -82,6 +82,15 @@ public interface CoupleControllerContract {
                             )
                     ),
                     @ApiResponse(
+                            responseCode = "409-UE10003",
+                            description = "이미 가입된 커플입니다.(본인이 본인에게 연결)",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = ErrorResponse.class)
+                            )
+
+                    ),
+                    @ApiResponse(
                             responseCode = "500-UE500",
                             description = "서버 내부 에러입니다",
                             content = @Content(
