@@ -32,6 +32,6 @@ public class MissionContent {
 	@Column(name = "content", nullable = false)
 	private String content;
 
-	@Column(name = "recommend_time", nullable = false)
+	@Column(name = "recommend_time")
 	private String recommendTime;
 }
