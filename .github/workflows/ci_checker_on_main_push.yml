@@ -2,7 +2,7 @@ name: On Push CI
 
 on:
   push:
-    branches: [ develop, main ]
+    branches: [ develop, main, develop-refactoring ]
 
 permissions:
   contents: read
