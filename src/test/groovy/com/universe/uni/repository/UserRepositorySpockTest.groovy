@@ -91,4 +91,14 @@ class UserRepositorySpockTest extends Specification {
         !users.isEmpty()
         users.size() == 2
     }
+
+    def "자신의 유저 id 와 커플 id를 바탕으로 커플로 연결된 상대 유저를 조회할 수 있다"() {
+        given: "자신의 유저 id 와 커플 id 가 주어지면"
+        Long userId = 1L
+        Long coupleId = 1L
+
+        expect: "커플로 연결된 상대 유저를 조회할 수 있다"
+        User user = userRepository.findByCoupleIdAndIdNot(coupleId, userId)
+        user.id == 2L
+    }
 }
