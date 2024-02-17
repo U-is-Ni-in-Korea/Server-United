@@ -16,6 +16,11 @@ plugins {
 group = 'com.universe'
 version = '0.0.1-SNAPSHOT'
 
+def querydslDir = "$buildDir/generated/sources/annotationProcessor"
+def sentryProperties = new Properties()
+file("src/main/resources/sentry.yml").withInputStream { sentryProperties.load(it) }
+
+
 java {
     sourceCompatibility = '17'
 }
@@ -33,19 +38,33 @@ repositories {
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
-tasks.withType(Checkstyle).configureEach {
-    it.source 'src/main/java'
-    it.exclude 'build/classes/java/main'
-    it.exclude 'build/generated/sources/annotationProcessor/java/main/com/universe/uni'
-
-    reports {
-        xml.required = true
-    }
-}
-
 checkstyle {
     configFile = file("checkstyle/naver-checkstyle-rules.xml")
     configProperties = ["suppressionFile": "checkstyle/naver-checkstyle-suppressions.xml"]
+}
+
+copy {
+    delete(file(querydslDir))
+    from('./uni-config')
+    include('src/**/*.yml')
+    include('src/**/*.sql')
+    into('.')
+    eachFile { file ->
+        println "> copy file: ${file.sourcePath}"
+    }
+}
+
+sentry {
+    debug = true
+    includeSourceContext = true
+
+    org = "uni-universe"
+    projectName = "sparkle-dev-be"
+    authToken = sentryProperties.getProperty("sentry-auth-token")
+}
+
+sourceSets {
+    main.java.srcDir querydslDir
 }
 
 dependencyManagement {
@@ -108,34 +127,12 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-copy {
-    from('./uni-config')
-    include('src/**/*.yml')
-    include('src/**/*.sql')
-    into('.')
-    eachFile { file ->
-        println "> copy file: ${file.sourcePath}"
+tasks.withType(Checkstyle).configureEach {
+    it.source 'src/main/java'
+    it.exclude 'build/classes/java/main'
+    it.exclude 'build/generated/sources/annotationProcessor/java/main/com/universe/uni'
+
+    reports {
+        xml.required = true
     }
-}
-
-
-
-def sentryProperties = new Properties()
-file("src/main/resources/sentry.yml").withInputStream { sentryProperties.load(it) }
-
-
-sentry {
-    debug = true
-    includeSourceContext = true
-
-    org = "uni-universe"
-    projectName = "sparkle-dev-be"
-    authToken = sentryProperties.getProperty("sentry-auth-token")
-}
-
-def querydslDir = "$buildDir/generated/sources/annotationProcessor"
-
-sourceSets {
-    delete(file(querydslDir))
-    main.java.srcDir querydslDir
 }
