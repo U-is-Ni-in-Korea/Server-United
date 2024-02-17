@@ -71,4 +71,13 @@ class UserRepositorySpockTest extends Specification {
         and: "유저 이름은 변경되지 않는다."
         userRepository.findById(1L).get().nickname != nickname
     }
+
+    def "이미 가입된 유저의 SNS 와 인증번호로 유저를 검색할 수 있다"() {
+        given: "이미 가입된 유저의 SNS 인증번호와 SNS Type 이 주어지면"
+        String snsAuthCode = "1"
+
+        expect: "유저를 찾을 수 있다"
+        User user = userRepository.findBySnsAuthCode(snsAuthCode).get()
+        user.id == 1L
+    }
 }
