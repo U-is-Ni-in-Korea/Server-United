@@ -101,4 +101,12 @@ class UserRepositorySpockTest extends Specification {
         User user = userRepository.findByCoupleIdAndIdNot(coupleId, userId)
         user.id == 2L
     }
+
+    def "커플 아이디를 바탕으로 커플에 연결된 유저 수를 조회할 수 있다"() {
+        given: "커플 아이디가 주어지면"
+        Long coupleId = 1L
+
+        expect: "커플에 연결된 유저 수를 조회할 수 있다"
+        userRepository.countByCoupleId(coupleId) == 2
+    }
 }
