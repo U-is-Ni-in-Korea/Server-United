@@ -10,6 +10,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id "io.sentry.jvm.gradle" version "3.11.0"
     id 'checkstyle'
+    id 'groovy'
 }
 
 group = 'com.universe'
@@ -87,8 +88,11 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    testImplementation 'org.apache.groovy:groovy:4.0.18'
     testImplementation 'org.spockframework:spock-core:2.4-M1-groovy-4.0'
     testImplementation 'org.spockframework:spock-spring:2.4-M1-groovy-4.0'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
