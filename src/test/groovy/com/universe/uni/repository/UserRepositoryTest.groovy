@@ -9,7 +9,7 @@ import spock.lang.Specification
 import spock.lang.Unroll
 
 @DataJpaTest
-class UserRepositorySpockTest extends Specification {
+class UserRepositoryTest extends Specification {
 
     @Autowired
     private UserRepository userRepository
