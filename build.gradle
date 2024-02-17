@@ -36,6 +36,7 @@ compileTestJava.options.encoding = 'UTF-8'
 tasks.withType(Checkstyle).configureEach {
     it.source 'src/main/java'
     it.exclude 'build/classes/java/main'
+    it.exclude 'build/generated/sources/annotationProcessor/java/main/com/universe/uni'
 
     reports {
         xml.required = true

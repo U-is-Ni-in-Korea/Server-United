@@ -9,11 +9,12 @@ import lombok.Builder;
 @JsonPropertyOrder({"content", "result", "time"})
 @Builder
 public record MissionResultDto(
-        @Schema(description = "내 미션 내용")
-        String content,
-        @Schema(description = "미션의 결과")
-        String result,
-        @Schema(description = "결과를 입력한 시간")
-        String time
+	@Schema(description = "내 미션 내용")
+	String content,
+	@Schema(description = "미션의 결과")
+	String result,
+	@Schema(description = "결과를 입력한 시간")
+	String time
 ) {
+
 }

@@ -5,6 +5,7 @@ import com.universe.uni.external.response.KakaoUnlinkResponse;
 import com.universe.uni.external.response.KakaoUserResponse;
 
 public interface KakaoRepository {
+
 	KakaoAuthResponse fetchTokenBy(String code);
 
 	KakaoUserResponse getUser(String accessToken);

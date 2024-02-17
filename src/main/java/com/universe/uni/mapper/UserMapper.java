@@ -7,5 +7,6 @@ import com.universe.uni.dto.UserDto;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
+
 	UserDto toUserDto(User user);
 }

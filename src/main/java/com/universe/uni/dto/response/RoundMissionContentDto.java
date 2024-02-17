@@ -8,6 +8,7 @@ import lombok.Getter;
 @Schema(description = "라운드 미션 정보 DTO")
 @Getter
 public class RoundMissionContentDto {
+
 	@Schema(description = "라운드 미션 정보 id")
 	private final Long id;
 	@Schema(description = "미션 카테고리 정보")

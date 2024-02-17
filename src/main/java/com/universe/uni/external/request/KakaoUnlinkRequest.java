@@ -8,4 +8,5 @@ public record KakaoUnlinkRequest(
 	@FormProperty("target_id")
 	Long targetId
 ) {
+
 }

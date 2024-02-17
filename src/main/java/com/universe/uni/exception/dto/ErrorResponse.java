@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class ErrorResponse {
 
 	@JsonProperty("code")
-    @Schema(description = "자체 에러 코드, 별도 문서 혹은 각 api 에러 코드 확인")
+	@Schema(description = "자체 에러 코드, 별도 문서 혹은 각 api 에러 코드 확인")
 	private final String uniErrorCode;
 
 	public static ErrorResponse businessErrorOf(ErrorType error) {

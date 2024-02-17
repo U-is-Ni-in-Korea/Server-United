@@ -10,6 +10,7 @@ import lombok.Getter;
 @Schema(description = "미션 카테고리 정보 DTO")
 @Getter
 public class MissionCategoryDto {
+
 	private final Long id;
 	private final String title;
 	private final String description;

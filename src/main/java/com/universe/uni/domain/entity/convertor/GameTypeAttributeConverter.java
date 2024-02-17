@@ -7,6 +7,7 @@ import com.universe.uni.domain.GameType;
 
 @Converter
 public class GameTypeAttributeConverter implements AttributeConverter<GameType, String> {
+
 	@Override
 	public String convertToDatabaseColumn(GameType attribute) {
 		return attribute.name();

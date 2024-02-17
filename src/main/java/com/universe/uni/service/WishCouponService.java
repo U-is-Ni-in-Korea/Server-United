@@ -1,6 +1,6 @@
 package com.universe.uni.service;
 
-import static com.universe.uni.exception.dto.ErrorType.NOT_FOUND_WISH_COUPON;
+import static com.universe.uni.exception.dto.ErrorType.*;
 
 import java.util.List;
 import java.util.Objects;

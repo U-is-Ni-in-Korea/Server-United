@@ -6,4 +6,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record CreateCoupleRequestDto(
 	@Schema(description = "YYYY-MM-DD 와 같은 커플 시작일") String startDate
 ) {
+
 }

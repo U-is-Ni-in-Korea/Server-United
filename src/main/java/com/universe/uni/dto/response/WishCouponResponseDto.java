@@ -10,11 +10,12 @@ import lombok.Builder;
 @JsonPropertyOrder({"isMine", "nickname", "wishCoupon"})
 @Builder
 public record WishCouponResponseDto(
-        @Schema(description = "내 소원권인지 아닌지 여부")
-        boolean isMine,
-        @Schema(description = "사용자 닉네임")
-        String nickname,
-        @Schema(description = "소원권 DTO", implementation = WishCouponDto.class)
-        WishCouponDto wishCoupon
+	@Schema(description = "내 소원권인지 아닌지 여부")
+	boolean isMine,
+	@Schema(description = "사용자 닉네임")
+	String nickname,
+	@Schema(description = "소원권 DTO", implementation = WishCouponDto.class)
+	WishCouponDto wishCoupon
 ) {
+
 }

@@ -1,6 +1,5 @@
 package com.universe.uni.controller;
 
-import com.universe.uni.controller.docs.CoupleControllerContract;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.universe.uni.controller.docs.CoupleControllerContract;
 import com.universe.uni.dto.request.CreateCoupleRequestDto;
 import com.universe.uni.dto.request.JoinCoupleRequestDto;
 import com.universe.uni.dto.response.CoupleConnectionResponseDto;
@@ -31,8 +31,8 @@ public class CoupleController implements CoupleControllerContract {
 	@PostMapping("")
 	@Override
 	public CoupleDto createCoupleBy(
-			@AuthenticationPrincipal Long userId,
-			@RequestBody CreateCoupleRequestDto request
+		@AuthenticationPrincipal Long userId,
+		@RequestBody CreateCoupleRequestDto request
 	) {
 		try {
 			final Long coupleId = userService.findUserCoupleId(userId);
@@ -63,7 +63,7 @@ public class CoupleController implements CoupleControllerContract {
 
 	@DeleteMapping("")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-    @Override
+	@Override
 	public void disconnectCouple(@AuthenticationPrincipal Long userId) {
 		coupleService.disconnectCouple(userId);
 	}

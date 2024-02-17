@@ -10,6 +10,7 @@ import com.universe.uni.external.response.KakaoAuthResponse;
 
 @FeignClient(value = "kakaoAuthClient", url = "${oauth.kakao.url.auth}")
 public interface KakaoAuthClient {
+
 	@PostMapping(value = "/oauth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	KakaoAuthResponse requestAuthToken(
 		@RequestBody KakaoAuthRequest body

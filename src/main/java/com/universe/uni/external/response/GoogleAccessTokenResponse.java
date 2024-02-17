@@ -6,4 +6,5 @@ public record GoogleAccessTokenResponse(
 	@JsonProperty("id_token")
 	String idToken
 ) {
+
 }

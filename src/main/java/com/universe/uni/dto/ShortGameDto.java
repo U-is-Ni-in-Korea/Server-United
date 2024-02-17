@@ -10,6 +10,7 @@ import lombok.Getter;
 @Schema(description = "단판 승부 정보 DTO")
 @Getter
 public class ShortGameDto {
+
 	@Schema(description = "단판 승부 id")
 	private final Long id;
 	@Schema(description = "승부 진행 현황")

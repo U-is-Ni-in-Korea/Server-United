@@ -2,10 +2,6 @@ package com.universe.uni.config.jwt;
 
 import static java.util.Objects.*;
 
-import com.universe.uni.domain.entity.User;
-import com.universe.uni.exception.ApiException;
-import com.universe.uni.exception.NotFoundException;
-import com.universe.uni.repository.UserRepository;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -18,8 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.universe.uni.domain.entity.User;
+import com.universe.uni.exception.NotFoundException;
 import com.universe.uni.exception.UnauthorizedException;
 import com.universe.uni.exception.dto.ErrorType;
+import com.universe.uni.repository.UserRepository;
 import com.universe.uni.service.JwtManager;
 
 import lombok.RequiredArgsConstructor;
@@ -46,7 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			Long userId = jwtManager.getUserIdFromJwt(token);
 			// 임시로 커플아이디 확인 로직 추가
 			if (!isNotRequiredCoupleIdPath(uri)) {
-				User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_EXISTENT));
+				User user = userRepository.findById(userId)
+					.orElseThrow(() -> new NotFoundException(ErrorType.USER_NOT_EXISTENT));
 				if (user.getCouple() == null) {
 					throw new NotFoundException(ErrorType.COUPLE_NOT_EXISTENT);
 				}
@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		String header = request.getHeader("Authorization");
 
-		if(isNull(header)) {
+		if (isNull(header)) {
 			throw new UnauthorizedException(ErrorType.TOKEN_VALUE_NOT_EXIST);
 		}
 		return header.substring(tokenType.length());

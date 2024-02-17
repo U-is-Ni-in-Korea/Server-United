@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Lock;
 import com.universe.uni.domain.entity.Couple;
 
 public interface CoupleRepository extends JpaRepository<Couple, Long> {
+
 	Optional<Couple> findByInviteCode(String inviteCode);
 
 	@Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)

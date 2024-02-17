@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateShortGameResponseDto {
+
 	@Schema(description = "단판 승부 정보")
 	private ShortGameDto shortGame;
 	@Schema(description = "라운드 게임 아이디")
@@ -23,8 +24,7 @@ public class CreateShortGameResponseDto {
 	public static CreateShortGameResponseDto of(
 		ShortGame shortGame,
 		Long roundGameId,
-		RoundMission roundMission)
-	{
+		RoundMission roundMission) {
 		return new CreateShortGameResponseDto(
 			new ShortGameDto(shortGame),
 			roundGameId,

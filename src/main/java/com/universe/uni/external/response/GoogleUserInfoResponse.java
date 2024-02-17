@@ -36,4 +36,5 @@ public record GoogleUserInfoResponse(
 	@JsonProperty("typ")
 	String mTyp
 ) {
+
 }

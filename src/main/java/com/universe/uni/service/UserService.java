@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserServiceContract {
+
 	private final UserRepository userRepository;
 	private final WishCouponRepository wishCouponRepository;
 	private final UserUtil userUtil;

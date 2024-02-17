@@ -6,4 +6,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record JoinCoupleRequestDto(
 	@Schema(description = "커플 생성시 발급 된 커플 초대 코드") String inviteCode
 ) {
+
 }

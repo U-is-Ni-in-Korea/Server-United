@@ -17,4 +17,5 @@ public record UserDto(
 	String image,
 	CoupleDto couple
 ) implements Serializable {
+
 }

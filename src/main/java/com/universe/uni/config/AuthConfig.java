@@ -8,6 +8,7 @@ import lombok.Getter;
 @Getter
 @Configuration
 public class AuthConfig {
+
 	@Value("${oauth.kakao.client.id}")
 	private String kakaoClientId;
 
@@ -25,7 +26,6 @@ public class AuthConfig {
 
 	@Value("${oauth.google.client.secret}")
 	private String googleClientSecret;
-
 
 	@Value("${oauth.google.redirect.auth}")
 	private String googleRedirectAuth;

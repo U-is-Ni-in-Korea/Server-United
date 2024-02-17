@@ -7,6 +7,7 @@ import com.universe.uni.domain.MissionType;
 
 @Converter
 public class MissionTypeAttributeConverter implements AttributeConverter<MissionType, String> {
+
 	@Override
 	public String convertToDatabaseColumn(MissionType attribute) {
 		return attribute.name();

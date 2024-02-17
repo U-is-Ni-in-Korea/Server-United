@@ -8,6 +8,7 @@ public record KakaoUserResponse(
 	@JsonProperty("kakao_account")
 	KaKaoAccount kakaoAccount
 ) {
+
 	public boolean isEmailNeedsAgreement() {
 		if (kakaoAccount == null) {
 			return false;
@@ -27,5 +28,6 @@ public record KakaoUserResponse(
 		@JsonProperty("email")
 		String email
 	) {
+
 	}
 }

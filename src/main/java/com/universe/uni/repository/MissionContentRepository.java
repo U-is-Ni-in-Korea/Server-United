@@ -8,6 +8,7 @@ import com.universe.uni.domain.entity.MissionCategory;
 import com.universe.uni.domain.entity.MissionContent;
 
 public interface MissionContentRepository extends JpaRepository<MissionContent, Long> {
+
 	List<MissionContent> findByMissionCategory(MissionCategory missionCategory);
 
 	List<MissionContent> findByMissionCategoryId(Long missionCategoryId);

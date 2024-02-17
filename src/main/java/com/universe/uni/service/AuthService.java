@@ -1,28 +1,27 @@
 package com.universe.uni.service;
 
-import javax.transaction.Transactional;
+import java.util.Objects;
 
-import com.universe.uni.dto.response.SnsAuthResponseDto;
-import com.universe.uni.external.response.GoogleAccessTokenResponse;
-import com.universe.uni.external.response.KakaoAuthResponse;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
 import com.universe.uni.domain.AppleTokenManager;
+import com.universe.uni.domain.AuthToken;
 import com.universe.uni.domain.SnsType;
 import com.universe.uni.domain.entity.User;
-import com.universe.uni.domain.AuthToken;
+import com.universe.uni.dto.response.SnsAuthResponseDto;
 import com.universe.uni.exception.BadRequestException;
 import com.universe.uni.exception.dto.ErrorType;
+import com.universe.uni.external.response.GoogleAccessTokenResponse;
 import com.universe.uni.external.response.GoogleUserInfoResponse;
+import com.universe.uni.external.response.KakaoAuthResponse;
 import com.universe.uni.external.response.KakaoUserResponse;
 import com.universe.uni.repository.GoogleRepository;
 import com.universe.uni.repository.KakaoRepository;
 import com.universe.uni.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -34,12 +33,12 @@ public class AuthService implements AuthServiceContract {
 	private final UserRepository userRepository;
 	private final AppleTokenManager appleTokenManager;
 
-    @Override
-    @Transactional
-    public SnsAuthResponseDto authWithKakaoCode(String authenticationCode) {
-        final KakaoAuthResponse kakaoAuth = kakaoRepository.fetchTokenBy(authenticationCode);
-        return authWithKakao(kakaoAuth.accessToken());
-    }
+	@Override
+	@Transactional
+	public SnsAuthResponseDto authWithKakaoCode(String authenticationCode) {
+		final KakaoAuthResponse kakaoAuth = kakaoRepository.fetchTokenBy(authenticationCode);
+		return authWithKakao(kakaoAuth.accessToken());
+	}
 
 	@Override
 	@Transactional
@@ -57,12 +56,12 @@ public class AuthService implements AuthServiceContract {
 			.build();
 	}
 
-    @Override
-    @Transactional
-    public SnsAuthResponseDto authWithGoogleCode(String authenticationCode) {
-        final GoogleAccessTokenResponse googleAuth = googleRepository.fetchTokenBy(authenticationCode);
-        return authWithGoogle(googleAuth.idToken());
-    }
+	@Override
+	@Transactional
+	public SnsAuthResponseDto authWithGoogleCode(String authenticationCode) {
+		final GoogleAccessTokenResponse googleAuth = googleRepository.fetchTokenBy(authenticationCode);
+		return authWithGoogle(googleAuth.idToken());
+	}
 
 	@Override
 	@Transactional
@@ -97,11 +96,11 @@ public class AuthService implements AuthServiceContract {
 	}
 
 	private SnsAuthResponseDto beIssuedAuthToken(User user) {
-        final AuthToken authToken = jwtManager.issueToken(user.getId());
-        if (Objects.isNull(user.getCouple())) {
-            return SnsAuthResponseDto.of(authToken, null);
-        }
-        return SnsAuthResponseDto.of(authToken, user.getCouple().getId());
+		final AuthToken authToken = jwtManager.issueToken(user.getId());
+		if (Objects.isNull(user.getCouple())) {
+			return SnsAuthResponseDto.of(authToken, null);
+		}
+		return SnsAuthResponseDto.of(authToken, user.getCouple().getId());
 	}
 
 	@Override

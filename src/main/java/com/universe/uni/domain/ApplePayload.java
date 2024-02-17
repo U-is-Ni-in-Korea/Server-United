@@ -26,4 +26,5 @@ public record ApplePayload(
 	@JsonProperty("sub")
 	String sub
 ) {
+
 }

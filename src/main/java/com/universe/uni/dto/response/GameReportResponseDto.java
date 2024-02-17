@@ -13,6 +13,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GameReportResponseDto {
+
 	private RoundMissionDto myRoundMission;
 	private RoundMissionDto partnerRoundMission;
 

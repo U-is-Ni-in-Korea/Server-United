@@ -7,6 +7,7 @@ import lombok.Builder;
 @Builder
 @AllArgsConstructor
 public class KakaoAuthRequest {
+
 	@FormProperty("code")
 	private String code;
 	@FormProperty("grant_type")

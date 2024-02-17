@@ -12,4 +12,5 @@ public record ProfileResponseDto(
 	String image,
 	String startDate
 ) {
+
 }

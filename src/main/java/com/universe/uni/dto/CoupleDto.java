@@ -11,4 +11,5 @@ public record CoupleDto(
 	String startDate,
 	int heartToken
 ) {
+
 }

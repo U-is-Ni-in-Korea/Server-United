@@ -10,12 +10,13 @@ import lombok.Builder;
 @Schema(description = "미션 내용을 담는 DTO")
 @Builder
 public record MissionContentDto(
-        @Schema(description = "미션 내용 id")
-        Long id,
-        @Schema(description = "미션 내용")
-        String content,
-        @Schema(description = "미션 추천 시간")
-        @JsonProperty("recommend_time")
-        String recommendTime
+	@Schema(description = "미션 내용 id")
+	Long id,
+	@Schema(description = "미션 내용")
+	String content,
+	@Schema(description = "미션 추천 시간")
+	@JsonProperty("recommend_time")
+	String recommendTime
 ) {
+
 }

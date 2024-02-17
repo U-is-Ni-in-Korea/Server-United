@@ -23,7 +23,6 @@ import com.universe.uni.mapper.CoupleMapper;
 import com.universe.uni.repository.CoupleRepository;
 import com.universe.uni.repository.UserRepository;
 
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -74,7 +73,7 @@ public class CoupleService implements CoupleServiceContract {
 	}
 
 	private void validateCoupleConnected(Couple couple) {
-		if(userRepository.countByCoupleId(couple.getId()) >= 2) {
+		if (userRepository.countByCoupleId(couple.getId()) >= 2) {
 			throw new ConflictException(COUPLE_ALREADY_CONNECTED);
 		}
 	}
@@ -102,7 +101,7 @@ public class CoupleService implements CoupleServiceContract {
 			.orElseThrow(() -> new BadRequestException(ErrorType.USER_NOT_EXISTENT));
 		final Couple couple = user.getCouple();
 		List<User> userList = userRepository.findByCouple(couple);
-		if(userList.size() == 2) {
+		if (userList.size() == 2) {
 			return new CoupleConnectionResponseDto(true);
 		}
 		return new CoupleConnectionResponseDto(false);

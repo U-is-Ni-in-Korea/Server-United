@@ -17,4 +17,5 @@ public record KakaoAuthResponse(
 	Long refreshTokenExpiresIn
 
 ) {
+
 }

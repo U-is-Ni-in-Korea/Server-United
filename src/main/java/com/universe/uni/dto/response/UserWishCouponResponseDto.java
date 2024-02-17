@@ -14,4 +14,5 @@ public record UserWishCouponResponseDto(
 	int newWishCoupon,
 	List<WishCouponDto> wishCouponList
 ) {
+
 }
