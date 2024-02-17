@@ -44,3 +44,4 @@ out/
 /src/main/resources/**/*.yml
 /src/test/resources/**/*.yml
 /uni-config-local/
+/src/test/resources/data.sql
