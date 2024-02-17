@@ -1,6 +1,7 @@
 package com.universe.uni.repository
 
 import com.universe.uni.domain.SnsType
+import com.universe.uni.domain.entity.Couple
 import com.universe.uni.domain.entity.User
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -79,5 +80,15 @@ class UserRepositorySpockTest extends Specification {
         expect: "유저를 찾을 수 있다"
         User user = userRepository.findBySnsAuthCode(snsAuthCode).get()
         user.id == 1L
+    }
+
+    def "커플 엔티티를 바탕으로 커플로 연결된 유저를 찾을 수 있다"() {
+        given: "커플 정보가 주어지면"
+        Couple couple = userRepository.findById(1L).get().couple
+
+        expect: "커플에 연결된 유저들을 조회할 수 있다"
+        List<User> users = userRepository.findByCouple(couple)
+        !users.isEmpty()
+        users.size() == 2
     }
 }
